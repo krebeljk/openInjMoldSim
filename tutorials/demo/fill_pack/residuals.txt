@@ -1,0 +1,11 @@
+# v terminalu se pozene ukazom "gnuplot residuals.txt -"
+set logscale y
+set title "Residuals"
+set ylabel 'Residual'
+set xlabel 'Iteration'
+#plot "< cat mojRun_stdout.txt | grep 'GAMG:' mojRun_stdout.txt | cut -d' ' -f13 | tr -d ','" title 'GAMG' with lines
+plot "< grep 'Courant' mojRun_stdout.txt | cut -d' ' -f4" title 'Courant mean (curr)' with lines,\
+"< grep 'Courant' mojRun_stdout.txt | cut -d' ' -f6" title 'Courant max (curr)' with lines,\
+"< grep 'PIMPLE.*converged.*iterations' mojRun_stdout.txt | rev | cut -d' ' -f2 | rev" title 'Iters (curr)' with lines
+pause 3
+reread
