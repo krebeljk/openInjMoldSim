@@ -2,7 +2,7 @@
 
 This is a solver for OpenFOAM to simulate injection molding filling, packing and cooling stages. It is a modification of the compressibleInterFoam solver distributed with OpenFOAM.
 
-See [www.openfoam.org](www.openfoam.org) and [www.openfoam.com](www.openfoam.com).
+See [openfoam.org](https://openfoam.org/) and [openfoam.com](http://www.openfoam.com).
 
 ## Getting Started
 
