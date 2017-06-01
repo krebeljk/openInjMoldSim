@@ -54,6 +54,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     const scalar Tau,
     const scalar D1,
     const scalar D2,
+    const scalar D3,
     const scalar A1,
     const scalar A2,
     const scalar lambda,
@@ -67,6 +68,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     Tau_(Tau),
     D1_(D1),
     D2_(D2),
+    D3_(D3),
     A1_(A1),
     A2_(A2),
     lambda_(lambda),
@@ -102,6 +104,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     Tau_(st.Tau_),
     D1_(st.D1_),
     D2_(st.D2_),
+    D3_(st.D3_),
     A1_(st.A1_),
     A2_(st.A2_),
     lambda_(st.lambda_),
@@ -160,7 +163,7 @@ inline Foam::scalar Foam::crossWLFTransport<Thermo>::mu
     const scalar strig
 ) const
 {   
-    const scalar n0 = D1_*::exp(-(A1_*(T-D2_))/(A2_+T-D2_));
+    const scalar n0 = D1_*::exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_));
     scalar visk = n0/(1.0+pow(n0*strig/Tau_,1.0-n_));
 
     //Info << "visk= " << visk  << " p=" << p << " T=" << T << " strig=" << strig << endl;   // debug Kristjan
@@ -211,6 +214,7 @@ Foam::crossWLFTransport<Thermo>::operator=
     Tau_ = st.Tau_;
     D1_ = st.D1_;
     D2_ = st.D2_;
+    D3_ = st.D3_;
     A1_ = st.A1_;
     A2_ = st.A2_;
     lambda_ = st.lambda_;
