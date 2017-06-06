@@ -20,10 +20,6 @@ changeDictionary -latestTime -dict system/changeDictionaryDict.bcpack
 changeDictionary -instance system -dict system/changeDictionaryDict.ctrl1
 runApplication $application
 mv log.openInjMoldSim log.openInjMoldSim_pack1
-# pack2 (write interval)
-changeDictionary -instance system -dict system/changeDictionaryDict.ctrl2
-runApplication $application
-mv log.openInjMoldSim log.openInjMoldSim_pack2
 
 # pproc
 foamCalc addSubtract T add -value -273.15 -resultName Tc
