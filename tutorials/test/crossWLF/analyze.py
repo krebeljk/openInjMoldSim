@@ -16,10 +16,11 @@ def crossWLF(T, shr, p):
     Tau  = 30800.0 #Pa
     D1   = 4.76e10 #Pa s
     D2   = 373.15 #K
+    D3   = 0.51e-6 #K
     A1   = 25.7 #1
     A2   = 61.06 #K
     Tz   = D2
-    eta0 = D1 * np.exp( -A1 * (T-Tz) /(A2 + (T-Tz)) )
+    eta0 = D1 * np.exp( -A1 * (T-Tz-D3*p) /(A2 + (T-Tz)) )
     eta  = eta0 / ( 1 + np.power( eta0 * shr / Tau , 1-n) )
     return eta
 
@@ -27,7 +28,7 @@ def crossWLF(T, shr, p):
 def main():
 
     Tc = 200 # degC
-    p = 0 # Pa
+    p = 60e6 # Pa
     L = 0.01 # m
     W = 1e-4 # m
     Thc = 1e-3 # m
