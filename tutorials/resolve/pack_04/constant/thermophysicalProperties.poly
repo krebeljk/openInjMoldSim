@@ -61,7 +61,7 @@ mixture
         Tau        30800.0;//Pa
         D1         4.76e10;//Pa s
         D2         373.15;//K
-        D3         0.0;//K/Pa
+        D3         0.51e-6;//K/Pa
         A1         25.7;//1
         A2         61.06;//K
     	lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
