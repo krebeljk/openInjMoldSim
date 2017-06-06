@@ -45,7 +45,7 @@ timePrecision   10;
 
 runTimeModifiable yes;
 
-adjustTimeStep  no;
+adjustTimeStep  yes;
 
 maxCo           0.25;
 
