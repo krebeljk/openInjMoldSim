@@ -20,4 +20,7 @@ Parameter D3 is again set to D3 = 0.51 K/MPa. This makes the spurious pressure b
 A fixed timestep of 1e-5s is prescribed. One second of simulated time required almost 3h of calculation on a laptop. The
 result appears resonalbe. 
 
-### pack\_06 (from pack\_05): Optimize convergence criteria
+### pack\_06 (from pack\_05): Adjustable time step again for reference
+Expected result.
+
+### pack\_07 (from pack\_06): Optimize the convergence criteria
