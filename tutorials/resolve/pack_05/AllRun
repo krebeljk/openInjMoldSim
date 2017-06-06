@@ -1,0 +1,31 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Initial files
+cp -r org0 0
+cp system/controlDict0 system/controlDict
+blockMesh
+
+# Echoes all commands before executing.
+set -o xtrace
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Get application name
+application=`getApplication`
+
+# pack1
+changeDictionary -latestTime -dict system/changeDictionaryDict.bcpack
+changeDictionary -instance system -dict system/changeDictionaryDict.ctrl1
+runApplication $application
+mv log.openInjMoldSim log.openInjMoldSim_pack1
+# pack2 (write interval)
+changeDictionary -instance system -dict system/changeDictionaryDict.ctrl2
+runApplication $application
+mv log.openInjMoldSim log.openInjMoldSim_pack2
+
+# pproc
+foamCalc addSubtract T add -value -273.15 -resultName Tc
+probeLocations
+gunzip system/controlDict.gz
