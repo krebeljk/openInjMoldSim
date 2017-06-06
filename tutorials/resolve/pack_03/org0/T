@@ -25,7 +25,7 @@ boundaryField
         type            externalWallHeatFluxTemperature;
         kappa           lookup;
         //q               uniform 1000; //ali q, ali Ta in h
-        Ta              uniform 323.15;
+        Ta              uniform 503.15;
         h               uniform 1.25e3;
         value           uniform 503.15; //initial temperature [K]
         kappaName       mojKappaOut;
