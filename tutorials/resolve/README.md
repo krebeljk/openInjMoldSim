@@ -23,5 +23,7 @@ result appears resonalbe.
 ### pack\_06 (from pack\_05): Adjustable time step again for reference
 Expected result.
 
+![Alt text](pack_06/plot0.png)
+
 ### pack\_07 (from pack\_06): Optimize the convergence criteria
 The p\_rgh tolerance set to 1e-4 Pa. Solution improved.
