@@ -7,5 +7,6 @@ cd ${0%/*} || exit 1    # run from this directory
 rm -r 0
 rm *.OpenFOAM
 rm system/controlDict
+rm plot.png
 cleanCase
 foamClearPolyMesh
