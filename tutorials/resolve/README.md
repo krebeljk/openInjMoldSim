@@ -25,5 +25,12 @@ Expected result.
 
 ![Alt text](pack_06/plot0.png)
 
-### pack\_07 (from pack\_06): Optimize the convergence criteria
-The p\_rgh tolerance set to 1e-4 Pa. Solution improved.
+### pack\_07 (from pack\_06): Pimple p\_rgh tol 1e-4 Pa
+The PIMPLE p\_rgh tolerance set to 1e-4 Pa. Solution improved.  
+
+![Alt text](pack_07/plot0.png)
+
+### pack\_08 (from pack\_06): Pimple p\_rgh tol 1e-5 Pa
+The PIMPLE p\_rgh tolerance set to 1e-5 Pa. Solution improved. Calculation takes 30 min on a regular laptop.
+
+![Alt text](pack_08/plot0.png)
