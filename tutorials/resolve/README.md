@@ -2,7 +2,13 @@
 Modifications of the demo/fill\_pack case intended to gain insight into the spurious pressure issue.
 The case is stepwise simplified.
 
-## Cases 
+## The issue
+The cavity pressure should not be greater than the injection pressure.
+A smoother solution is expected.
+
+![Alt text](fill_pack_00/plot0.png)
+
+## Simlpification 
 
 ### pack\_01: Remove the fill stage
 The demo case is copied and the simulation of the filling stage is removed (skipped) by modifying the AllRun script. The call to
@@ -33,6 +39,8 @@ One second of simulated time required almost 3h of calculation on a laptop. The
 result appears resonable.
 
 ![Alt text](pack_05/plot0.png)
+
+## Attempt to resolve
 
 ### pack\_06 (from pack\_05): Adjustable time step again for reference
 Bad result like pack\_04.
