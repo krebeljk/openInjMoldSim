@@ -50,3 +50,8 @@ Solution further improved.
 Calculation takes 30 min on a regular laptop.
 
 ![Alt text](pack_08/plot0.png)
+
+### pack\_09 (from pack\_06): Pimple U tol 1e-9 m
+No effect.
+
+![Alt text](pack_09/plot0.png)
