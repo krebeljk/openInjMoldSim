@@ -63,3 +63,13 @@ Calculation takes 30 min on a regular laptop.
 No effect.
 
 ![Alt text](pack_09/plot0.png)
+
+## Improved fill\_pack
+
+A stricter pimple convergence tolerance (pack\_08) is used on the demo case.
+
+### fill\_pack\_01: Pimple p\_rgh tol 1e-5 Pa
+The anomaly at the start of packing is resolved but the issue remains.
+
+![Alt text](fill\_pack_01/plot0.png)
+
