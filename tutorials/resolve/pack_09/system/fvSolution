@@ -127,6 +127,11 @@ PIMPLE
                 tolerance   0.01;
                 relTol      0;
         }
+        U
+        {
+                tolerance   1e-9;
+                relTol      0;
+        }
         /*p
         {
                 tolerance   1e6;
