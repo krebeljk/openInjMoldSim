@@ -10,6 +10,8 @@ material to compress.
 At the same time the polymer is cooling (mold temperature 50 degC) -
 heat transfer coefficient on the walls 1.25 kW/(m2K).
 At about 100 degC the material solidifies - the viscosity is increased to 100 MPas.
+The packing phase is divided into pack1 phase with the result write frequency of 0.01s and pack2 phase starting at t=1s and the
+result write frequency of 0.1s.
 
 ![Alt text](fill_pack_geom.png)
 
@@ -82,6 +84,17 @@ A stricter pimple convergence tolerance (pack\_08) is used on the demo case.
 
 ### fill\_pack\_01: Pimple p\_rgh tol 1e-5 Pa
 The anomaly at the start of packing is resolved but the issue remains.
+Non-smoothness is evident at t=1s which is when the pack2 phase starts.
 
 ![Alt text](fill\_pack_01/plot0.png)
+
+### fill\_pack\_02: ... Increase the duration of the pack1 phase - to until t=2s
+To analyze the non-smoothnes of the fill\_pack\_01 case at t=1s,
+the pack1 phase is set to last until t=2s.
+The simulation fails at t=1.92s.
+The pack2 phase starts form there.
+The non-smoothness in fill\_pack\_01 at t=1s did not appear in this case which means it was related to the case restart (transition
+from the pack1 phase to pack2 phase).
+
+![Alt text](fill\_pack_02/plot0.png)
 
