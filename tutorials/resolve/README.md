@@ -2,6 +2,17 @@
 Modifications of the demo/fill\_pack case intended to gain insight into the spurious pressure issue.
 The case is stepwise simplified.
 
+## The case
+Cavity (2D) of 1.2 mm thickness and length of approx. 65 mm is being filled by polymer (melt temperature 230 degC) through the inlet - a pressure
+boundary condition is prescribed and the experimental pressure evolution P1 is imposed.
+When the cavity is filled (t=0.15s), the outlet is closed and the pressure is still applied at the inlet forcing the
+material to compress.
+At the same time the polymer is cooling (mold temperature 50 degC) -
+heat transfer coefficient on the walls 1.25 kW/(m2K).
+At about 100 degC the material solidifies - the viscosity is increased to 100 MPas.
+
+![Alt text](fill_pack_geom.png)
+
 ## The issue
 The cavity pressure should not be greater than the injection pressure.
 A smoother solution is expected.
@@ -24,12 +35,13 @@ This makes the viscosity independent of the pressure.
 
 ### pack\_03: Remove the heat transfer
 The mold temperature is set to 230 degC which is equal to the melt temperature making heat transfer insignificant.
-The outlet patch still has heat transfer (by mistake) but this has little effect.
+The outlet patch still has heat transfer (50 degC by mistake) but this has little effect.
 
 ![Alt text](pack_03/plot0.png)
 
 ### pack\_04: Introduce the pressure dependence of the viscosity
-Parameter D3 is again set to D3 = 0.51 K/MPa. This makes the spurious pressure behavior more evident.
+Parameter D3 is again set to D3 = 0.51 K/MPa.
+This makes the spurious pressure behavior more evident.
 
 ![Alt text](pack_04/plot0.png)
 
