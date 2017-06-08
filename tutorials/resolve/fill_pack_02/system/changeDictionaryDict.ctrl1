@@ -18,7 +18,7 @@ dictionaryReplacement
 {
     controlDict
     {
-        endTime 1.0;
+        endTime 2.0;
         writeInterval   0.01;
     }
 }
