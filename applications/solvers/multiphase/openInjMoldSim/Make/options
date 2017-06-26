@@ -4,6 +4,8 @@ EXE_INC = \
     -I./mojConstTransport \
     -I./mojTurbulentFluidThermoModel \
     -I./polymerPVT \
+    -I./CfdOL/extrapolation2DTable\
+    -I./CfdOL/hTabular\
     -I$(LIB_SRC)/transportModels/compressible/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
     -I$(LIB_SRC)/transportModels/interfaceProperties/lnInclude \
