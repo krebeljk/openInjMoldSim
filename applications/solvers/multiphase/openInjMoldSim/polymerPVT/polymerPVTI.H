@@ -237,6 +237,29 @@ inline Foam::scalar Foam::polymerPVT<Specie>::sIntM(scalar p1, scalar p2, scalar
     b2m_*p1-b2m_*p2-b4m_*C_*p1*(b1m_+b2m_*(-b5_+T))+b4m_*C_*p2*(b1m_+b2m_*(-b5_+T))+b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p1*exp(b4m_*T))*exp(b4m_*(b5_-T))-b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p2*exp(b4m_*T))*exp(b4m_*(b5_-T))+b2m_*C_*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*log(1+p1*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*(p2+b3m_*exp(b4m_*(b5_-T)))+b2m_*C_*log(1+p2*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p2+b3m_*exp(b4m_*(b5_-T)));
 
 }
+
+template<class Specie>
+inline Foam::scalar Foam::polymerPVT<Specie>::interpolation(scalar vS ,scalar vM ,scalar p ,scalar T) const
+{
+    scalar Td = 1.0; //[K] half the interpolation band
+    scalar T0 = b5_ + b6_*p; //Tait solidification temperature
+    scalar Tp = T0 + Td; //upper band limit
+    scalar Tm = T0 - Td; //lower band limit
+
+    if ( T > Tp )//melt
+    {
+        return vM;
+    }
+    else if ( T > Tm)
+    {
+        return (T-Tm)/(Tp-Tm) * vM + (Tp-T)/(Tp-Tm) * vS;
+    }
+    else
+    {
+        return vS;
+    }
+
+}
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 /*
 template<class Specie>

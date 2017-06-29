@@ -246,6 +246,16 @@ private:
             //- Integral entropije v MELT obmocju
             inline scalar sIntM(scalar p1, scalar p2, scalar T) const;
 
+            //- Solidification interpolation to continuity
+            inline scalar interpolation
+            (
+                 scalar vS
+                ,scalar vM
+                ,scalar p
+                ,scalar T
+            ) const;
+
+
 };
 
 
