@@ -132,16 +132,21 @@ inline Foam::scalar Foam::polymerPVT<Specie>::R() const
 template<class Specie>
 inline Foam::scalar Foam::polymerPVT<Specie>::rho(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
 {
+    scalar spec_volS;
+    scalar spec_volM;
     scalar spec_vol;
 
-    if ( T > (b5_ +b6_*p) ) // melt
-    {
-     spec_vol = (b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))));
-    }
-    else //solid
-    {
-     spec_vol = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b7_*exp(-(b9_*p)+b8_*(-b5_+T));
-    }
+    //melt
+     spec_volM = (b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))));
+    //solid
+     spec_volS = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b7_*exp(-(b9_*p)+b8_*(-b5_+T));
+
+     spec_vol = interpolation(
+          spec_volS
+         ,spec_volM
+         ,p
+         ,T
+     );
     return 1.0/spec_vol;
 }
 
@@ -208,18 +213,24 @@ template<class Specie>
 inline Foam::scalar Foam::polymerPVT<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
 {
     scalar cpmcv;
+    scalar cpmcvMol;
     scalar cpmcvM;
-    if ( T > (b5_ +b6_*p) )
-    {
-        cpmcv = T*pow(C_,-1)*pow(b1m_+b2m_*(-b5_+T),-1)*pow(p+b3m_*exp(b4m_*(b5_-T)),-1)*pow(b1m_*b4m_*C_*p+b2m_*C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p+b3m_*exp(b4m_*(b5_-T)))-b2m_*(p+b4m_*b5_*C_*p-b4m_*C_*p*T+b3m_*exp(b4m_*(b5_-T))),2);
-    }
-    else
-    {
-        cpmcv = T*exp(-(b5_*b8_)-b9_*p-2*b4s_*T)*pow(p+b3s_*exp(b4s_*(b5_-T)),-1)*pow(C_*(b1s_+b2s_*(-b5_+T))*exp(b5_*b8_+b9_*p)+b7_*b9_*(p+b3s_*exp(b4s_*(b5_-T)))*exp(b8_*T),-1)*pow(b2s_*exp(b5_*b8_+b9_*p)*(b3s_*exp(b4s_*b5_)+p*(1+b4s_*C_*(b5_-T))*exp(b4s_*T))+b7_*b8_*p*exp((b4s_+b8_)*T)-b2s_*C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*exp(b9_*p)*(b3s_*exp(b5_*(b4s_+b8_))+p*exp(b5_*b8_+b4s_*T))-b1s_*b4s_*C_*p*exp(b5_*b8_+b9_*p+b4s_*T)+b3s_*b7_*b8_*exp(b4s_*b5_+b8_*T),2);
-    }
-    cpmcvM = cpmcv * this->W();
-    //Info << "cpmcvM[J/(kmol K)]=" << cpmcvM << " p=" << p << " T=" << T << endl;
-    return cpmcvM;
+    scalar cpmcvS;
+    //melt
+    cpmcvM = T*pow(C_,-1)*pow(b1m_+b2m_*(-b5_+T),-1)*pow(p+b3m_*exp(b4m_*(b5_-T)),-1)*pow(b1m_*b4m_*C_*p+b2m_*C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p+b3m_*exp(b4m_*(b5_-T)))-b2m_*(p+b4m_*b5_*C_*p-b4m_*C_*p*T+b3m_*exp(b4m_*(b5_-T))),2);
+
+    //solid
+    cpmcvS = T*exp(-(b5_*b8_)-b9_*p-2*b4s_*T)*pow(p+b3s_*exp(b4s_*(b5_-T)),-1)*pow(C_*(b1s_+b2s_*(-b5_+T))*exp(b5_*b8_+b9_*p)+b7_*b9_*(p+b3s_*exp(b4s_*(b5_-T)))*exp(b8_*T),-1)*pow(b2s_*exp(b5_*b8_+b9_*p)*(b3s_*exp(b4s_*b5_)+p*(1+b4s_*C_*(b5_-T))*exp(b4s_*T))+b7_*b8_*p*exp((b4s_+b8_)*T)-b2s_*C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*exp(b9_*p)*(b3s_*exp(b5_*(b4s_+b8_))+p*exp(b5_*b8_+b4s_*T))-b1s_*b4s_*C_*p*exp(b5_*b8_+b9_*p+b4s_*T)+b3s_*b7_*b8_*exp(b4s_*b5_+b8_*T),2);
+
+     cpmcv = interpolation(
+          cpmcvS
+         ,cpmcvM
+         ,p
+         ,T
+     );
+    cpmcvMol = cpmcv * this->W();
+    //Info << "cpmcvM[J/(kmol K)]=" << cpmcvMol << " p=" << p << " T=" << T << endl;
+    return cpmcvMol;
 }
 
 
@@ -235,6 +246,29 @@ inline Foam::scalar Foam::polymerPVT<Specie>::sIntM(scalar p1, scalar p2, scalar
 {
     return//fim_01_01_E_04_02_entropija.txt - koda generirana iz mathematice
     b2m_*p1-b2m_*p2-b4m_*C_*p1*(b1m_+b2m_*(-b5_+T))+b4m_*C_*p2*(b1m_+b2m_*(-b5_+T))+b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p1*exp(b4m_*T))*exp(b4m_*(b5_-T))-b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p2*exp(b4m_*T))*exp(b4m_*(b5_-T))+b2m_*C_*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*log(1+p1*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*(p2+b3m_*exp(b4m_*(b5_-T)))+b2m_*C_*log(1+p2*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p2+b3m_*exp(b4m_*(b5_-T)));
+
+}
+
+template<class Specie>
+inline Foam::scalar Foam::polymerPVT<Specie>::interpolation(scalar vS ,scalar vM ,scalar p ,scalar T) const
+{
+    scalar Td = 1.0; //[K] half the interpolation band
+    scalar T0 = b5_ + b6_*p; //Tait solidification temperature
+    scalar Tp = T0 + Td; //upper band limit
+    scalar Tm = T0 - Td; //lower band limit
+
+    if ( T > Tp )//melt
+    {
+        return vM;
+    }
+    else if ( T > Tm)
+    {
+        return (T-Tm)/(Tp-Tm) * vM + (Tp-T)/(Tp-Tm) * vS;
+    }
+    else
+    {
+        return vS;
+    }
 
 }
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
