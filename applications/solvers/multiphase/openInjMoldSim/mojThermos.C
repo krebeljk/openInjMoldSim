@@ -46,6 +46,7 @@ License
 #include "sutherlandTransport.H"
 #include "polymerPVT.H"
 #include "crossWLFTransport.H"
+#include "crossWLFTransportTTC.H"
 
 #include "icoPolynomial.H"
 #include "hPolynomialThermo.H"
@@ -120,11 +121,23 @@ mojMakeThermo
     pureMixture,
     crossWLFTransport,
     sensibleInternalEnergy,
-    hPolynomialThermo,
+    hPolynomialThermo,//new
     polymerPVT,
     specie
 );
 
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
+    hPolynomialThermo,
+    polymerPVT,
+    specie
+);
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
