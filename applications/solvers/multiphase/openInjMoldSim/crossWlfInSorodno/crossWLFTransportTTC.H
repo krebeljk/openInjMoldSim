@@ -43,7 +43,7 @@ SourceFiles
 
 #ifndef crossWLFTransportTTC_H
 #define crossWLFTransportTTC_H
-
+#include "extrapolation2DTable.H"
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
@@ -101,8 +101,11 @@ class crossWLFTransportTTC
     // Private data
 
         // crossWLF's coefficients
-        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_, lambda_;
+        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_;
         scalar etaMin_, etaMax_, TnoFlow_;
+
+	// thermal conductivity [W/(Km)]
+        extrapolation2DTable<scalar> kappa_;
 
 
     // Private Member Functions
@@ -131,7 +134,7 @@ public:
             const scalar D3_,
             const scalar A1_,
             const scalar A2_,
-            const scalar lambda_,
+            const extrapolation2DTable<scalar> kappa_,
             const scalar etaMin_,
             const scalar etaMax_,
             const scalar TnoFlow_

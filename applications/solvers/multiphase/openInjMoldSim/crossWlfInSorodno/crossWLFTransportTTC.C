@@ -41,12 +41,13 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream& is)
     D3_(readScalar(is)),
     A1_(readScalar(is)),
     A2_(readScalar(is)),
-    lambda_(readScalar(is)),
     etaMin_(readScalar(is)),
     etaMax_(readScalar(is)),
     TnoFlow_(readScalar(is))
 {
     is.check("crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream&)");
+    kappa_ = extrapolation2DTable<scalar>("constant/kappaTable");
+    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
 }
 
 
@@ -61,11 +62,13 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(const dictionary& dict)
     D3_(readScalar(dict.subDict("transport").lookup("D3"))),
     A1_(readScalar(dict.subDict("transport").lookup("A1"))),
     A2_(readScalar(dict.subDict("transport").lookup("A2"))),
-    lambda_(readScalar(dict.subDict("transport").lookup("lambda"))),
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow")))
-{}
+{
+    kappa_ = extrapolation2DTable<scalar>("constant/kappaTable");
+    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
@@ -86,7 +89,6 @@ void Foam::crossWLFTransportTTC<Thermo>::write(Ostream& os) const
     dict.add("D3", D3_);
     dict.add("A1", A1_);
     dict.add("A2", A2_);
-    dict.add("lambda", lambda_);
     dict.add("etaMin", etaMin_);
     dict.add("etaMax", etaMax_);
     dict.add("TnoFlow", TnoFlow_);
