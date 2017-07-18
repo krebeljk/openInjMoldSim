@@ -25,13 +25,13 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "crossWLFTransport.H"
+#include "crossWLFTransportTTC.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Thermo>
-Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
+Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream& is)
 :
     Thermo(is),
     n_(readScalar(is)),
@@ -46,12 +46,12 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
     etaMax_(readScalar(is)),
     TnoFlow_(readScalar(is))
 {
-    is.check("crossWLFTransport<Thermo>::crossWLFTransport(Istream&)");
+    is.check("crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream&)");
 }
 
 
 template<class Thermo>
-Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
+Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(const dictionary& dict)
 :
     Thermo(dict),
     n_(readScalar(dict.subDict("transport").lookup("n"))),
@@ -71,7 +71,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Thermo>
-void Foam::crossWLFTransport<Thermo>::write(Ostream& os) const
+void Foam::crossWLFTransportTTC<Thermo>::write(Ostream& os) const
 {
     os  << this->specie::name() << endl;
     os  << token::BEGIN_BLOCK  << incrIndent << nl;
@@ -101,7 +101,7 @@ template<class Thermo>
 Foam::Ostream& Foam::operator<<
 (
     Ostream& os,
-    const crossWLFTransport<Thermo>& st
+    const crossWLFTransportTTC<Thermo>& st
 )
 {
     os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_ 
@@ -110,7 +110,7 @@ Foam::Ostream& Foam::operator<<
 
     os.check
     (
-        "Ostream& operator<<(Ostream&, const crossWLFTransport<Thermo>&)"
+        "Ostream& operator<<(Ostream&, const crossWLFTransportTTC<Thermo>&)"
     );
 
     return os;
