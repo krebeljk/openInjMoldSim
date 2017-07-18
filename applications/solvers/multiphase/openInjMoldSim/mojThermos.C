@@ -51,6 +51,7 @@ License
 #include "icoPolynomial.H"
 #include "hPolynomialThermo.H"
 #include "polynomialTransport.H"
+#include "hTabularThermo.H"
 
 
 #include "heRhoThermo.H"
@@ -126,6 +127,18 @@ mojMakeThermo
     specie
 );
 
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
+    hTabularThermo,//new
+    polymerPVT,
+    specie
+);
+
 
 mojMakeThermo
 (
@@ -135,6 +148,18 @@ mojMakeThermo
     crossWLFTransportTTC,//new
     sensibleInternalEnergy,
     hPolynomialThermo,
+    polymerPVT,
+    specie
+);
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
+    hTabularThermo,//new
     polymerPVT,
     specie
 );
