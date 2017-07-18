@@ -169,7 +169,7 @@ public:
         //- Return the instantiated type name
         static word typeName()
         {
-            return "crossWLF<" + Thermo::typeName() + '>';
+            return "crossWLFTTC<" + Thermo::typeName() + '>';
         }
 
         //- Dynamic viscosity [kg/ms]
