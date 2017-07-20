@@ -40,7 +40,7 @@ SourceFiles
 #define hTabularThermo_H
 
 #include "scalar.H"
-#include "extrapolation2DTable.H"
+#include "interpolation2DTable.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -103,8 +103,8 @@ class hTabularThermo
         //  Note: input in [J/kg], but internally uses [J/kmol]
         scalar Hf_;
 	
-	extrapolation2DTable<scalar> cpTable;
-	extrapolation2DTable<scalar> hTable;
+	interpolation2DTable<scalar> cpTable;
+	interpolation2DTable<scalar> hTable;
 
 
     // Private Member Functions
