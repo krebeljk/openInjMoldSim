@@ -46,8 +46,8 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream& is)
     TnoFlow_(readScalar(is))
 {
     is.check("crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream&)");
-    kappa_ = extrapolation2DTable<scalar>("constant/kappaTable");
-    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    kappa_ = interpolation2DTable<scalar>("constant/kappaTable");
+    kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -66,8 +66,8 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(const dictionary& dict)
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow")))
 {
-    kappa_ = extrapolation2DTable<scalar>("constant/kappaTable");
-    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    kappa_ = interpolation2DTable<scalar>("constant/kappaTable");
+    kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 

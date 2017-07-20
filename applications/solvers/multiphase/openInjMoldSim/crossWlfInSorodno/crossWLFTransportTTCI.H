@@ -57,7 +57,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     const scalar D3,
     const scalar A1,
     const scalar A2,
-    const extrapolation2DTable<scalar> kappa,
+    const interpolation2DTable<scalar> kappa,
     const scalar etaMin,
     const scalar etaMax,
     const scalar TnoFlow
@@ -76,7 +76,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     etaMax_(etaMax),
     TnoFlow_(TnoFlow)
 {
-    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 /*
@@ -114,7 +114,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     etaMax_(st.etaMax_),
     TnoFlow_(st.TnoFlow_)
 {
-    kappa_.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
