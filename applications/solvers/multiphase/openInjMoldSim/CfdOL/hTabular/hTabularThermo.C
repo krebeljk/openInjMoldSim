@@ -38,10 +38,10 @@ Foam::hTabularThermo<EquationOfState>::hTabularThermo
     Hf_(readScalar(is))
 {
     Hf_ *= this->W();
-    cpTable = extrapolation2DTable<scalar>("constant/cpTable");
-    hTable = extrapolation2DTable<scalar>("constant/hTable");
-    cpTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
-    hTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    cpTable = interpolation2DTable<scalar>("constant/cpTable");
+    hTable = interpolation2DTable<scalar>("constant/hTable");
+    cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 /*
     hCoeffs_ = CpCoeffs_.integral();
     sCoeffs_ = CpCoeffs_.integralMinus1();
@@ -65,10 +65,10 @@ Foam::hTabularThermo<EquationOfState>::hTabularThermo
     Hf_(readScalar(dict.subDict("thermodynamics").lookup("Hf")))
 {
     Hf_ *= this->W();
-    cpTable = extrapolation2DTable<scalar>("constant/cpTable");
-    hTable = extrapolation2DTable<scalar>("constant/hTable");
-    cpTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
-    hTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    cpTable = interpolation2DTable<scalar>("constant/cpTable");
+    hTable = interpolation2DTable<scalar>("constant/hTable");
+    cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 

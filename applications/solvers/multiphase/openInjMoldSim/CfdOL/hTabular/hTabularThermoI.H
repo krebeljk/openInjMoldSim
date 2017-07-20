@@ -37,10 +37,10 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     EquationOfState(pt),
     Hf_(Hf)
 {
-    cpTable = extrapolation2DTable<scalar>("constant/cpTable");
-    hTable = extrapolation2DTable<scalar>("constant/hTable");
-    cpTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
-    hTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    cpTable = interpolation2DTable<scalar>("constant/cpTable");
+    hTable = interpolation2DTable<scalar>("constant/hTable");
+    cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -55,10 +55,10 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     EquationOfState(pt),
     Hf_(pt.Hf_)
 {
-    cpTable = extrapolation2DTable<scalar>("constant/cpTable");
-    hTable = extrapolation2DTable<scalar>("constant/hTable");
-    cpTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
-    hTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    cpTable = interpolation2DTable<scalar>("constant/cpTable");
+    hTable = interpolation2DTable<scalar>("constant/hTable");
+    cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -72,10 +72,10 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     EquationOfState(name, pt),
     Hf_(pt.Hf_)
 {
-    cpTable = extrapolation2DTable<scalar>("constant/cpTable");
-    hTable = extrapolation2DTable<scalar>("constant/hTable");
-    cpTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
-    hTable.outOfBounds(extrapolation2DTable<scalar>::EXTRAPOLATE);
+    cpTable = interpolation2DTable<scalar>("constant/cpTable");
+    hTable = interpolation2DTable<scalar>("constant/hTable");
+    cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
