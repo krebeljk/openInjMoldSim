@@ -108,8 +108,8 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::ha
     const scalar p, const scalar T
 ) const
 {
-    //Info << "ha for T= " << T << ": " << ((hTable(p, T) + hc()) * this->W()) << endl;
-    return (hTable(p, T) + hc()) * this->W();
+    //Info << "ha for T= " << T << ": " << ((hTable(T, p) + hc()) * this->W()) << endl;
+    return (hTable(T, p) + hc()) * this->W();
 }
 
 
@@ -121,7 +121,7 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::hs
 {
     //Info << "hs for T= " << T << ", p= " << p << ": " << (hTable(T, p) * this->W()) << endl;
     //abort(FatalError);
-    return (hTable(p, T)) * this->W();
+    return (hTable(T, p)) * this->W();
 }
 
 
