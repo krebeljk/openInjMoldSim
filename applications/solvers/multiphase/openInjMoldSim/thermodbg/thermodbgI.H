@@ -63,7 +63,7 @@ inline Foam::scalar Foam::species::thermodbg<Thermo, Type>::T
 
         if (iter > maxIter_/2)
         {
-            Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << "Tnew=" << Tnew << endl;
+            Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << " Tnew=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << endl;
         }
 
         if (iter++ > maxIter_)
