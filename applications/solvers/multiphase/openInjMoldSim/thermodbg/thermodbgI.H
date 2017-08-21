@@ -60,7 +60,11 @@ inline Foam::scalar Foam::species::thermodbg<Thermo, Type>::T
         Tnew =
             (this->*limit)
             (Test - ((this->*F)(p, Test) - f)/(this->*dFdT)(p, Test));
-        Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << "Tnew=" << Tnew << endl;
+
+        if (iter > maxIter_/2)
+        {
+            Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << "Tnew=" << Tnew << endl;
+        }
 
         if (iter++ > maxIter_)
         {
