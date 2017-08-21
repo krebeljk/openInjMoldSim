@@ -42,7 +42,7 @@ Description
 typedef                                                                       \
     Transport                                                                 \
     <                                                                         \
-        species::thermo                                                       \
+        species::thermodbg                                                       \
         <                                                                     \
             Thermo                                                            \
             <                                                                 \
