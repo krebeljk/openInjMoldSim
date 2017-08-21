@@ -7,4 +7,4 @@ mojTwoPhaseMixtureThermo/mojPsiThermo.C
 openInjMoldSim.C
 mojTurbulentFluidThermoModel/mojTurbulentFluidThermoModels.C
 
-EXE = $(FOAM_USER_APPBIN)/openInjMoldSim
+EXE = $(FOAM_USER_APPBIN)/openInjMoldSimFimaaGea
