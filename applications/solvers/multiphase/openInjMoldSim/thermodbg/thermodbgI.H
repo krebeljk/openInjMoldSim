@@ -51,6 +51,8 @@ inline Foam::scalar Foam::species::thermodbg<Thermo, Type>::T
 {
     scalar Test = T0;
     scalar Tnew = T0;
+    scalar dlFtest; // for bisection - Kristjan
+    scalar dlFnew; // for bisection - Kristjan
     scalar Ttol = T0*tol_;
     int    iter = 0;
 
@@ -64,6 +66,28 @@ inline Foam::scalar Foam::species::thermodbg<Thermo, Type>::T
         if (iter > maxIter_/2)
         {
             Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << " Tnew=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << endl;
+        }
+
+        dlFtest = (this->*F)(p, Test) - f;
+        dlFnew = (this->*F)(p, Tnew) - f;
+
+        if (dlFtest*dlFnew  < 0.0)//quasi bisection - Kristjan
+        {
+            Tnew = (Test*dlFnew - Tnew*dlFtest)/(dlFnew-dlFtest);
+            iter++;
+
+            if (iter > maxIter_/2)
+            {
+                Info << "b: f= " << f << " p= " << p << " F=" << (this->*F)(p, Test) << " Tnew*=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << endl;
+            }
+
+            if (iter > maxIter_)
+            {
+                FatalErrorInFunction
+                    << "Maximum number of iterations exceeded"
+                    << abort(FatalError);
+            }
+
         }
 
         if (iter++ > maxIter_)
