@@ -59,19 +59,19 @@ inline Foam::scalar Foam::species::thermodbg<Thermo, Type>::T
     do
     {
         Test = Tnew;
+        dlFtest = (this->*F)(p, Test) - f;
         Tnew =
             (this->*limit)
-            (Test - ((this->*F)(p, Test) - f)/(this->*dFdT)(p, Test));
+            (Test - dlFtest/(this->*dFdT)(p, Test));
 
         if (iter > maxIter_/2)
         {
             Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << " Tnew=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << endl;
         }
 
-        dlFtest = (this->*F)(p, Test) - f;
         dlFnew = (this->*F)(p, Tnew) - f;
 
-        if (dlFtest*dlFnew  < 0.0)//quasi bisection - Kristjan
+        if (dlFtest*dlFnew  < -SMALL)//quasi bisection - Kristjan
         {
             Tnew = (Test*dlFnew - Tnew*dlFtest)/(dlFnew-dlFtest);
             iter++;
