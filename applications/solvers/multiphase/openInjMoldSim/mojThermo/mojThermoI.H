@@ -56,10 +56,11 @@ inline Foam::scalar Foam::species::mojThermo<Thermo, Type>::T
     scalar Ttol = T0*tol_;
     int    iter = 0;
 
+    dlFnew = (this->*F)(p, Tnew) - f;
     do
     {
         Test = Tnew;
-        dlFtest = (this->*F)(p, Test) - f;
+        dlFtest = dlFnew;
         Tnew =
             (this->*limit)
             (Test - dlFtest/(this->*dFdT)(p, Test));
@@ -76,9 +77,14 @@ inline Foam::scalar Foam::species::mojThermo<Thermo, Type>::T
             Tnew = (Test*dlFnew - Tnew*dlFtest)/(dlFnew-dlFtest);
             iter++;
 
+            if (mag(Tnew - Test) > Ttol)
+            {
+                dlFnew = (this->*F)(p, Tnew) - f;
+            }
+
             if (iter > maxIter_/2)
             {
-                Info << "b: f= " << f << " p= " << p << " F=" << (this->*F)(p, Test) << " Tnew*=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << endl;
+                Info << "f= " << f << " p= " << p << " *F=" << (this->*F)(p, Test) << " Tnew=" << Tnew << " *dFdT=" << (this->*dFdT)(p, Test) << " b" << endl;
             }
 
             if (iter > maxIter_)
