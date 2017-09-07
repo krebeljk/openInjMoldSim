@@ -39,7 +39,7 @@ License
 #include "janafThermo.H"
 #include "sensibleEnthalpy.H"
 #include "sensibleInternalEnergy.H"
-#include "thermodbg.H"
+#include "mojThermo.H"
 
 #include "constTransport.H"
 #include "mojConstTransport.H"

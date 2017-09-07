@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::thermodbg
+    Foam::mojThermo
 
 Description
     Basic thermodynamics type based on the use of fitting functions for
@@ -30,13 +30,13 @@ Description
     properties are derived from these primitive functions.
 
 SourceFiles
-    thermodbgI.H
-    thermodbg.C
+    mojThermoI.H
+    mojThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef thermodbg_H
-#define thermodbg_H
+#ifndef mojThermo_H
+#define mojThermo_H
 
 #include "thermodynamicConstants.H"
 using namespace Foam::constant::thermodynamic;
@@ -50,53 +50,53 @@ namespace species
 
 // Forward declaration of friend functions and operators
 
-template<class Thermo, template<class> class Type> class thermodbg;
+template<class Thermo, template<class> class Type> class mojThermo;
 
 template<class Thermo, template<class> class Type>
-inline thermodbg<Thermo, Type> operator+
+inline mojThermo<Thermo, Type> operator+
 (
-    const thermodbg<Thermo, Type>&,
-    const thermodbg<Thermo, Type>&
+    const mojThermo<Thermo, Type>&,
+    const mojThermo<Thermo, Type>&
 );
 
 template<class Thermo, template<class> class Type>
-inline thermodbg<Thermo, Type> operator-
+inline mojThermo<Thermo, Type> operator-
 (
-    const thermodbg<Thermo, Type>&,
-    const thermodbg<Thermo, Type>&
+    const mojThermo<Thermo, Type>&,
+    const mojThermo<Thermo, Type>&
 );
 
 template<class Thermo, template<class> class Type>
-inline thermodbg<Thermo, Type> operator*
+inline mojThermo<Thermo, Type> operator*
 (
     const scalar,
-    const thermodbg<Thermo, Type>&
+    const mojThermo<Thermo, Type>&
 );
 
 template<class Thermo, template<class> class Type>
-inline thermodbg<Thermo, Type> operator==
+inline mojThermo<Thermo, Type> operator==
 (
-    const thermodbg<Thermo, Type>&,
-    const thermodbg<Thermo, Type>&
+    const mojThermo<Thermo, Type>&,
+    const mojThermo<Thermo, Type>&
 );
 
 template<class Thermo, template<class> class Type>
 Ostream& operator<<
 (
     Ostream&,
-    const thermodbg<Thermo, Type>&
+    const mojThermo<Thermo, Type>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                           Class thermodbg Declaration
+                           Class mojThermo Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Thermo, template<class> class Type>
-class thermodbg
+class mojThermo
 :
     public Thermo,
-    public Type<thermodbg<Thermo, Type> >
+    public Type<mojThermo<Thermo, Type> >
 {
     // Private data
 
@@ -117,31 +117,31 @@ class thermodbg
             scalar f,
             scalar p,
             scalar T0,
-            scalar (thermodbg::*F)(const scalar, const scalar) const,
-            scalar (thermodbg::*dFdT)(const scalar, const scalar) const,
-            scalar (thermodbg::*limit)(const scalar) const
+            scalar (mojThermo::*F)(const scalar, const scalar) const,
+            scalar (mojThermo::*dFdT)(const scalar, const scalar) const,
+            scalar (mojThermo::*limit)(const scalar) const
         ) const;
 
 
 public:
 
     //- The thermodynamics of the individual species'
-    typedef thermodbg<Thermo, Type> thermoType;
+    typedef mojThermo<Thermo, Type> thermoType;
 
 
     // Constructors
 
         //- Construct from components
-        inline thermodbg(const Thermo& sp);
+        inline mojThermo(const Thermo& sp);
 
         //- Construct from Istream
-        thermodbg(Istream&);
+        mojThermo(Istream&);
 
         //- Construct from dictionary
-        thermodbg(const dictionary& dict);
+        mojThermo(const dictionary& dict);
 
         //- Construct as named copy
-        inline thermodbg(const word& name, const thermodbg&);
+        inline mojThermo(const word& name, const mojThermo&);
 
 
     // Member Functions
@@ -151,7 +151,7 @@ public:
         {
             return
                   Thermo::typeName() + ','
-                + Type<thermodbg<Thermo, Type> >::typeName();
+                + Type<mojThermo<Thermo, Type> >::typeName();
         }
 
         // Fundamental properties
@@ -344,36 +344,36 @@ public:
 
     // Member operators
 
-        inline void operator+=(const thermodbg&);
-        inline void operator-=(const thermodbg&);
+        inline void operator+=(const mojThermo&);
+        inline void operator-=(const mojThermo&);
 
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
-        friend thermodbg operator+ <Thermo, Type>
+        friend mojThermo operator+ <Thermo, Type>
         (
-            const thermodbg&,
-            const thermodbg&
+            const mojThermo&,
+            const mojThermo&
         );
 
-        friend thermodbg operator- <Thermo, Type>
+        friend mojThermo operator- <Thermo, Type>
         (
-            const thermodbg&,
-            const thermodbg&
+            const mojThermo&,
+            const mojThermo&
         );
 
-        friend thermodbg operator* <Thermo, Type>
+        friend mojThermo operator* <Thermo, Type>
         (
             const scalar s,
-            const thermodbg&
+            const mojThermo&
         );
 
-        friend thermodbg operator== <Thermo, Type>
+        friend mojThermo operator== <Thermo, Type>
         (
-            const thermodbg&,
-            const thermodbg&
+            const mojThermo&,
+            const mojThermo&
         );
 
 
@@ -382,7 +382,7 @@ public:
         friend Ostream& operator<< <Thermo, Type>
         (
             Ostream&,
-            const thermodbg&
+            const mojThermo&
         );
 };
 
@@ -394,10 +394,10 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "thermodbgI.H"
+#include "mojThermoI.H"
 
 #ifdef NoRepository
-#   include "thermodbg.C"
+#   include "mojThermo.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

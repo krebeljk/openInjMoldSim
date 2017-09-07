@@ -23,31 +23,31 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "thermodbg.H"
+#include "mojThermo.H"
 #include "IOstreams.H"
 
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 
 template<class Thermo, template<class> class Type>
-const Foam::scalar Foam::species::thermodbg<Thermo, Type>::tol_ = 1.0e-4;
+const Foam::scalar Foam::species::mojThermo<Thermo, Type>::tol_ = 1.0e-4;
 
 template<class Thermo, template<class> class Type>
-const int Foam::species::thermodbg<Thermo, Type>::maxIter_ = 100;
+const int Foam::species::mojThermo<Thermo, Type>::maxIter_ = 100;
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Thermo, template<class> class Type>
-Foam::species::thermodbg<Thermo, Type>::thermodbg(Istream& is)
+Foam::species::mojThermo<Thermo, Type>::mojThermo(Istream& is)
 :
     Thermo(is)
 {
-    is.check("thermodbg<Thermo, Type>::thermodbg(Istream&)");
+    is.check("mojThermo<Thermo, Type>::mojThermo(Istream&)");
 }
 
 
 template<class Thermo, template<class> class Type>
-Foam::species::thermodbg<Thermo, Type>::thermodbg(const dictionary& dict)
+Foam::species::mojThermo<Thermo, Type>::mojThermo(const dictionary& dict)
 :
     Thermo(dict)
 {}
@@ -56,7 +56,7 @@ Foam::species::thermodbg<Thermo, Type>::thermodbg(const dictionary& dict)
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Thermo, template<class> class Type>
-void Foam::species::thermodbg<Thermo, Type>::write(Ostream& os) const
+void Foam::species::mojThermo<Thermo, Type>::write(Ostream& os) const
 {
     Thermo::write(os);
 }
@@ -67,12 +67,12 @@ void Foam::species::thermodbg<Thermo, Type>::write(Ostream& os) const
 template<class Thermo, template<class> class Type>
 Foam::Ostream& Foam::species::operator<<
 (
-    Ostream& os, const thermodbg<Thermo, Type>& st
+    Ostream& os, const mojThermo<Thermo, Type>& st
 )
 {
     os  << static_cast<const Thermo&>(st);
 
-    os.check("Ostream& operator<<(Ostream&, const thermodbg&)");
+    os.check("Ostream& operator<<(Ostream&, const mojThermo&)");
     return os;
 }
 
