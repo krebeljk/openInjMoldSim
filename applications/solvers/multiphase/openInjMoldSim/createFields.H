@@ -124,7 +124,7 @@ volScalarField p_rgh_resid
         IOobject::AUTO_WRITE
     ),
     mesh,
-    dimensionedScalar("initOne", dimless, 1.0)
+    dimensionedScalar("initOne", dimensionSet(0,0,-1,0,0,0,0), 1.0)
 );
 
 
