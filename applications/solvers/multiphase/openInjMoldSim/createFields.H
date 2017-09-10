@@ -36,7 +36,7 @@ volScalarField shrRate
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    sqrt(symm(fvc::grad(U))&&symm(fvc::grad(U)))
+    sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)))
 );
 
 
