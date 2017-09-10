@@ -92,13 +92,13 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             #include "UEqn.H"
+            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
+            shrRate = strig;
             #include "TEqn.H"
 
             // --- Pressure corrector loop
             while (pimple.correct())
             {
-	            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-	            shrRate = strig;
                 mojKappaOut = mixture.kappa();
                 #include "pEqn.H"
             }
