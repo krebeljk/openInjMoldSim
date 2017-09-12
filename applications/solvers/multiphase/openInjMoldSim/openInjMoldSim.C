@@ -94,8 +94,8 @@ int main(int argc, char *argv[])
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             shrRate = strig;
-            dimensionedScalar Tsolidifikacije("Tsolidifikacije", dimensionSet(0,0,0,1,0,0,0), 373.15);
-            U = pos(T - Tsolidifikacije) * U; //testing U=0 solidification condition
+            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
+            U = pos(solidViscosity-visc) * U; // U=0 solidification condition
             #include "TEqn.H"
 
             // --- Pressure corrector loop
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
                 #include "pEqn.H"
             }
 
-            // visc za post-processing - kristjan
+            // visc - kristjan
             visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu(); 
 
             if (pimple.turbCorr())
