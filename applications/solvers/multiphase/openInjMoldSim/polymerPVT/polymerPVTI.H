@@ -197,7 +197,20 @@ inline Foam::scalar Foam::polymerPVT<Specie>::psi(scalar p, scalar T) const // m
     {
         Info << "Pozor! Majhen tlak, nevarnost deljenja z 0 v enacbi stanja, funkcija psi. p=" << p << " Pa" << endl;
     }
-    return (rho(p,T) - rho(scalar(0.0),T))/p;
+
+    scalar psiS;
+    scalar psiM;
+    scalar psiRet;
+
+    psiS = -((-(b7_*b9_*exp(-(b5_*b8_)-b9_*p+b8_*T))-C_*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1))*pow((b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b7_*exp(-(b5_*b8_)-b9_*p+b8_*T),-2));
+    psiM = C_*exp(b4m_*(-b5_+T))*pow(b1m_+b2m_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))),-2)*pow(b3m_+p*exp(b4m_*(-b5_+T)),-1);
+    psiRet = interpolation(
+          psiS
+         ,psiM
+         ,p
+         ,T
+     );
+    return psiRet;
 }
 
 
