@@ -133,26 +133,9 @@ void Foam::mojVentU::updateCoeffs()
     alphap = max(alphap, scalar(0));
     alphap = min(alphap, scalar(1));
 
-    // Get the patchInternalField (zero-gradient field)
-    vectorField Uzg(patchInternalField());
-
-    // Calculate the phase mean zero-gradient velocity
-    scalar Uzgmean =
-        gSum(alphap*(patch().Sf() & Uzg))
-       /gSum(alphap*patch().magSf());
-
-    // Set the refValue and valueFraction to adjust the boundary field
-    // such that the phase mean is Umean
-    if (Uzgmean >= alphaLimit_)
-    {
-        refValue() = vector::zero;
-        valueFraction() = 1.0 - alphaLimit_/Uzgmean;
-    }
-    else
-    {
-        refValue() = (alphaLimit_ + Uzgmean)*patch().nf();
-        valueFraction() = 1.0 - Uzgmean/alphaLimit_;
-    }
+    valueFraction() = pos(alphaLimit_ - alphap);
+    //alphLim>alpha => valFrac=1 (U=0)
+    //else valFrac=0 (gradU=0)
 
     mixedFvPatchField<vector>::updateCoeffs();
 }
