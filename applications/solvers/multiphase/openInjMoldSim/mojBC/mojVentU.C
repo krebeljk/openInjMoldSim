@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "outletPhaseMeanVelocityFvPatchVectorField.H"
+#include "mojVentU.H"
 #include "volFields.H"
 #include "addToRunTimeSelectionTable.H"
 #include "fvPatchFieldMapper.H"
@@ -31,8 +31,8 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::outletPhaseMeanVelocityFvPatchVectorField
-::outletPhaseMeanVelocityFvPatchVectorField
+Foam::mojVentU
+::mojVentU
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF
@@ -48,10 +48,10 @@ Foam::outletPhaseMeanVelocityFvPatchVectorField
 }
 
 
-Foam::outletPhaseMeanVelocityFvPatchVectorField
-::outletPhaseMeanVelocityFvPatchVectorField
+Foam::mojVentU
+::mojVentU
 (
-    const outletPhaseMeanVelocityFvPatchVectorField& ptf,
+    const mojVentU& ptf,
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
     const fvPatchFieldMapper& mapper
@@ -63,8 +63,8 @@ Foam::outletPhaseMeanVelocityFvPatchVectorField
 {}
 
 
-Foam::outletPhaseMeanVelocityFvPatchVectorField
-::outletPhaseMeanVelocityFvPatchVectorField
+Foam::mojVentU
+::mojVentU
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
@@ -93,10 +93,10 @@ Foam::outletPhaseMeanVelocityFvPatchVectorField
 }
 
 
-Foam::outletPhaseMeanVelocityFvPatchVectorField
-::outletPhaseMeanVelocityFvPatchVectorField
+Foam::mojVentU
+::mojVentU
 (
-    const outletPhaseMeanVelocityFvPatchVectorField& ptf
+    const mojVentU& ptf
 )
 :
     mixedFvPatchField<vector>(ptf),
@@ -105,10 +105,10 @@ Foam::outletPhaseMeanVelocityFvPatchVectorField
 {}
 
 
-Foam::outletPhaseMeanVelocityFvPatchVectorField
-::outletPhaseMeanVelocityFvPatchVectorField
+Foam::mojVentU
+::mojVentU
 (
-    const outletPhaseMeanVelocityFvPatchVectorField& ptf,
+    const mojVentU& ptf,
     const DimensionedField<vector, volMesh>& iF
 )
 :
@@ -120,7 +120,7 @@ Foam::outletPhaseMeanVelocityFvPatchVectorField
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
+void Foam::mojVentU::updateCoeffs()
 {
     if (updated())
     {
@@ -158,7 +158,7 @@ void Foam::outletPhaseMeanVelocityFvPatchVectorField::updateCoeffs()
 }
 
 
-void Foam::outletPhaseMeanVelocityFvPatchVectorField::write
+void Foam::mojVentU::write
 (
     Ostream& os
 ) const
@@ -180,7 +180,7 @@ namespace Foam
    makePatchTypeField
    (
        fvPatchVectorField,
-       outletPhaseMeanVelocityFvPatchVectorField
+       mojVentU
    );
 }
 

@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::outletPhaseMeanVelocityFvPatchVectorField
+    Foam::mojVentU
 
 Group
     grpOutletBoundaryConditions
@@ -58,12 +58,12 @@ SeeAlso
     Foam::variableHeightFlowRateInletVelocityFvPatchVectorField
 
 SourceFiles
-    outletPhaseMeanVelocityFvPatchVectorField.C
+    mojVentU.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef outletPhaseMeanVelocityFvPatchVectorField_H
-#define outletPhaseMeanVelocityFvPatchVectorField_H
+#ifndef mojVentU_H
+#define mojVentU_H
 
 #include "mixedFvPatchFields.H"
 
@@ -72,10 +72,10 @@ SourceFiles
 namespace Foam
 {
 /*---------------------------------------------------------------------------*\
-    Class outletPhaseMeanVelocityFvPatchVectorField Declaration
+    Class mojVentU Declaration
 \*---------------------------------------------------------------------------*/
 
-class outletPhaseMeanVelocityFvPatchVectorField
+class mojVentU
 :
     public mixedFvPatchVectorField
 {
@@ -97,14 +97,14 @@ public:
    // Constructors
 
         //- Construct from patch and internal field
-        outletPhaseMeanVelocityFvPatchVectorField
+        mojVentU
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&
         );
 
         //- Construct from patch, internal field and dictionary
-        outletPhaseMeanVelocityFvPatchVectorField
+        mojVentU
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
@@ -112,20 +112,20 @@ public:
         );
 
         //- Construct by mapping given
-        //  outletPhaseMeanVelocityFvPatchVectorField
+        //  mojVentU
         //  onto a new patch
-        outletPhaseMeanVelocityFvPatchVectorField
+        mojVentU
         (
-            const outletPhaseMeanVelocityFvPatchVectorField&,
+            const mojVentU&,
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
             const fvPatchFieldMapper&
         );
 
         //- Construct as copy
-        outletPhaseMeanVelocityFvPatchVectorField
+        mojVentU
         (
-            const outletPhaseMeanVelocityFvPatchVectorField&
+            const mojVentU&
         );
 
         //- Construct and return a clone
@@ -133,14 +133,14 @@ public:
         {
             return tmp<fvPatchVectorField>
             (
-                new outletPhaseMeanVelocityFvPatchVectorField(*this)
+                new mojVentU(*this)
             );
         }
 
         //- Construct as copy setting internal field reference
-        outletPhaseMeanVelocityFvPatchVectorField
+        mojVentU
         (
-            const outletPhaseMeanVelocityFvPatchVectorField&,
+            const mojVentU&,
             const DimensionedField<vector, volMesh>&
         );
 
@@ -152,7 +152,7 @@ public:
         {
             return tmp<fvPatchVectorField>
             (
-                new outletPhaseMeanVelocityFvPatchVectorField
+                new mojVentU
                 (
                     *this,
                     iF
