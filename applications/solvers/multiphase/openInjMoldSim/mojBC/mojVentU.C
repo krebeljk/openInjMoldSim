@@ -133,9 +133,9 @@ void Foam::mojVentU::updateCoeffs()
     alphap = max(alphap, scalar(0));
     alphap = min(alphap, scalar(1));
 
-    valueFraction() = pos(alphaLimit_ - alphap);
-    //alphLim>alpha => valFrac=1 (U=0)
-    //else valFrac=0 (gradU=0)
+    valueFraction() = pos(alphap - alphaLimit_);
+    //packing: alpha > alphaLim => valFrac=1 (U=0)
+    //else filling: valFrac=0 (gradU=0)
 
     mixedFvPatchField<vector>::updateCoeffs();
 }
