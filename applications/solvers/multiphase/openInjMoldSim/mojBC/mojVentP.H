@@ -77,7 +77,7 @@ namespace Foam
 
 class mojVentP
 :
-    public mixedFvPatchVectorField
+    public mixedFvPatchScalarField
 {
     // Private data
 
@@ -100,14 +100,14 @@ public:
         mojVentP
         (
             const fvPatch&,
-            const DimensionedField<vector, volMesh>&
+            const DimensionedField<scalar, volMesh>&
         );
 
         //- Construct from patch, internal field and dictionary
         mojVentP
         (
             const fvPatch&,
-            const DimensionedField<vector, volMesh>&,
+            const DimensionedField<scalar, volMesh>&,
             const dictionary&
         );
 
@@ -118,7 +118,7 @@ public:
         (
             const mojVentP&,
             const fvPatch&,
-            const DimensionedField<vector, volMesh>&,
+            const DimensionedField<scalar, volMesh>&,
             const fvPatchFieldMapper&
         );
 
@@ -129,9 +129,9 @@ public:
         );
 
         //- Construct and return a clone
-        virtual tmp<fvPatchVectorField> clone() const
+        virtual tmp<fvPatchScalarField> clone() const
         {
-            return tmp<fvPatchVectorField>
+            return tmp<fvPatchScalarField>
             (
                 new mojVentP(*this)
             );
@@ -141,16 +141,16 @@ public:
         mojVentP
         (
             const mojVentP&,
-            const DimensionedField<vector, volMesh>&
+            const DimensionedField<scalar, volMesh>&
         );
 
         //- Construct and return a clone setting internal field reference
-        virtual tmp<fvPatchVectorField> clone
+        virtual tmp<fvPatchScalarField> clone
         (
-            const DimensionedField<vector, volMesh>& iF
+            const DimensionedField<scalar, volMesh>& iF
         ) const
         {
-            return tmp<fvPatchVectorField>
+            return tmp<fvPatchScalarField>
             (
                 new mojVentP
                 (

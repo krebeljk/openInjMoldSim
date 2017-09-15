@@ -35,15 +35,15 @@ Foam::mojVentP
 ::mojVentP
 (
     const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF
+    const DimensionedField<scalar, volMesh>& iF
 )
 :
-    mixedFvPatchField<vector>(p, iF),
+    mixedFvPatchField<scalar>(p, iF),
     alphaLimit_(0),
     alphaName_("none")
 {
-    refValue() = vector::zero;
-    refGrad() = vector::zero;
+    refValue() = 0.0;
+    refGrad() = 0.0;
     valueFraction() = 0.0;
 }
 
@@ -53,11 +53,11 @@ Foam::mojVentP
 (
     const mojVentP& ptf,
     const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF,
+    const DimensionedField<scalar, volMesh>& iF,
     const fvPatchFieldMapper& mapper
 )
 :
-    mixedFvPatchField<vector>(ptf, p, iF, mapper),
+    mixedFvPatchField<scalar>(ptf, p, iF, mapper),
     alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
@@ -67,28 +67,28 @@ Foam::mojVentP
 ::mojVentP
 (
     const fvPatch& p,
-    const DimensionedField<vector, volMesh>& iF,
+    const DimensionedField<scalar, volMesh>& iF,
     const dictionary& dict
 )
 :
-    mixedFvPatchField<vector>(p, iF),
+    mixedFvPatchField<scalar>(p, iF),
     alphaLimit_(readScalar(dict.lookup("alphaLimit"))),
     alphaName_(dict.lookup("alpha"))
 {
-    refValue() = vector::zero;
-    refGrad() = vector::zero;
+    refValue() = 0.0;
+    refGrad() = 0.0;
     valueFraction() = 0.0;
 
     if (dict.found("value"))
     {
-        fvPatchVectorField::operator=
+        fvPatchScalarField::operator=
         (
-            vectorField("value", dict, p.size())
+            scalarField("value", dict, p.size())
         );
     }
     else
     {
-        fvPatchVectorField::operator=(patchInternalField());
+        fvPatchScalarField::operator=(patchInternalField());
     }
 }
 
@@ -99,7 +99,7 @@ Foam::mojVentP
     const mojVentP& ptf
 )
 :
-    mixedFvPatchField<vector>(ptf),
+    mixedFvPatchField<scalar>(ptf),
     alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
@@ -109,10 +109,10 @@ Foam::mojVentP
 ::mojVentP
 (
     const mojVentP& ptf,
-    const DimensionedField<vector, volMesh>& iF
+    const DimensionedField<scalar, volMesh>& iF
 )
 :
-    mixedFvPatchField<vector>(ptf, iF),
+    mixedFvPatchField<scalar>(ptf, iF),
     alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
@@ -137,7 +137,7 @@ void Foam::mojVentP::updateCoeffs()
     //alphLim>alpha => valFrac=1 (U=0)
     //else valFrac=0 (gradU=0)
 
-    mixedFvPatchField<vector>::updateCoeffs();
+    mixedFvPatchField<scalar>::updateCoeffs();
 }
 
 
@@ -146,7 +146,7 @@ void Foam::mojVentP::write
     Ostream& os
 ) const
 {
-    fvPatchField<vector>::write(os);
+    fvPatchField<scalar>::write(os);
 
     os.writeKeyword("alphaLimit") << alphaLimit_
         << token::END_STATEMENT << nl;
@@ -162,7 +162,7 @@ namespace Foam
 {
    makePatchTypeField
    (
-       fvPatchVectorField,
+       fvPatchScalarField,
        mojVentP
    );
 }
