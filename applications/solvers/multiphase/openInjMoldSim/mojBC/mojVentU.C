@@ -39,7 +39,7 @@ Foam::mojVentU
 )
 :
     mixedFvPatchField<vector>(p, iF),
-    Umean_(0),
+    alphaLimit_(0),
     alphaName_("none")
 {
     refValue() = vector::zero;
@@ -58,7 +58,7 @@ Foam::mojVentU
 )
 :
     mixedFvPatchField<vector>(ptf, p, iF, mapper),
-    Umean_(ptf.Umean_),
+    alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
 
@@ -72,7 +72,7 @@ Foam::mojVentU
 )
 :
     mixedFvPatchField<vector>(p, iF),
-    Umean_(readScalar(dict.lookup("Umean"))),
+    alphaLimit_(readScalar(dict.lookup("alphaLimit"))),
     alphaName_(dict.lookup("alpha"))
 {
     refValue() = vector::zero;
@@ -100,7 +100,7 @@ Foam::mojVentU
 )
 :
     mixedFvPatchField<vector>(ptf),
-    Umean_(ptf.Umean_),
+    alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
 
@@ -113,7 +113,7 @@ Foam::mojVentU
 )
 :
     mixedFvPatchField<vector>(ptf, iF),
-    Umean_(ptf.Umean_),
+    alphaLimit_(ptf.alphaLimit_),
     alphaName_(ptf.alphaName_)
 {}
 
@@ -142,16 +142,16 @@ void Foam::mojVentU::updateCoeffs()
        /gSum(alphap*patch().magSf());
 
     // Set the refValue and valueFraction to adjust the boundary field
-    // such that the phase mean is Umean_
-    if (Uzgmean >= Umean_)
+    // such that the phase mean is Umean
+    if (Uzgmean >= alphaLimit_)
     {
         refValue() = vector::zero;
-        valueFraction() = 1.0 - Umean_/Uzgmean;
+        valueFraction() = 1.0 - alphaLimit_/Uzgmean;
     }
     else
     {
-        refValue() = (Umean_ + Uzgmean)*patch().nf();
-        valueFraction() = 1.0 - Uzgmean/Umean_;
+        refValue() = (alphaLimit_ + Uzgmean)*patch().nf();
+        valueFraction() = 1.0 - Uzgmean/alphaLimit_;
     }
 
     mixedFvPatchField<vector>::updateCoeffs();
@@ -165,7 +165,7 @@ void Foam::mojVentU::write
 {
     fvPatchField<vector>::write(os);
 
-    os.writeKeyword("Umean") << Umean_
+    os.writeKeyword("alphaLimit") << alphaLimit_
         << token::END_STATEMENT << nl;
     os.writeKeyword("alpha") << alphaName_
         << token::END_STATEMENT << nl;

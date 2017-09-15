@@ -27,7 +27,7 @@ Class
 Group
     grpOutletBoundaryConditions
 
-Description
+Description FOR outletPhaseMeanVelocity
     This boundary condition adjusts the velocity for the given phase to achieve
     the specified mean thus causing the phase-fraction to adjust according to
     the mass flow rate.
@@ -82,7 +82,7 @@ class mojVentU
     // Private data
 
         //- Inlet integral flow rate
-        scalar Umean_;
+        scalar alphaLimit_;
 
         //- Name of the phase-fraction field
         word alphaName_;
@@ -166,15 +166,15 @@ public:
         // Access
 
             //- Return the flux
-            scalar Umean() const
+            scalar alphaLimit() const
             {
-                return Umean_;
+                return alphaLimit_;
             }
 
             //- Return reference to the flux to allow adjustment
-            scalar& Umean()
+            scalar& alphaLimit()
             {
-                return Umean_;
+                return alphaLimit_;
             }
 
 
