@@ -40,9 +40,10 @@ Foam::mojVentP
 :
     mixedFvPatchField<scalar>(p, iF),
     alphaLimit_(0),
-    alphaName_("none")
+    alphaName_("none"),
+    outP_(0)
 {
-    refValue() = 0.0;
+    refValue() = outP_;
     refGrad() = 0.0;
     valueFraction() = 0.0;
 }
@@ -59,7 +60,8 @@ Foam::mojVentP
 :
     mixedFvPatchField<scalar>(ptf, p, iF, mapper),
     alphaLimit_(ptf.alphaLimit_),
-    alphaName_(ptf.alphaName_)
+    alphaName_(ptf.alphaName_),
+    outP_(ptf.outP_)
 {}
 
 
@@ -73,9 +75,10 @@ Foam::mojVentP
 :
     mixedFvPatchField<scalar>(p, iF),
     alphaLimit_(readScalar(dict.lookup("alphaLimit"))),
-    alphaName_(dict.lookup("alpha"))
+    alphaName_(dict.lookup("alpha")),
+    outP_(readScalar(dict.lookup("outP")))
 {
-    refValue() = 0.0;
+    refValue() = outP_;
     refGrad() = 0.0;
     valueFraction() = 0.0;
 
@@ -101,7 +104,8 @@ Foam::mojVentP
 :
     mixedFvPatchField<scalar>(ptf),
     alphaLimit_(ptf.alphaLimit_),
-    alphaName_(ptf.alphaName_)
+    alphaName_(ptf.alphaName_),
+    outP_(ptf.outP_)
 {}
 
 
@@ -114,7 +118,8 @@ Foam::mojVentP
 :
     mixedFvPatchField<scalar>(ptf, iF),
     alphaLimit_(ptf.alphaLimit_),
-    alphaName_(ptf.alphaName_)
+    alphaName_(ptf.alphaName_),
+    outP_(ptf.outP_)
 {}
 
 
@@ -134,8 +139,8 @@ void Foam::mojVentP::updateCoeffs()
     alphap = min(alphap, scalar(1));
 
     valueFraction() = pos(alphaLimit_ - alphap);
-    //alphLim>alpha => valFrac=1 (U=0)
-    //else valFrac=0 (gradU=0)
+    //alphLim>alpha => valFrac=1 (P=outP)
+    //else valFrac=0 (gradP=0)
 
     mixedFvPatchField<scalar>::updateCoeffs();
 }
@@ -151,6 +156,8 @@ void Foam::mojVentP::write
     os.writeKeyword("alphaLimit") << alphaLimit_
         << token::END_STATEMENT << nl;
     os.writeKeyword("alpha") << alphaName_
+        << token::END_STATEMENT << nl;
+    os.writeKeyword("outP") << outP_
         << token::END_STATEMENT << nl;
     writeEntry("value", os);
 }

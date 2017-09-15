@@ -87,6 +87,9 @@ class mojVentP
         //- Name of the phase-fraction field
         word alphaName_;
 
+        //- Outside pressure
+        scalar outP_;
+
 
 public:
 
