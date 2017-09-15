@@ -1,16 +1,4 @@
-/* solver source */
-mojThermos.C
-mojTwoPhaseMixtureThermo/mojTwoPhaseMixtureThermo.C
-crossWlfInSorodno/mojRhoThermo.C
-crossWlfInSorodno/mojFluidThermo.C
-crossWlfInSorodno/mojBasicThermo.C
-mojTwoPhaseMixtureThermo/mojPsiThermo.C
-openInjMoldSim.C
-mojTurbulentFluidThermoModel/mojTurbulentFluidThermoModels.C
+mojVentU.C
+mojVentP.C
 
-/* boundary condition */
-mojBC/mojVentU.C
-mojBC/mojVentP.C
-
-/* binary */
-EXE = $(FOAM_USER_APPBIN)/openInjMoldSimFimaaHca
+LIB = $(FOAM_USER_LIBBIN)/libmojVent
