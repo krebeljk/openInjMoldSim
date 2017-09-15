@@ -4,6 +4,7 @@ set -x
 
 # wmake libso twoPhaseMixtureThermo
 wmake
+wmake libso mojBC
 # wmake compressibleInterDyMFoam
 
 # ----------------------------------------------------------------- end-of-file
