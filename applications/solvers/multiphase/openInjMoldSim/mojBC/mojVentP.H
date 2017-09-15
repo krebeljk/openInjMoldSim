@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::mojVentU
+    Foam::mojVentP
 
 Group
     grpOutletBoundaryConditions
@@ -58,12 +58,12 @@ SeeAlso
     Foam::variableHeightFlowRateInletVelocityFvPatchVectorField
 
 SourceFiles
-    mojVentU.C
+    mojVentP.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef mojVentU_H
-#define mojVentU_H
+#ifndef mojVentP_H
+#define mojVentP_H
 
 #include "mixedFvPatchFields.H"
 
@@ -72,10 +72,10 @@ SourceFiles
 namespace Foam
 {
 /*---------------------------------------------------------------------------*\
-    Class mojVentU Declaration
+    Class mojVentP Declaration
 \*---------------------------------------------------------------------------*/
 
-class mojVentU
+class mojVentP
 :
     public mixedFvPatchVectorField
 {
@@ -97,14 +97,14 @@ public:
    // Constructors
 
         //- Construct from patch and internal field
-        mojVentU
+        mojVentP
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&
         );
 
         //- Construct from patch, internal field and dictionary
-        mojVentU
+        mojVentP
         (
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
@@ -112,20 +112,20 @@ public:
         );
 
         //- Construct by mapping given
-        //  mojVentU
+        //  mojVentP
         //  onto a new patch
-        mojVentU
+        mojVentP
         (
-            const mojVentU&,
+            const mojVentP&,
             const fvPatch&,
             const DimensionedField<vector, volMesh>&,
             const fvPatchFieldMapper&
         );
 
         //- Construct as copy
-        mojVentU
+        mojVentP
         (
-            const mojVentU&
+            const mojVentP&
         );
 
         //- Construct and return a clone
@@ -133,14 +133,14 @@ public:
         {
             return tmp<fvPatchVectorField>
             (
-                new mojVentU(*this)
+                new mojVentP(*this)
             );
         }
 
         //- Construct as copy setting internal field reference
-        mojVentU
+        mojVentP
         (
-            const mojVentU&,
+            const mojVentP&,
             const DimensionedField<vector, volMesh>&
         );
 
@@ -152,7 +152,7 @@ public:
         {
             return tmp<fvPatchVectorField>
             (
-                new mojVentU
+                new mojVentP
                 (
                     *this,
                     iF

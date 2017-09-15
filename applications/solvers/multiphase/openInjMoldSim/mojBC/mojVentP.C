@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "mojVentU.H"
+#include "mojVentP.H"
 #include "volFields.H"
 #include "addToRunTimeSelectionTable.H"
 #include "fvPatchFieldMapper.H"
@@ -31,8 +31,8 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::mojVentU
-::mojVentU
+Foam::mojVentP
+::mojVentP
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF
@@ -48,10 +48,10 @@ Foam::mojVentU
 }
 
 
-Foam::mojVentU
-::mojVentU
+Foam::mojVentP
+::mojVentP
 (
-    const mojVentU& ptf,
+    const mojVentP& ptf,
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
     const fvPatchFieldMapper& mapper
@@ -63,8 +63,8 @@ Foam::mojVentU
 {}
 
 
-Foam::mojVentU
-::mojVentU
+Foam::mojVentP
+::mojVentP
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
@@ -93,10 +93,10 @@ Foam::mojVentU
 }
 
 
-Foam::mojVentU
-::mojVentU
+Foam::mojVentP
+::mojVentP
 (
-    const mojVentU& ptf
+    const mojVentP& ptf
 )
 :
     mixedFvPatchField<vector>(ptf),
@@ -105,10 +105,10 @@ Foam::mojVentU
 {}
 
 
-Foam::mojVentU
-::mojVentU
+Foam::mojVentP
+::mojVentP
 (
-    const mojVentU& ptf,
+    const mojVentP& ptf,
     const DimensionedField<vector, volMesh>& iF
 )
 :
@@ -120,7 +120,7 @@ Foam::mojVentU
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::mojVentU::updateCoeffs()
+void Foam::mojVentP::updateCoeffs()
 {
     if (updated())
     {
@@ -141,7 +141,7 @@ void Foam::mojVentU::updateCoeffs()
 }
 
 
-void Foam::mojVentU::write
+void Foam::mojVentP::write
 (
     Ostream& os
 ) const
@@ -163,7 +163,7 @@ namespace Foam
    makePatchTypeField
    (
        fvPatchVectorField,
-       mojVentU
+       mojVentP
    );
 }
 
