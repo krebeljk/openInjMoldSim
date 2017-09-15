@@ -94,7 +94,7 @@ class mojVentP
 public:
 
    //- Runtime type information
-   TypeName("outletPhaseMeanVelocity");
+   TypeName("mojVentP");
 
 
    // Constructors
