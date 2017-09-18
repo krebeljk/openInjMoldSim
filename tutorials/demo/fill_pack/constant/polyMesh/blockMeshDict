@@ -18,7 +18,7 @@ a1  9.50;//box dim
 a2 75.75;
 b    0.1;
 c   1.21;
-na   300;//refinement
+na   600;//refinement
 nb     1;
 nc    16;
 

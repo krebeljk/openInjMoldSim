@@ -92,18 +92,20 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             #include "UEqn.H"
+            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
+            shrRate = strig;
+            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
+            U = pos(solidViscosity-visc) * U; // U=0 solidification condition
             #include "TEqn.H"
 
             // --- Pressure corrector loop
             while (pimple.correct())
             {
-	            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-	            shrRate = strig;
                 mojKappaOut = mixture.kappa();
                 #include "pEqn.H"
             }
 
-            // visc za post-processing - kristjan
+            // visc - kristjan
             visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu(); 
 
             if (pimple.turbCorr())

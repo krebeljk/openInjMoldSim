@@ -101,7 +101,7 @@ class crossWLFTransport
     // Private data
 
         // crossWLF's coefficients
-        scalar n_, Tau_, D1_, D2_, A1_, A2_, lambda_;
+        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_, lambda_;
         scalar etaMin_, etaMax_, TnoFlow_;
 
 
@@ -128,6 +128,7 @@ public:
             const scalar Tau_,
             const scalar D1_,
             const scalar D2_,
+            const scalar D3_,
             const scalar A1_,
             const scalar A2_,
             const scalar lambda_,

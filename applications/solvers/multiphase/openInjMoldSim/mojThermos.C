@@ -39,17 +39,19 @@ License
 #include "janafThermo.H"
 #include "sensibleEnthalpy.H"
 #include "sensibleInternalEnergy.H"
-#include "thermo.H"
+#include "mojThermo.H"
 
 #include "constTransport.H"
 #include "mojConstTransport.H"
 #include "sutherlandTransport.H"
 #include "polymerPVT.H"
 #include "crossWLFTransport.H"
+#include "crossWLFTransportTTC.H"
 
 #include "icoPolynomial.H"
 #include "hPolynomialThermo.H"
 #include "polynomialTransport.H"
+#include "hTabularThermo.H"
 
 
 #include "heRhoThermo.H"
@@ -120,11 +122,47 @@ mojMakeThermo
     pureMixture,
     crossWLFTransport,
     sensibleInternalEnergy,
+    hPolynomialThermo,//new
+    polymerPVT,
+    specie
+);
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
+    hTabularThermo,//new
+    polymerPVT,
+    specie
+);
+
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
     hPolynomialThermo,
     polymerPVT,
     specie
 );
 
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
+    hTabularThermo,//new
+    polymerPVT,
+    specie
+);
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

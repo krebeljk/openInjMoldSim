@@ -111,6 +111,26 @@
         }
     }
 
+    p_rgh_resid = mag
+    (
+        (
+            (max(alpha1, scalar(0))/rho1)*
+            (
+                fvc::ddt(rho1) + psi1*fvc::ddt(p_rgh)
+              + fvc::div(phi, rho1) - fvc::Sp(fvc::div(phi), rho1)
+            )
+          + (max(alpha2, scalar(0))/rho2)*
+            (
+                fvc::ddt(rho2) + psi2*fvc::ddt(p_rgh)
+              + fvc::div(phi, rho2) - fvc::Sp(fvc::div(phi), rho2)
+            )
+        )
+      + 
+        (
+            fvc::div(phiHbyA)
+          - fvc::laplacian(rAUf, p_rgh)
+        )
+    );
     // p = max(p_rgh + (alpha1*rho1 + alpha2*rho2)*gh, pMin);
 
     // Update densities from change in p_rgh

@@ -21,7 +21,7 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
- scalar n_, Tau_, D1_, D2_, A1_, A2_;
+ scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_;
 
 \*---------------------------------------------------------------------------*/
 
@@ -38,6 +38,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
     Tau_(readScalar(is)),
     D1_(readScalar(is)),
     D2_(readScalar(is)),
+    D3_(readScalar(is)),
     A1_(readScalar(is)),
     A2_(readScalar(is)),
     lambda_(readScalar(is)),
@@ -57,6 +58,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     Tau_(readScalar(dict.subDict("transport").lookup("Tau"))),
     D1_(readScalar(dict.subDict("transport").lookup("D1"))),
     D2_(readScalar(dict.subDict("transport").lookup("D2"))),
+    D3_(readScalar(dict.subDict("transport").lookup("D3"))),
     A1_(readScalar(dict.subDict("transport").lookup("A1"))),
     A2_(readScalar(dict.subDict("transport").lookup("A2"))),
     lambda_(readScalar(dict.subDict("transport").lookup("lambda"))),
@@ -81,6 +83,7 @@ void Foam::crossWLFTransport<Thermo>::write(Ostream& os) const
     dict.add("Tau", Tau_);
     dict.add("D1", D1_);
     dict.add("D2", D2_);
+    dict.add("D3", D3_);
     dict.add("A1", A1_);
     dict.add("A2", A2_);
     dict.add("lambda", lambda_);
@@ -102,7 +105,7 @@ Foam::Ostream& Foam::operator<<
 )
 {
     os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_ 
-    << tab << st.D1_ << tab << st.D2_ << tab << st.A1_ << tab << st.A2_
+    << tab << st.D1_ << tab << st.D2_ << tab << st.D3_ << tab << st.A1_ << tab << st.A2_
     << tab << st.etaMin_ << tab << st.etaMax_ << tab << st.TnoFlow_ << endl; 
 
     os.check

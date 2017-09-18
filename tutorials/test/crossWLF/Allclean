@@ -7,5 +7,7 @@ cd ${0%/*} || exit 1    # run from this directory
 cleanCase
 foamClearPolyMesh
 
+rm 0/T.poly
+rm 0/T.air
 rm *.png
 # ----------------------------------------------------------------- end-of-file
