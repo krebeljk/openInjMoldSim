@@ -5,3 +5,6 @@ Experimental pressure evolution is imposed at one end of the cavity. This causes
 exit the cavity via boundary conditions. When the cavity is filled with the polymer (polystyrene) the outlet is closed to
 simulate packing. Two cavity positions are probed for pressure. The evolutions are compared to experimental values by
 running the AllPlot script.
+
+![Demo geometry](../demo_geom.png)
+![Pressure evolution](../plot.png)

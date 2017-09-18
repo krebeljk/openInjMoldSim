@@ -2,7 +2,7 @@
 
 This is a solver for OpenFOAM 3.0.1 to simulate injection molding filling, packing and cooling stages. It is a
 modification of the compressibleInterFoam solver distributed with OpenFOAM. The solver has so far been used on the small
-2D demo case for amorphous polystyrene. A simulation of (semi-crystalline) HDPE is in under development. Currently,
+2D demo case for amorphous polystyrene. A simulation of (semi-crystalline) HDPE is under development. Currently,
 the simulation is prohibitively inconvenient for typical industrial use.
 
 See the official page [openfoam.org](https://openfoam.org/), unofficial wiki
@@ -15,7 +15,7 @@ An OpenFOAM 3.0.1 installation is required to run the code. This code was run on
 
 Run `Allwmake` in the solver directory to compile the solver.
 
-Run `AllRun` in the `fill\_pack` directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
+Run `AllRun` in the [`fill_pack`](/tutorials/demo/fill_pack) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
 
 ## Functionality
 
@@ -39,3 +39,7 @@ This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * The work was supported by the [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/).
+
+## Demo case
+![Demo geometry](/tutorials/demo/demo_geom.png)
+![Pressure evolution](/tutorials/demo/plot.png)
