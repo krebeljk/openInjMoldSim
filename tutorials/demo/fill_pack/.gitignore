@@ -17,4 +17,6 @@ constant/polyMesh/*
 # kristjan
 *stdout.txt
 system/controlDict
+system/fvSolution
+*.png
 # end-of-file

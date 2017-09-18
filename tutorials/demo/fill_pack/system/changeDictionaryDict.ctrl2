@@ -20,6 +20,20 @@ dictionaryReplacement
     {
         endTime 6.0;
         writeInterval   0.1;
+        maxDeltaT       5e-2;
+    }
+    fvSolution
+    {
+        PIMPLE
+        {
+            residualControl
+            {
+                p_rgh
+                {
+                    tolerance   1e-4;
+                }
+             }
+        }
     }
 }
 // ************************************************************************* //
