@@ -1,6 +1,7 @@
-#!/usr/bin/gnuplot
+#!/usr/bin/env gnuplot
 
-set terminal wxt size 800, 800 enhanced dashed font 'Verdana,10' persist
+set terminal pngcairo size 800, 800 enhanced dashed font 'Verdana,10' #persist
+set output "plot.png"
 
 set style line 1 lc rgb '#0060ad' lt 1 lw 2 pt 7 ps 0 # --- blue
 set style line 2 lc rgb '#9fac43' lt 1 lw 2 pt 7 ps 0 # --- blue 
@@ -15,7 +16,7 @@ set xlabel 't [s]'
 
 set xrange [0:0.3]
 
-plot "postProcessing/probes/0/p" using 1:2 title 'P1 enforced' with lines ls 1,\
+plot "postProcessing/probes/0/p" using 1:2 title 'P1 imposed' with lines ls 1,\
 "postProcessing/probes/0/p" using 1:3 title 'P2' with lines ls 2,\
 "postProcessing/probes/0/p" using 1:4 title 'P3' with lines ls 3,\
 "fim_01_01_F_00_01_08.dat" using 1:2 title 'P1 exp' with lines ls 4,\
@@ -29,7 +30,7 @@ set xlabel 't [s]'
 
 set xrange [0:6]
 
-plot "postProcessing/probes/0/p" using 1:2 title 'P1 enforced' with lines ls 1,\
+plot "postProcessing/probes/0/p" using 1:2 title 'P1 imposed' with lines ls 1,\
 "postProcessing/probes/0/p" using 1:3 title 'P2' with lines ls 2,\
 "postProcessing/probes/0/p" using 1:4 title 'P3' with lines ls 3,\
 "fim_01_01_F_00_01_08.dat" using 1:2 title 'P1 exp' with lines ls 4,\

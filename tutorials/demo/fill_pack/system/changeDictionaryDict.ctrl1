@@ -18,8 +18,23 @@ dictionaryReplacement
 {
     controlDict
     {
-        endTime 1.0;
+        endTime 0.5;
         writeInterval   0.01;
+        maxDeltaT       5e-3;
+    }
+    fvSolution
+    {
+        PIMPLE
+        {
+            nCorrectors     2;
+            residualControl
+            {
+                p_rgh
+                {
+                    tolerance   1e-5;
+                }
+             }
+        }
     }
 }
 // ************************************************************************* //
