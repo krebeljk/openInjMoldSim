@@ -93,9 +93,13 @@ int main(int argc, char *argv[])
 
 //elSig eq
 
-
-            solve(fvm::ddt(elSig)
-            + fvc::div(phi,elSig)
+            dimensionedScalar shrMod("solidViscosity", dimensionSet(1,-1,-2,0,0,0,0), 906e6);
+            solve(
+              fvm::ddt(elSig)
+            + fvm::div(phi,elSig)
+            //==
+            //  twoSymm(elSig & fvc::grad(U))
+            //+ shrMod * twoSymm(fvc::grad(U))
             );
 
 
