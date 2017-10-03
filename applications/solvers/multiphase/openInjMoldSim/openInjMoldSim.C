@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
+            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
 //elSig eq
 
             dimensionedScalar shrMod("solidViscosity", dimensionSet(1,-1,-2,0,0,0,0), 906e6);
@@ -99,7 +100,7 @@ int main(int argc, char *argv[])
             + fvm::div(phi,elSig)
               ==
               twoSymm(elSig & fvc::grad(U))
-            + shrMod * twoSymm(fvc::grad(U))
+            + shrMod * twoSymm(fvc::grad(U)) * pos(solidViscosity-visc)
             );
 
 
@@ -109,8 +110,6 @@ int main(int argc, char *argv[])
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             shrRate = strig;
-            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
-            U = pos(solidViscosity-visc) * U; // U=0 solidification condition
             #include "TEqn.H"
 
             // --- Pressure corrector loop
