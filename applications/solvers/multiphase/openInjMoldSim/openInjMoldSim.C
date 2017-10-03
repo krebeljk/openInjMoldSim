@@ -93,7 +93,6 @@ int main(int argc, char *argv[])
 
             dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
 //elSig eq
-
             dimensionedScalar shrMod("solidViscosity", dimensionSet(1,-1,-2,0,0,0,0), 906e6);
             solve(
               fvm::ddt(elSig)
@@ -102,9 +101,6 @@ int main(int argc, char *argv[])
               twoSymm(elSig & fvc::grad(U))
             + shrMod * twoSymm(fvc::grad(U)) * pos(solidViscosity-visc)
             );
-
-
-
 //elSig eq
 
             #include "UEqn.H"
