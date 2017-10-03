@@ -99,8 +99,9 @@ int main(int argc, char *argv[])
             + fvm::div(phi,elSig)
               ==
               twoSymm(elSig & fvc::grad(U))
-            + shrMod * twoSymm(fvc::grad(U)) * pos(visc-solidViscosity)
+            + shrMod * dev(twoSymm(fvc::grad(U))) * pos(visc-solidViscosity)
             );
+            elSig = dev(elSig);
 //elSig eq
 
             #include "UEqn.H"
