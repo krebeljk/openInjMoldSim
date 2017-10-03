@@ -3,7 +3,7 @@
         fvm::ddt(rho, U)
       + fvm::div(rhoPhi, U)
       + turbulence->divDevRhoReff(U)
-      - fvc::div(elSig) * pos(solidViscosity-visc)
+      - fvc::div(elSig) * pos(visc-solidViscosity)
     );
 
     UEqn.relax();
