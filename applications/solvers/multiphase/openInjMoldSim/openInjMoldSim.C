@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
             solve(
               fvm::ddt(elSig)
             + fvm::div(phi,elSig)
-            //==
-            //  twoSymm(elSig & fvc::grad(U))
+              ==
+              twoSymm(elSig & fvc::grad(U))
             //+ shrMod * twoSymm(fvc::grad(U))
             );
 
