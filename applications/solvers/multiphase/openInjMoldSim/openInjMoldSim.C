@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
             + fvm::div(phi,elSig)
               ==
               twoSymm(elSig & fvc::grad(U))
-            //+ shrMod * twoSymm(fvc::grad(U))
+            + shrMod * twoSymm(fvc::grad(U))
             );
 
 
