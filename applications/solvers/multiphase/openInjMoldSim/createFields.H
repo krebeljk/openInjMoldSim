@@ -47,11 +47,9 @@ volSymmTensorField elSig
         "elSig",
         runTime.timeName(),
         mesh,
-        IOobject::NO_READ,
-        IOobject::AUTO_WRITE
+        IOobject::MUST_READ, IOobject::AUTO_WRITE
     ),
-    mesh,
-    dimensionedSymmTensor("zero", dimForce/dimArea, symmTensor::zero)
+    mesh
 );
 
 #include "createPhi.H"
