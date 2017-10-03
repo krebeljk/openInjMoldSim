@@ -91,6 +91,17 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
+//elSig eq
+
+
+            solve(fvm::ddt(elSig)
+            + fvc::div(phi,elSig)
+            );
+
+
+
+//elSig eq
+
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             shrRate = strig;
