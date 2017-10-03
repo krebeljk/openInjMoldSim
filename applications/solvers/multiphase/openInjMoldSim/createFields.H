@@ -40,6 +40,20 @@ volScalarField shrRate
 );
 
 
+volSymmTensorField elSig
+(
+    IOobject
+    (
+        "elSig",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedSymmTensor("zero", dimForce/dimArea, symmTensor::zero)
+);
+
 #include "createPhi.H"
 
 Info<< "Constructing mojTwoPhaseMixtureThermo\n" << endl;
