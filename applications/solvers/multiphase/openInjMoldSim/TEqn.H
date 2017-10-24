@@ -4,6 +4,7 @@
         fvm::ddt(rho, T)
       + fvm::div(rhoPhi, T)
       - fvc::laplacian(mixture.kappa(), T)/mixture.Cp()
+      - mixture.mu() * strig*strig/mixture.Cp()
     );
 
     TEqn.relax();
