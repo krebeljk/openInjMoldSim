@@ -39,9 +39,9 @@ Foam::hTabularThermo<EquationOfState>::hTabularThermo
 {
     Hf_ *= this->W();
     cpTable = interpolation2DTable<scalar>("constant/cpTable");
-    hTable = interpolation2DTable<scalar>("constant/hTable");
+    //hTable = interpolation2DTable<scalar>("constant/hTable");
     cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
-    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    //hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 /*
     hCoeffs_ = CpCoeffs_.integral();
     sCoeffs_ = CpCoeffs_.integralMinus1();
@@ -66,9 +66,9 @@ Foam::hTabularThermo<EquationOfState>::hTabularThermo
 {
     Hf_ *= this->W();
     cpTable = interpolation2DTable<scalar>("constant/cpTable");
-    hTable = interpolation2DTable<scalar>("constant/hTable");
+    //hTable = interpolation2DTable<scalar>("constant/hTable");
     cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
-    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    //hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
