@@ -78,10 +78,10 @@ Foam::mojTwoPhaseMixtureThermo::~mojTwoPhaseMixtureThermo()
 
 void Foam::mojTwoPhaseMixtureThermo::correct()
 {
-    thermo1_->he() = thermo1_->he(p_, T_);
+    thermo1_->T() = T_;
     thermo1_->correct();
 
-    thermo2_->he() = thermo2_->he(p_, T_);
+    thermo2_->T() = T_;
     thermo2_->correct();
 
     psi_ = alpha1()*thermo1_->psi() + alpha2()*thermo2_->psi();
