@@ -177,3 +177,36 @@ autoPtr<compressible::turbulenceModel> turbulence
 
 Info<< "Creating field kinetic energy K\n" << endl;
 volScalarField K("K", 0.5*magSqr(U));
+
+
+
+Info<< "Reading solidification properties\n" << endl;
+ // Get access to the dictionary
+    dictionary sldDict;
+    const word sldDictName("solidificationProperties");
+
+    // Create and input-output object - this holds the path to the dict and its name
+    IOobject sldDictIO
+    (
+        sldDictName, // name of the file
+        mesh.time().constant(), // path to where the file is
+        mesh, // reference to the mesh needed by the constructor
+        IOobject::MUST_READ // indicate that reading this dictionary is compulsory
+    );
+
+    // Check the if the dictionary is present and follows the OF format
+    if (!sldDictIO.headerOk())
+        FatalErrorIn(args.executable()) << "Cannot open constant/solidificationProperties dictionary "
+            << sldDictName << exit(FatalError);
+
+    // Initialise the dictionary object
+    sldDict = IOdictionary(sldDictIO);
+
+    // This template method needs to know the type of the variable and can provide
+    // a default value if the entry is not found in the dictionary
+    scalar someScalar( sldDict.lookupOrDefault<scalar>("someScalar", 1.0) );
+
+    // Summarise what's been read and print in the console
+    Info << nl << "Read the following:" << nl << nl
+         << "someScalar " << someScalar << nl << nl
+        << endl;
