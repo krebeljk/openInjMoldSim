@@ -214,7 +214,9 @@ Info<< "Reading solidification properties\n" << endl;
             "elSigDev",
             runTime.timeName(),
             mesh,
-            IOobject::MUST_READ, IOobject::AUTO_WRITE
-        ),
-        mesh
+            IOobject::READ_IF_PRESENT, IOobject::AUTO_WRITE
+        )
+        , mesh
+        , dimensionedSymmTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
+        , "zeroGradient"
     );

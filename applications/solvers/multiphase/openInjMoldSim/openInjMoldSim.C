@@ -92,14 +92,17 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             //Kristjan: Elastic deviatoric stress equation
-            solve(
-              fvm::ddt(elSigDev)
-            + fvm::div(phi,elSigDev)
-              ==
-              twoSymm(elSigDev & fvc::grad(U))
-            + shrMod * dev(twoSymm(fvc::grad(U))) * pos(TshrMod-T)
-            );
-            elSigDev = dev(elSigDev);
+            if (sldDictIO.headerOk())
+            {
+                solve(
+                  fvm::ddt(elSigDev)
+                + fvm::div(phi,elSigDev)
+                  ==
+                  twoSymm(elSigDev & fvc::grad(U))
+                + shrMod * dev(twoSymm(fvc::grad(U))) * pos(TshrMod-T)
+                );
+                elSigDev = dev(elSigDev);
+            }
 
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
