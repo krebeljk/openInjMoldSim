@@ -181,8 +181,6 @@ volScalarField K("K", 0.5*magSqr(U));
 
 
 Info<< "Reading solidification properties\n" << endl;
- // Get access to the dictionary
-    dictionary sldDict;
     const word sldDictName("solidificationProperties");
 
     // Create and input-output object - this holds the path to the dict and its name
@@ -195,18 +193,24 @@ Info<< "Reading solidification properties\n" << endl;
     );
 
     // Check the if the dictionary is present and follows the OF format
-    if (!sldDictIO.headerOk())
-        FatalErrorIn(args.executable()) << "Cannot open constant/solidificationProperties dictionary "
-            << sldDictName << exit(FatalError);
+    if (sldDictIO.headerOk())
+    {
+        // Get access to the dictionary
+        dictionary sldDict;
+        // Initialise the dictionary object
+        sldDict = IOdictionary(sldDictIO);
 
-    // Initialise the dictionary object
-    sldDict = IOdictionary(sldDictIO);
+        // This template method needs to know the type of the variable and can provide
+        // a default value if the entry is not found in the dictionary
+        scalar someScalar( sldDict.lookupOrDefault<scalar>("someScalar", 1.0) );
 
-    // This template method needs to know the type of the variable and can provide
-    // a default value if the entry is not found in the dictionary
-    scalar someScalar( sldDict.lookupOrDefault<scalar>("someScalar", 1.0) );
-
-    // Summarise what's been read and print in the console
-    Info << nl << "Read the following:" << nl << nl
-         << "someScalar " << someScalar << nl << nl
-        << endl;
+        // Summarise what's been read and print in the console
+        Info << nl << "Read the following:" << nl
+             << "someScalar " << someScalar << nl
+             << nl << endl;
+    }
+    else
+    {
+        Info << "No constant/solidificationProperties dictionary found." << endl;
+        Info << "Flow cessation modeled as visc(TnoFlow)=etaMax." << nl << nl << endl;
+    }
