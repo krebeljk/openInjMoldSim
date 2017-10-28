@@ -201,13 +201,17 @@ Info<< "Reading solidification properties\n" << endl;
     dimensionedScalar TshrMod("TshearModulus", dimensionSet(0,0,0,1,0,0,0),
         sldDict.lookupOrDefault<scalar>("TshearModulus", 0.0)
     );
+    dimensionedScalar shrRateLimEl("shrRateLimEl", dimensionSet(0,0,-1,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 0.5)
+    );
 
     if (sldDictIO.headerOk())
     {
         // Summarise what's been read and print in the console
-        Info << nl << "Solidification properties:" << nl
-             << shrMod << nl
-             << TshrMod << nl
+        Info << nl << "Solidification properties: " << nl
+             << "Shear modulus: " << shrMod << nl
+             << "Highest temperature with elasticity: " << TshrMod << nl
+             << "Highest shear rate with elasticity: " << shrRateLimEl << nl
              << nl << endl;
     }
 

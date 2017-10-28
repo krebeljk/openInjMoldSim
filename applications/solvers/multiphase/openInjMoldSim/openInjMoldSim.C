@@ -99,7 +99,9 @@ int main(int argc, char *argv[])
                 + fvm::div(phi,elSigDev)
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
-                + shrMod * dev(twoSymm(fvc::grad(U))) * pos(TshrMod-T)
+                + shrMod * dev(twoSymm(fvc::grad(U)))
+                  * pos(TshrMod-T)
+                  * pos(shrRateLimEl-shrRate)
                 );
                 elSigDevEqn.relax();
                 elSigDevEqn.solve();
