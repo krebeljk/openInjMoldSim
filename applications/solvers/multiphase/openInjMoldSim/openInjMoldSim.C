@@ -94,13 +94,15 @@ int main(int argc, char *argv[])
             //Kristjan: Elastic deviatoric stress equation
             if (sldDictIO.headerOk())
             {
-                solve(
+                fvSymmTensorMatrix elSigDevEqn(
                   fvm::ddt(elSigDev)
                 + fvm::div(phi,elSigDev)
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
                 + shrMod * dev(twoSymm(fvc::grad(U))) * pos(TshrMod-T)
                 );
+                elSigDevEqn.relax();
+                elSigDevEqn.solve();
                 elSigDev = dev(elSigDev);
             }
 
