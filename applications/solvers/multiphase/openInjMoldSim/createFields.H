@@ -191,7 +191,7 @@ Info<< "Reading solidification properties\n" << endl;
         sldDictName, // name of the file
         mesh.time().constant(), // path to where the file is
         mesh, // reference to the mesh needed by the constructor
-        IOobject::MUST_READ // indicate that reading this dictionary is compulsory
+        IOobject::READ_IF_PRESENT // indicate that reading this dictionary is optional
     );
 
     // Check the if the dictionary is present and follows the OF format
