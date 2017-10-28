@@ -182,7 +182,7 @@ Info<< "Reading solidification properties\n" << endl;
     );
 
     // Check the if the dictionary is present and follows the OF format
-    if (sldDictIO.headerOk())
+    if (!sldDictIO.headerOk())
     {
         Info << "No constant/solidificationProperties dictionary found." << endl;
         Info << "Flow cessation modeled as visc(TnoFlow)=etaMax." << nl << nl << endl;
