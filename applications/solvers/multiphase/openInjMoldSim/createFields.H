@@ -201,11 +201,16 @@ Info<< "Reading solidification properties\n" << endl;
     dimensionedScalar TshrMod("TshearModulus", dimensionSet(0,0,0,1,0,0,0),
         sldDict.lookupOrDefault<scalar>("TshearModulus", 0.0)
     );
-    // Summarise what's been read and print in the console
-    Info << nl << "Read the following:" << nl
-         << "shearModulus:" << shrMod << nl
-         << "TshearModulus:" << TshrMod << nl
-         << nl << endl;
+
+    if (sldDictIO.headerOk())
+    {
+        // Summarise what's been read and print in the console
+        Info << nl << "Solidification properties:" << nl
+             << shrMod << nl
+             << TshrMod << nl
+             << nl << endl;
+    }
+
 
     volSymmTensorField elSigDev
     (
