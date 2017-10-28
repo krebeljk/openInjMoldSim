@@ -40,17 +40,6 @@ volScalarField shrRate
 );
 
 
-volSymmTensorField elSig
-(
-    IOobject
-    (
-        "elSig",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ, IOobject::AUTO_WRITE
-    ),
-    mesh
-);
 
 #include "createPhi.H"
 
@@ -195,22 +184,37 @@ Info<< "Reading solidification properties\n" << endl;
     // Check the if the dictionary is present and follows the OF format
     if (sldDictIO.headerOk())
     {
-        // Get access to the dictionary
-        dictionary sldDict;
-        // Initialise the dictionary object
-        sldDict = IOdictionary(sldDictIO);
-
-        // This template method needs to know the type of the variable and can provide
-        // a default value if the entry is not found in the dictionary
-        scalar someScalar( sldDict.lookupOrDefault<scalar>("someScalar", 1.0) );
-
-        // Summarise what's been read and print in the console
-        Info << nl << "Read the following:" << nl
-             << "someScalar " << someScalar << nl
-             << nl << endl;
-    }
-    else
-    {
         Info << "No constant/solidificationProperties dictionary found." << endl;
         Info << "Flow cessation modeled as visc(TnoFlow)=etaMax." << nl << nl << endl;
     }
+
+    // Get access to the dictionary
+    dictionary sldDict;
+    // Initialise the dictionary object
+    sldDict = IOdictionary(sldDictIO);
+
+    // This template method needs to know the type of the variable and can provide
+    // a default value if the entry is not found in the dictionary
+    dimensionedScalar shrMod("shearModulus", dimensionSet(1,-1,-2,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("shearModulus", 0.0)
+    );
+    dimensionedScalar TshrMod("TshearModulus", dimensionSet(0,0,0,1,0,0,0),
+        sldDict.lookupOrDefault<scalar>("TshearModulus", 0.0)
+    );
+    // Summarise what's been read and print in the console
+    Info << nl << "Read the following:" << nl
+         << "shearModulus:" << shrMod << nl
+         << "TshearModulus:" << TshrMod << nl
+         << nl << endl;
+
+    volSymmTensorField elSigDev
+    (
+        IOobject
+        (
+            "elSigDev",
+            runTime.timeName(),
+            mesh,
+            IOobject::MUST_READ, IOobject::AUTO_WRITE
+        ),
+        mesh
+    );

@@ -91,18 +91,15 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
-            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
-//elSig eq
-            dimensionedScalar shrMod("solidViscosity", dimensionSet(1,-1,-2,0,0,0,0), 906e6);
+            //Kristjan: Elastic deviatoric stress equation
             solve(
-              fvm::ddt(elSig)
-            + fvm::div(phi,elSig)
+              fvm::ddt(elSigDev)
+            + fvm::div(phi,elSigDev)
               ==
-              twoSymm(elSig & fvc::grad(U))
-            + shrMod * dev(twoSymm(fvc::grad(U))) * pos(visc-solidViscosity)
+              twoSymm(elSigDev & fvc::grad(U))
+            + shrMod * dev(twoSymm(fvc::grad(U))) * pos(TshrMod-T)
             );
-            elSig = dev(elSig);
-//elSig eq
+            elSigDev = dev(elSigDev);
 
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
