@@ -100,7 +100,6 @@ int main(int argc, char *argv[])
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
                 + shrMod * dev(twoSymm(fvc::grad(U)))
-                  * pos(TshrMod-T)
                   * pos(shrRateLimEl-shrRate)
                   * pos(visc-viscLimEl)
                 );
