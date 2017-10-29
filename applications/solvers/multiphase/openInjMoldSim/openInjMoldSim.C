@@ -91,11 +91,26 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
+            //Kristjan: Elastic deviatoric stress equation
+            if (sldDictIO.headerOk())
+            {
+                fvSymmTensorMatrix elSigDevEqn(
+                  fvm::ddt(elSigDev)
+                + fvm::div(phi,elSigDev)
+                  ==
+                  twoSymm(elSigDev & fvc::grad(U))
+                + shrMod * dev(twoSymm(fvc::grad(U)))
+                  * pos(shrRateLimEl-shrRate)
+                  * pos(visc-viscLimEl)
+                );
+                elSigDevEqn.relax();
+                elSigDevEqn.solve();
+                elSigDev = dev(elSigDev);
+            }
+
             #include "UEqn.H"
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             shrRate = strig;
-            dimensionedScalar solidViscosity("solidViscosity", dimensionSet(1,-1,-1,0,0,0,0), 1e7);
-            U = pos(solidViscosity-visc) * U; // U=0 solidification condition
             #include "TEqn.H"
 
             // --- Pressure corrector loop
