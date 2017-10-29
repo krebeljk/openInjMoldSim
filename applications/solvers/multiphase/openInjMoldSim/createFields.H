@@ -196,13 +196,13 @@ Info<< "Reading solidification properties\n" << endl;
     // This template method needs to know the type of the variable and can provide
     // a default value if the entry is not found in the dictionary
     dimensionedScalar shrMod("shearModulus", dimensionSet(1,-1,-2,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("shearModulus", 0.0)
+        sldDict.lookupOrDefault<scalar>("shearModulus", 900e6)
     );
     dimensionedScalar shrRateLimEl("shrRateLimEl", dimensionSet(0,0,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 0.5)
+        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 1.0)
     );
     dimensionedScalar viscLimEl("viscLimEl", dimensionSet(1,-1,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("viscLimEl", -1.0)
+        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
     );
 
     if (sldDictIO.headerOk())
