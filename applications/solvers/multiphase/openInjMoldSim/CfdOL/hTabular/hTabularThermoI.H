@@ -38,9 +38,9 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     Hf_(Hf)
 {
     cpTable = interpolation2DTable<scalar>("constant/cpTable");
-    hTable = interpolation2DTable<scalar>("constant/hTable");
+    //hTable = interpolation2DTable<scalar>("constant/hTable");
     cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
-    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    //hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -56,9 +56,9 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     Hf_(pt.Hf_)
 {
     cpTable = interpolation2DTable<scalar>("constant/cpTable");
-    hTable = interpolation2DTable<scalar>("constant/hTable");
+    //hTable = interpolation2DTable<scalar>("constant/hTable");
     cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
-    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    //hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -73,9 +73,9 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
     Hf_(pt.Hf_)
 {
     cpTable = interpolation2DTable<scalar>("constant/cpTable");
-    hTable = interpolation2DTable<scalar>("constant/hTable");
+    //hTable = interpolation2DTable<scalar>("constant/hTable");
     cpTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
-    hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    //hTable.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
 
 
@@ -109,7 +109,8 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::ha
 ) const
 {
     //Info << "ha for T= " << T << ": " << ((hTable(T, p) + hc()) * this->W()) << endl;
-    return (hTable(T, p) + hc()) * this->W();
+    //return (hTable(T, p) + hc()) * this->W();
+    return hc() * this->W();
 }
 
 
@@ -121,7 +122,8 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::hs
 {
     //Info << "hs for T= " << T << ", p= " << p << ": " << (hTable(T, p) * this->W()) << endl;
     //abort(FatalError);
-    return (hTable(T, p)) * this->W();
+    //return (hTable(T, p)) * this->W();
+    return hc()* this->W();
 }
 
 

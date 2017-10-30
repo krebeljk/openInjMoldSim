@@ -30,7 +30,7 @@ License
 template<class BasicPsiThermo, class MixtureType>
 void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
 {
-    const scalarField& hCells = this->he().internalField();
+    //const scalarField& hCells = this->he().internalField(); //Kristjan: governed by TEqn
     const scalarField& pCells = this->p_.internalField();
     const scalarField& strigCells = this->strig_.internalField();
 
@@ -45,12 +45,12 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
         const typename MixtureType::thermoType& mixture_ =
             this->cellMixture(celli);
 
-        TCells[celli] = mixture_.THE
-        (
-            hCells[celli],
-            pCells[celli],
-            TCells[celli]
-        );
+        //TCells[celli] = mixture_.THE //Kristjan: governed by TEqn
+        //(
+        //    hCells[celli],
+        //    pCells[celli],
+        //    TCells[celli]
+        //);
 
         psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
         rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
@@ -70,7 +70,8 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
         fvPatchScalarField& ppsi = this->psi_.boundaryField()[patchi];
         fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
 
-        fvPatchScalarField& ph = this->he().boundaryField()[patchi];
+        //fvPatchScalarField& ph = this->he().boundaryField()[patchi];//Kristjan: governed by TEqn
+
 
         fvPatchScalarField& pmu = this->mu_.boundaryField()[patchi];
         fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
@@ -82,7 +83,8 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
 
-                ph[facei] = mixture_.HE(pp[facei], pT[facei]);
+                //ph[facei] = mixture_.HE(pp[facei], pT[facei]);//Kristjan: governed by TEqn
+
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 prho[facei] = mixture_.rho(pp[facei], pT[facei]);
@@ -97,7 +99,7 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
 
-                pT[facei] = mixture_.THE(ph[facei], pp[facei], pT[facei]);
+                //pT[facei] = mixture_.THE(ph[facei], pp[facei], pT[facei]);//Kristjan: governed by TEqn
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 prho[facei] = mixture_.rho(pp[facei], pT[facei]);
