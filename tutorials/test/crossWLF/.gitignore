@@ -15,5 +15,7 @@ constant/polyMesh/*
 constant/cellToRegion
 *.OpenFOAM
 !0
+0/T.air
+0/T.poly
 *.png
 # end-of-file
