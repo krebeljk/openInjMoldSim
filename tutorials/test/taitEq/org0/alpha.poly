@@ -32,12 +32,12 @@ boundaryField
 
     wallUp
     {
-        type            zeroGradient;
+        type            empty;
     }
 
     wallDown
     {
-        type            zeroGradient;
+        type            empty;
     }
 
 

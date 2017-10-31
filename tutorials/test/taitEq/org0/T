@@ -48,28 +48,12 @@ boundaryField
 
     wallUp
     {
-        type            externalWallHeatFluxTemperature;
-        kappa           lookup;
-        //q               uniform 1000; //ali q, ali Ta in h
-        Ta              uniform 493.15;
-        h               uniform 1.25e3;
-        value           uniform 393.15; //initial temperature [K]
-        kappaName       mojKappaOut;
-        Qr              none;
-        relaxation      1;
+        type            empty;
     }
 
     wallDown
     {
-        type            externalWallHeatFluxTemperature;
-        kappa           lookup;
-        //q               uniform 1000; //ali q, ali Ta in h
-        Ta              uniform 493.15;
-        h               uniform 1.25e3;
-        value           uniform 393.15; //initial temperature [K]
-        kappaName       mojKappaOut;
-        Qr              none;
-        relaxation      1;
+        type            empty;
     }
 
 

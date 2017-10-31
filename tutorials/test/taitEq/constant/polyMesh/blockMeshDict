@@ -15,10 +15,10 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 a 1;
-b 10;
+b 0.1;
 c 0.1;
 na 50;
-nb 150;
+nb 1;
 nc 1;
 
 /* H #calc "0.1*$R1";*/
@@ -67,7 +67,7 @@ boundary
 
     wallDown
     {
-        type patch;
+        type empty;
         faces
         (
             (0 1 5 4)
@@ -76,7 +76,7 @@ boundary
 
     wallUp
     {
-        type patch;
+        type empty;
         faces
         (
             (7 6 2 3)

@@ -27,7 +27,7 @@ fields
 // Locations to be probed. runTime modifiable!
 probeLocations
 (
-        (0.5e-3 0.5e-3 0.05e-3)
+        (0.5e-3 0.05e-3 0.05e-3)
 );
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
