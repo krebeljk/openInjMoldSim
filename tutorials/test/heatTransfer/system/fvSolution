@@ -29,13 +29,21 @@ solvers
         solver          diagonal;
     }
 
+    "(elSigDev|elSigDevFinal)"//kristjan
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-11;
+        relTol          0;
+    }
+
     pcorr
     {
         solver          PCG;
         preconditioner
         {
             preconditioner  GAMG;
-            tolerance       1e-05;
+            tolerance       1e-8;
             relTol          0;
             smoother        DICGaussSeidel;
             nPreSweeps      0;
@@ -46,7 +54,7 @@ solvers
             agglomerator    faceAreaPair;
             mergeLevels     1;
         }
-        tolerance       1e-05;
+        tolerance       1e-8;
         relTol          0;
         maxIter         100;
     }
@@ -54,7 +62,7 @@ solvers
     p_rgh
     {
         solver          GAMG;
-        tolerance       1e-07;
+        tolerance       1e-5;
         relTol          0.01;
         smoother        DIC;
         nPreSweeps      0;
@@ -72,7 +80,7 @@ solvers
         preconditioner
         {
             preconditioner  GAMG;
-            tolerance       1e-07;
+            tolerance       1e-5;
             relTol          0;
             nVcycles        2;
             smoother        DICGaussSeidel;
@@ -84,7 +92,7 @@ solvers
             agglomerator    faceAreaPair;
             mergeLevels     1;
         }
-        tolerance       1e-07;
+        tolerance       1e-5;
         relTol          0;
         maxIter         20;
     }
@@ -93,7 +101,7 @@ solvers
     {
         solver          smoothSolver;
         smoother        GaussSeidel;
-        tolerance       1e-06;
+        tolerance       1e-11;
         relTol          0;
         nSweeps         1;
     }
@@ -102,7 +110,7 @@ solvers
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-08;
+        tolerance       1e-11;
         relTol          0;
     }
 }
@@ -111,27 +119,27 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 1000;
-    nCorrectors     2;
+    nOuterCorrectors 300;
+    nCorrectors     1;
     nNonOrthogonalCorrectors 0;
 
     residualControl
     {
         p_rgh
         {
-                tolerance   1.0;
-                relTol      0;
+                tolerance   1e-4;
+                relTol      1e-3;
         }
         T
         {
-                tolerance   0.01;
-                relTol      0;
+                tolerance   1e-5;
+                relTol      1e-3;
         }
-        /*p
+        elSigDev
         {
-                tolerance   1e6;
-                relTol      1e-2;
-        }*/
+                tolerance   1e-4;
+                relTol      0.0;
+        }
      }
 }
 
@@ -139,14 +147,17 @@ relaxationFactors
 {
     fields
     {
-        p      0.3;
-        pFinal   1;
-        T      0.3;
+        p_rgh      0.4;
+        p_rghFinal   1;
+        T      0.4;
+        TFinal          1;
+        elSigDev      0.3;
+        elSigDevFinal   1;
     }
     equations
     {
-        "U|k|epsilon|T"     0.3;
-        "(U|k|epsilon|T)Final"   1;
+        "U|k|epsilon|T|elSigDev"     0.4;
+        "(U|k|epsilon|T|elSigDev)Final"   1;
     }
 }
 

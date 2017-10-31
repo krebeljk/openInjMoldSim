@@ -33,12 +33,11 @@ boundaryField
     }
     wallDown
     {
-        type            symmetryPlane;
+        type            empty;
     }
     wallUp
     {
-        type            calculated;
-        value           uniform 0;
+        type            empty;
     }
     frontAndBack
     {

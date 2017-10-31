@@ -16,31 +16,30 @@ FoamFile
 
 dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 1e7;
+internalField   uniform 1e5;
 
 boundaryField
 {
     wallIn
     {
         type            calculated;
-        value           uniform 1e7;
+        value           uniform 1e5;
     }
 
     wallOut
     {
         type            calculated;
-        value           uniform 1e7;
+        value           uniform 1e5;
     }
 
     wallUp
     {
-        type            fixedValue;
-        value           uniform 1e7;
+        type            empty;
     }
 
     wallDown
     {
-        type            symmetryPlane;
+        type            empty;
     }
 
 

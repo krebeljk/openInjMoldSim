@@ -6,4 +6,5 @@ cd ${0%/*} || exit 1    # run from this directory
 
 rm *.OpenFOAM
 rm -r 0
+rm plot.png
 cleanCase

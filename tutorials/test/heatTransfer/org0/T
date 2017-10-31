@@ -48,12 +48,12 @@ boundaryField
 
     wallUp
     {
-        type            zeroGradient;
+        type            empty;
     }
 
     wallDown
     {
-        type            symmetryPlane;
+        type            empty;
     }
 
 
