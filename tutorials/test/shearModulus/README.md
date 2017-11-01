@@ -7,7 +7,10 @@ deformation causes elSigDevxy shear stress. The elSigDevxy is written in the sec
 be viewed with the paraFoam viewer. Shear modulus is defined in the constant/solidificationProperties dictionary. It is
 first disabled with by setting the shearRate limit in the negative. The Allrun script than changes the limit to a very
 high number to include the elasticity.
+The wall force cannot be calculated here in the same way as in the crossWLF case because the function object performing
+the calculation of force does not account for the elastic-shear contribution.
 
+```
 elSigDevxy = shearModulus * gamma_xy
            = shearModulus * deltaY/L_x
            = shearModulus * v_y/L_x * time
@@ -17,4 +20,4 @@ deltaY     ... displacement of the far right side of the domain
 L_x        ... wall thicness (see the constant/polyMesh/blockMeshDict file)
 v_y        ... right side wall velocity (see the U file)
 time       ... duration of the simulation with elasticiy
-
+```
