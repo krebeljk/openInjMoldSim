@@ -62,7 +62,7 @@ solvers
     p_rgh
     {
         solver          GAMG;
-        tolerance       1e-5;
+        tolerance       1e-6;
         relTol          0.01;
         smoother        DIC;
         nPreSweeps      0;
@@ -80,7 +80,7 @@ solvers
         preconditioner
         {
             preconditioner  GAMG;
-            tolerance       1e-5;
+            tolerance       1e-6;
             relTol          0;
             nVcycles        2;
             smoother        DICGaussSeidel;
@@ -92,7 +92,7 @@ solvers
             agglomerator    faceAreaPair;
             mergeLevels     1;
         }
-        tolerance       1e-5;
+        tolerance       1e-8;
         relTol          0;
         maxIter         20;
     }
