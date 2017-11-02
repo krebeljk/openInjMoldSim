@@ -19,8 +19,8 @@ dictionaryReplacement
     controlDict
     {
         endTime 0.5;
-        writeInterval   0.01;
-        maxDeltaT       5e-3;
+        writeInterval   0.1;
+        maxDeltaT       1e-4;
     }
     fvSolution
     {

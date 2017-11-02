@@ -3,15 +3,14 @@
     (
         fvm::ddt(rho, T)
       + fvm::div(rhoPhi, T)
-      - fvm::laplacian(mixture.alphaEff(turbulence->mut()), T)
-      + (
-            fvc::div(fvc::absolute(phi, U), p)
-          + fvc::ddt(rho, K) + fvc::div(rhoPhi, K)
-        )
-       *(
-           alpha1/mixture.thermo1().Cv()
-         + alpha2/mixture.thermo2().Cv()
-        )
+      - 1.0/mixture.Cp()*fvm::laplacian(mixture.kappa(), T)
+      - mixture.mu() * pow(strig,2)/mixture.Cp()//viscous heating
+      - sqrt(T * mixture.psi() * (mixture.Cp() - mixture.Cv()) ) // <- T*alpha_v
+        * (
+            fvc::ddt(p)
+          + fvc::div(phi, p)
+          )// Dp/Dt
+          /mixture.Cp()
     );
 
     TEqn.relax();

@@ -104,7 +104,7 @@ class hTabularThermo
         scalar Hf_;
 	
 	interpolation2DTable<scalar> cpTable;
-	interpolation2DTable<scalar> hTable;
+	//interpolation2DTable<scalar> hTable; //Kristjan: redundant, governed by TEqn
 
 
     // Private Member Functions

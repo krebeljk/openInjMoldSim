@@ -12,3 +12,4 @@ rm system/fvSolution
 rm plot.png
 cleanCase
 foamClearPolyMesh
+rm nohup.out

@@ -14,7 +14,4 @@ set xlabel 't [s]'
 
 set xrange [0:6]
 
-plot "postProcessing/probes/0/Tc" using 1:2 title 'here' with lines ls 1,\
-"referenceTEvol.dat" using 1:2 title 'independent fem solution' with lines ls 3
-
-#ref: fim_01_01_F_10_07_nt11_nd1.dat
+plot "postProcessing/probes/0/Tc" using 1:2 title 'temprerature' with lines ls 1

@@ -25,11 +25,11 @@ stopAt          endTime;
 
 endTime         0.135;
 
-deltaT          0.0001;
+deltaT          1e-6;
 
 writeControl    adjustableRunTime;
 
-writeInterval   0.005;
+writeInterval   0.0135;
 
 purgeWrite      0;
 
@@ -52,6 +52,25 @@ maxCo           0.5;
 maxDeltaT       1;
 
 maxAlphaCo      0.5;
+functions {
 
+    probes
+    {
+        type            probes; //patchProbes;//
+        functionObjectLibs ("libsampling.so");
+        outputControl   timeStep;
+        outputInterval  10;
+        probeLocations
+        (
+         (10e-3 0.05e-3 0.605e-3)
+         (37.9e-3 0.05e-3 0.605e-3)
+         (66.25e-3 0.05e-3 0.605e-3)
+);
+        fields
+        (
+            Tc p rho
+        );
+    }
+}
 
 // ************************************************************************* //

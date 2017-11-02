@@ -39,7 +39,6 @@ volScalarField shrRate
     sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)))
 );
 
-
 #include "createPhi.H"
 
 Info<< "Constructing mojTwoPhaseMixtureThermo\n" << endl;
@@ -127,6 +126,22 @@ volScalarField p_rgh_resid
     dimensionedScalar("initOne", dimensionSet(0,0,-1,0,0,0,0), 1.0)
 );
 
+//kristjan - Calc Celsius
+volScalarField Tc
+(
+    IOobject
+    (
+        "Tc",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("initTc", dimensionSet(0,0,0,1,0,0,0), 0.0)
+);
+dimensionedScalar twoSevenThree("twoSevenThree", dimensionSet(0,0,0,1,0,0,0), 273.15);
+Tc = T - twoSevenThree;
 
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"
@@ -165,3 +180,66 @@ autoPtr<compressible::turbulenceModel> turbulence
 
 Info<< "Creating field kinetic energy K\n" << endl;
 volScalarField K("K", 0.5*magSqr(U));
+
+
+
+Info<< "Reading solidification properties\n" << endl;
+    const word sldDictName("solidificationProperties");
+
+    // Create and input-output object - this holds the path to the dict and its name
+    IOobject sldDictIO
+    (
+        sldDictName, // name of the file
+        mesh.time().constant(), // path to where the file is
+        mesh, // reference to the mesh needed by the constructor
+        IOobject::READ_IF_PRESENT // indicate that reading this dictionary is optional
+    );
+
+    // Check the if the dictionary is present and follows the OF format
+    if (!sldDictIO.headerOk())
+    {
+        Info << "No constant/solidificationProperties dictionary found." << endl;
+        Info << "Flow cessation modeled as visc(TnoFlow)=etaMax." << nl << nl << endl;
+    }
+
+    // Get access to the dictionary
+    dictionary sldDict;
+    // Initialise the dictionary object
+    sldDict = IOdictionary(sldDictIO);
+
+    // This template method needs to know the type of the variable and can provide
+    // a default value if the entry is not found in the dictionary
+    dimensionedScalar shrMod("shearModulus", dimensionSet(1,-1,-2,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("shearModulus", 900e6)
+    );
+    dimensionedScalar shrRateLimEl("shrRateLimEl", dimensionSet(0,0,-1,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 1.0)
+    );
+    dimensionedScalar viscLimEl("viscLimEl", dimensionSet(1,-1,-1,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
+    );
+
+    if (sldDictIO.headerOk())
+    {
+        // Summarise what's been read and print in the console
+        Info << nl << "Solidification properties: " << nl
+             << "Shear modulus: " << shrMod << nl
+             << "Highest shear rate with elasticity: " << shrRateLimEl << nl
+             << "Lowest viscosity with elasticity: " << viscLimEl << nl
+             << nl << endl;
+    }
+
+
+    volSymmTensorField elSigDev
+    (
+        IOobject
+        (
+            "elSigDev",
+            runTime.timeName(),
+            mesh,
+            IOobject::READ_IF_PRESENT, IOobject::AUTO_WRITE
+        )
+        , mesh
+        , dimensionedSymmTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
+        , "zeroGradient"
+    );

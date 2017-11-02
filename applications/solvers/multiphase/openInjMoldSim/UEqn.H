@@ -3,6 +3,7 @@
         fvm::ddt(rho, U)
       + fvm::div(rhoPhi, U)
       + turbulence->divDevRhoReff(U)
+      - fvc::div(elSigDev)
     );
 
     UEqn.relax();

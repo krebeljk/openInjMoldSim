@@ -51,7 +51,3 @@ mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 
 mv 'log.'$application 'log.'$application$phase
 runApplication reconstructPar
 mv log.reconstructPar 'log.reconstructPar'$phase
-
-# pproc
-foamCalc addSubtract T add -value -273.15 -resultName Tc
-probeLocations
