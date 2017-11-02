@@ -11,6 +11,3 @@ blockMesh
 
 cp -r org0 0
 runApplication $application
-foamCalc addSubtract T add -value -273.15 -resultName Tc
-
-probeLocations

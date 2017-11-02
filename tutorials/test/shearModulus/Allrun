@@ -28,6 +28,3 @@ changeDictionary -instance constant -dict system/changeDictionaryDict.cons
 sed -i -e 's/^deltaT\s.*;/deltaT 1e-8;/g' 0.005/uniform/time # change init deltaT
 runApplication $application
 mv 'log.'$application 'log.'$application$phase
-
-# pproc
-# probeLocations
