@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
             }
         }
 
+        Tc = T - twoSevenThree;
         runTime.write();
 
         Info<< "ExecutionTime = "
