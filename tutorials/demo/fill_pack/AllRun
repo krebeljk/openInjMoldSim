@@ -35,7 +35,3 @@ phase='_pack2'
 changeDictionary -instance system -dict system/changeDictionaryDict.ctrl2
 runApplication $application
 mv 'log.'$application 'log.'$application$phase
-
-# pproc
-foamCalc addSubtract T add -value -273.15 -resultName Tc
-probeLocations

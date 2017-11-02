@@ -19,9 +19,11 @@ thermoType
 {
     type            mojHeRhoThermo;
     mixture         pureMixture;
-    transport       crossWLF;
-    thermo          hPolynomial;
-    equationOfState polymerPVT;
+    //transport     crossWLF;
+    transport       crossWLFTTC;// TTC = T-abulated T-hermal C-onductivity // see file: kappaTable
+    //thermo        hPolynomial; // Use this also for constant Cp.
+    thermo          hTabular;//hPolynomial; //see file: constant/cpTable
+    equationOfState polymerPVT;//TaitEquation. Might be renamed in the future.
     specie          specie;
     energy          sensibleInternalEnergy;
 }
@@ -53,23 +55,26 @@ mixture
     {
         Hf              0;
         Sf              0;
-        CpCoeffs<8>     (-3.01067e6  53099.2  -395.962  1.61913  -0.00392213  5.63118e-6  -4.43963e-9 1.48364e-12);//J/(kgK)
+        //CpCoeffs<8>     (1000.0    0.0 0.0 0.0 0.0 0.0 0.0 0.0);//J/(kgK)
     }
     transport //PS Styron 678E - Vietri 2011
     {
-            n          0.252;//1
+        n          0.252;//1
         Tau        30800.0;//Pa
         D1         4.76e10;//Pa s
         D2         373.15;//K
         D3         0.0e-6;//K/Pa
         A1         25.7;//1
         A2         61.06;//K
-    	lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
+        lambda     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
         etaMin     5;//Pas
-        etaMax     1e8;//Pas
+        etaMax     1e7;//Pas //This is the value of viscosity at T < TnoFlow.
         TnoFlow    373.15;//K
     }
 }
+//etaMax - High values cause instability during solidification, packing. High viscosity must reduce the shear rate and
+//then elastic shear stress supports the material. See the constant/solidificationProperties file. If that file is not
+//present, no elastic shear stress will be calculated even though the solver reads the related fvSchemes.
 
 
 // ************************************************************************* //

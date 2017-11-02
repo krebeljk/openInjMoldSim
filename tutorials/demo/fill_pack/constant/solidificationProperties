@@ -10,53 +10,16 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      fvSchemes;
+    location    "constant";
+    object      solidificationProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-    default         Euler;
-}
+shearModulus 907e6;//Pa
 
-gradSchemes
-{
-    default         Gauss linear;
-}
+TshearModulus 1000.15;//K
 
-divSchemes
-{
-    div(phi,alpha)  Gauss vanLeer;
-    div(phirb,alpha) Gauss linear;
+shrRateLimEl 1.0;//1/s
 
-    div(rhoPhi,U)  Gauss upwind;
-    div(phi,thermo:rho.poly) Gauss upwind;
-    div(phi,thermo:rho.air) Gauss upwind;
-    div(rhoPhi,T)  Gauss upwind;
-    div(rhoPhi,K)  Gauss upwind;
-    div(phi,p)      Gauss upwind;
-    div(phi,k)      Gauss upwind;
-
-    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
-
-    div(phi,elSigDev) Gauss upwind; //kristjan
-    div(elSigDev) Gauss linear; //kristjan
-}
-
-laplacianSchemes
-{
-    default         Gauss linear uncorrected;
-}
-
-interpolationSchemes
-{
-    default         linear;
-}
-
-snGradSchemes
-{
-    default         uncorrected;
-}
-
+viscLimEl 1e6;//1/s
 // ************************************************************************* //

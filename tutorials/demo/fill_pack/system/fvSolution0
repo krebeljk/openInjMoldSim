@@ -29,6 +29,14 @@ solvers
         solver          diagonal;
     }
 
+    "(elSigDev|elSigDevFinal)"//kristjan
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-11;
+        relTol          0;
+    }
+
     pcorr
     {
         solver          PCG;
@@ -127,6 +135,11 @@ PIMPLE
                 tolerance   1e-6;
                 relTol      0.0;
         }
+        elSigDev
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
      }
 }
 
@@ -134,15 +147,17 @@ relaxationFactors
 {
     fields
     {
-        p_rgh      0.3;
-        p_rghFinal   1;
-        T      0.3;
-        TFinal       1;
+        p_rgh         0.3;
+        p_rghFinal      1;
+        T             0.3;
+        TFinal          1;
+        elSigDev      0.3;
+        elSigDevFinal   1;
     }
     equations
     {
-        "U|k|epsilon|T"     0.3;
-        "(U|k|epsilon|T)Final"   1;
+        "U|k|epsilon|T|elSigDev"     0.3;
+        "(U|k|epsilon|T|elSigDev)Final"   1;
     }
 }
 
