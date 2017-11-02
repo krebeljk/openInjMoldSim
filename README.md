@@ -1,11 +1,11 @@
-# openInjMoldSim
+# openInjMoldSim [`v1.1`](VERSION.md)
 
-This is a solver for OpenFOAM 3.0.1 to simulate injection molding filling, packing and cooling stages. It is a
+This is an OpenFOAM-3.0.1 solver for simulation of injection molding filling, packing and cooling stages. It is a
 modification of the compressibleInterFoam solver distributed with OpenFOAM. The solver has so far been used on the small
 2D demo case for amorphous polystyrene. A simulation of (semi-crystalline) HDPE is under development. Currently,
 the simulation is prohibitively inconvenient for typical industrial use.
 
-See the official page [openfoam.org](https://openfoam.org/), unofficial wiki
+See the official website [openfoam.org](https://openfoam.org/), unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
 [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/).
 

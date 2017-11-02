@@ -39,8 +39,6 @@ volScalarField shrRate
     sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)))
 );
 
-
-
 #include "createPhi.H"
 
 Info<< "Constructing mojTwoPhaseMixtureThermo\n" << endl;
@@ -128,6 +126,22 @@ volScalarField p_rgh_resid
     dimensionedScalar("initOne", dimensionSet(0,0,-1,0,0,0,0), 1.0)
 );
 
+//kristjan - Calc Celsius
+volScalarField Tc
+(
+    IOobject
+    (
+        "Tc",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("initTc", dimensionSet(0,0,0,1,0,0,0), 0.0)
+);
+dimensionedScalar twoSevenThree("twoSevenThree", dimensionSet(0,0,0,1,0,0,0), 273.15);
+Tc = T - twoSevenThree;
 
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"

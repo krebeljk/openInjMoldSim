@@ -50,6 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
+    Info << "openInjMoldSim v1.1" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -129,6 +130,7 @@ int main(int argc, char *argv[])
             }
         }
 
+        Tc = T - twoSevenThree;
         runTime.write();
 
         Info<< "ExecutionTime = "
