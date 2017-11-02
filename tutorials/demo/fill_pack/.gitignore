@@ -19,4 +19,5 @@ constant/polyMesh/*
 system/controlDict
 system/fvSolution
 *.png
+nohup.out
 # end-of-file

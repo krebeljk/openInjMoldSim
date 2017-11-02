@@ -19,8 +19,8 @@ dictionaryReplacement
     controlDict
     {
         endTime 6.0;
-        writeInterval   0.1;
-        maxDeltaT       5e-2;
+        writeInterval   0.5;
+        maxDeltaT       1e-3;
     }
     fvSolution
     {
@@ -31,6 +31,14 @@ dictionaryReplacement
                 p_rgh
                 {
                     tolerance   1e-4;
+                }
+                elSigDev
+                {
+                    tolerance   1e-5;
+                }
+                T
+                {
+                    tolerance   1e-6;
                 }
              }
         }

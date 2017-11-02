@@ -1,5 +1,9 @@
-#!/usr/bin/env gnuplot
+#!/bin/sh
 
+
+cat `ls -tr postProcessing/probes/*/p` > postProcessing/probes/p
+
+gnuplot << EOF
 set terminal pngcairo size 800, 800 enhanced dashed font 'Verdana,10' #persist
 set output "plot.png"
 
@@ -16,9 +20,9 @@ set xlabel 't [s]'
 
 set xrange [0:0.3]
 
-plot "postProcessing/probes/0/p" using 1:2 title 'P1 imposed' with lines ls 1,\
-"postProcessing/probes/0/p" using 1:3 title 'P2' with lines ls 2,\
-"postProcessing/probes/0/p" using 1:4 title 'P3' with lines ls 3,\
+plot "postProcessing/probes/p" using 1:2 title 'P1 enforced' with lines ls 1,\
+"postProcessing/probes/p" using 1:3 title 'P2' with lines ls 2,\
+"postProcessing/probes/p" using 1:4 title 'P3' with lines ls 3,\
 "fim_01_01_F_00_01_08.dat" using 1:2 title 'P1 exp' with lines ls 4,\
 "fim_01_01_F_00_01_08.dat" using 1:3 title 'P2 exp' with lines ls 4 ,\
 "fim_01_01_F_00_01_08.dat" using 1:4 title 'P3 exp' with lines ls 4
@@ -30,11 +34,12 @@ set xlabel 't [s]'
 
 set xrange [0:6]
 
-plot "postProcessing/probes/0/p" using 1:2 title 'P1 imposed' with lines ls 1,\
-"postProcessing/probes/0/p" using 1:3 title 'P2' with lines ls 2,\
-"postProcessing/probes/0/p" using 1:4 title 'P3' with lines ls 3,\
+plot "postProcessing/probes/p" using 1:2 title 'P1 enforced' with lines ls 1,\
+"postProcessing/probes/p" using 1:3 title 'P2' with lines ls 2,\
+"postProcessing/probes/p" using 1:4 title 'P3' with lines ls 3,\
 "fim_01_01_F_00_01_08.dat" using 1:2 title 'P1 exp' with lines ls 4,\
 "fim_01_01_F_00_01_08.dat" using 1:3 title 'P2 exp' with lines ls 4 ,\
 "fim_01_01_F_00_01_08.dat" using 1:4 title 'P3 exp' with lines ls 4
 
 unset multiplot; set output
+EOF

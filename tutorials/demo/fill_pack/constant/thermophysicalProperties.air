@@ -41,7 +41,7 @@ mixture
     transport
     {
         mu          0.1;//1.84e-05;
-        Pr          1e5;// Pr = spec_heat_p * dyn_visc / therm_cond
+        Pr          1e6;// Pr = spec_heat_p * dyn_visc / therm_cond
     }
 }
 

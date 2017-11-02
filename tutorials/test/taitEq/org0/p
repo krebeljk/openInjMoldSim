@@ -34,14 +34,12 @@ boundaryField
 
     wallUp
     {
-        type            calculated;
-        value           uniform 1e7;
+        type            empty;
     }
 
     wallDown
     {
-        type            calculated;
-        value           uniform 1e7;
+        type            empty;
     }
 
 

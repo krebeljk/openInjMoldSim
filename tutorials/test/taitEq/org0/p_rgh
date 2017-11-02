@@ -34,14 +34,12 @@ boundaryField
 
     wallUp
     {
-        type            fixedFluxPressure;
-        value           uniform 1e7;
+        type            empty;
     }
 
     wallDown
     {
-        type            fixedFluxPressure;
-        value           uniform 1e7;
+        type            empty;
     }
 
 
