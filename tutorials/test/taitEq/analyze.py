@@ -42,7 +42,7 @@ def main():
 
     pressFileName = "./postProcessing/probes/0/p"
     tmprFileName = "./postProcessing/probes/0/Tc"
-    rhoFileName = "./postProcessing/probes/0.05/rho"
+    rhoFileName = "./postProcessing/probes/0/rho"
 
     pressFileContent = open(pressFileName).read()
     tmprFileContent = open(tmprFileName).read()
