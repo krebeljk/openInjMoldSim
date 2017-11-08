@@ -133,7 +133,7 @@ inline Foam::scalar Foam::taitHCR<Specie>::rho(scalar p, scalar T) const // math
     //melt
      spec_volM = (b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))));
     //solid
-     spec_volS = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b7_*exp(-(b9_*p)+b8_*(-b5_+T));
+     spec_volS = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))));
 
      spec_vol = interpolation(
           spec_volS
