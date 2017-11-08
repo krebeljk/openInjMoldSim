@@ -157,25 +157,31 @@ inline Foam::scalar Foam::taitHCR<Specie>::s(scalar p, scalar T) const // POZOR 
 // B (b3m_*exp(-b4m_*(T-b5_)))
  
 template<class Specie>
-inline Foam::scalar Foam::taitHCR<Specie>::psi(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
+inline Foam::scalar Foam::taitHCR<Specie>::psi(scalar p, scalar T) const // mathematica export fim_01_01_I_00_02_psiMush_01.txt
 {
     if (p < scalar(10.0)) //majhen tlak
     {
         Info << "Pozor! Majhen tlak, nevarnost deljenja z 0 v enacbi stanja, funkcija psi. p=" << p << " Pa" << endl;
     }
 
-    scalar psiS;
-    scalar psiM;
+    scalar Td = b10_; //[K] crystallization range
+    scalar T0 = b5_ + b6_*p; //Tait solidification temperature
+    scalar Tm = T0 - Td; //lower band limit
     scalar psiRet;
 
-    psiS = C_*exp(b4s_*(-b5_+T))*pow(b1s_+b2s_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))),-2)*pow(b3s_+p*exp(b4s_*(-b5_+T)),-1);
-    psiM = C_*exp(b4m_*(-b5_+T))*pow(b1m_+b2m_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))),-2)*pow(b3m_+p*exp(b4m_*(-b5_+T)),-1);
-    psiRet = interpolation(
-          psiS
-         ,psiM
-         ,p
-         ,T
-     );
+    if ( T > T0 )//melt
+    {
+        psiRet = C_*exp(b4m_*(-b5_+T))*pow(b1m_+b2m_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))),-2)*pow(b3m_+p*exp(b4m_*(-b5_+T)),-1);
+    }
+    else if ( T < Tm)//solid
+    {
+        psiRet = C_*exp(b4s_*(-b5_+T))*pow(b1s_+b2s_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))),-2)*pow(b3s_+p*exp(b4s_*(-b5_+T)),-1);
+    }
+    else//mushy
+    {
+        psiRet = -(pow(b10_,3)*(-6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m_+b2m_*(-b5_+T))*(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))+6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))-C_*(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*exp(b4m_*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T),-1)+C_*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1))*pow((-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))*pow(b5_+b6_*p-T,2)+(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))*pow(b10_-b5_-b6_*p+T,2),-2));
+
+    }
     return psiRet;
 }
 
