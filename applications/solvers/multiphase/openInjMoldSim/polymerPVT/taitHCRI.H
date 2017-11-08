@@ -24,13 +24,13 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "polymerPVT.H"
+#include "taitHCR.H"
 #include "specie.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 template<class Specie>
-inline Foam::polymerPVT<Specie>::polymerPVT
+inline Foam::taitHCR<Specie>::taitHCR
 (
     const Specie& sp,
     const scalar b1m,
@@ -68,10 +68,10 @@ inline Foam::polymerPVT<Specie>::polymerPVT
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Specie>
-inline Foam::polymerPVT<Specie>::polymerPVT
+inline Foam::taitHCR<Specie>::taitHCR
 (
     const word& name,
-    const polymerPVT<Specie>& pf
+    const taitHCR<Specie>& pf
 )
 :
     Specie(name, pf),
@@ -92,45 +92,45 @@ inline Foam::polymerPVT<Specie>::polymerPVT
 
 
 template<class Specie>
-inline Foam::autoPtr<Foam::polymerPVT<Specie> >
-Foam::polymerPVT<Specie>::clone() const
+inline Foam::autoPtr<Foam::taitHCR<Specie> >
+Foam::taitHCR<Specie>::clone() const
 {
-    return autoPtr<polymerPVT<Specie> >(new polymerPVT<Specie>(*this));
+    return autoPtr<taitHCR<Specie> >(new taitHCR<Specie>(*this));
 }
 
 
 template<class Specie>
-inline Foam::autoPtr<Foam::polymerPVT<Specie> >
-Foam::polymerPVT<Specie>::New(Istream& is)
+inline Foam::autoPtr<Foam::taitHCR<Specie> >
+Foam::taitHCR<Specie>::New(Istream& is)
 {
-    return autoPtr<polymerPVT<Specie> >(new polymerPVT<Specie>(is));
+    return autoPtr<taitHCR<Specie> >(new taitHCR<Specie>(is));
 }
 
 
 template<class Specie>
-inline Foam::autoPtr<Foam::polymerPVT<Specie> >
-Foam::polymerPVT<Specie>::New
+inline Foam::autoPtr<Foam::taitHCR<Specie> >
+Foam::taitHCR<Specie>::New
 (
     const dictionary& dict
 )
 {
-    return autoPtr<polymerPVT<Specie> >(new polymerPVT<Specie>(dict));
+    return autoPtr<taitHCR<Specie> >(new taitHCR<Specie>(dict));
 }
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::R() const
+inline Foam::scalar Foam::taitHCR<Specie>::R() const
 {
-        Info << "POZOR: klic R() v polymerPVTI.H" << endl; // ce se to pjavi v izpisu simulacije bo treba preveriti, kaj so posledice te funkcije
+        Info << "POZOR: klic R() v taitHCRI.H" << endl; // ce se to pjavi v izpisu simulacije bo treba preveriti, kaj so posledice te funkcije
     //return R_;
     return 1;
 }
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::rho(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
+inline Foam::scalar Foam::taitHCR<Specie>::rho(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
 {
     scalar spec_volS;
     scalar spec_volM;
@@ -152,7 +152,7 @@ inline Foam::scalar Foam::polymerPVT<Specie>::rho(scalar p, scalar T) const // m
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::s(scalar p, scalar T) const // POZOR - NI TESTIRANO
+inline Foam::scalar Foam::taitHCR<Specie>::s(scalar p, scalar T) const // POZOR - NI TESTIRANO
 {
     scalar pZ = (T - b5_)/b6_; //Tlak na meji med S in M domenama
     scalar entr;
@@ -191,7 +191,7 @@ inline Foam::scalar Foam::polymerPVT<Specie>::s(scalar p, scalar T) const // POZ
 // B (b3m_*exp(-b4m_*(T-b5_)))
  
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::psi(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
+inline Foam::scalar Foam::taitHCR<Specie>::psi(scalar p, scalar T) const // mathematica export fim_01_01_E_04_02
 {
     if (p < scalar(10.0)) //majhen tlak
     {
@@ -215,15 +215,15 @@ inline Foam::scalar Foam::polymerPVT<Specie>::psi(scalar p, scalar T) const // m
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::Z(scalar p, scalar T) const
+inline Foam::scalar Foam::taitHCR<Specie>::Z(scalar p, scalar T) const
 {
-    Info << "POZOR: Z(p, T) v polymerPVTI.H" << endl; // ce se to pjavi v izpisu simulacije bo treba preveriti, kaj so posledice te funkcije
+    Info << "POZOR: Z(p, T) v taitHCRI.H" << endl; // ce se to pjavi v izpisu simulacije bo treba preveriti, kaj so posledice te funkcije
     return 1;
 }
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
+inline Foam::scalar Foam::taitHCR<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
 {
     scalar cpmcv;
     scalar cpmcvMol;
@@ -248,14 +248,14 @@ inline Foam::scalar Foam::polymerPVT<Specie>::cpMcv(scalar p, scalar T) const //
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::sIntS(scalar p1, scalar p2, scalar T) const
+inline Foam::scalar Foam::taitHCR<Specie>::sIntS(scalar p1, scalar p2, scalar T) const
 {
     return //fim_01_01_E_04_02_entropija.txt - koda generirana iz mathematice
     b2s_*p1-b2s_*p2-b4s_*C_*p1*(b1s_+b2s_*(-b5_+T))+b4s_*C_*p2*(b1s_+b2s_*(-b5_+T))+b3s_*b4s_*C_*(b1s_+b2s_*(-b5_+T))*log(b3s_*exp(b4s_*b5_)+p1*exp(b4s_*T))*exp(b4s_*(b5_-T))-b3s_*b4s_*C_*(b1s_+b2s_*(-b5_+T))*log(b3s_*exp(b4s_*b5_)+p2*exp(b4s_*T))*exp(b4s_*(b5_-T))+b2s_*C_*(p1+b3s_*exp(b4s_*(b5_-T)))-b2s_*C_*log(1+p1*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*(p1+b3s_*exp(b4s_*(b5_-T)))-b2s_*C_*(p2+b3s_*exp(b4s_*(b5_-T)))+b2s_*C_*log(1+p2*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*(p2+b3s_*exp(b4s_*(b5_-T)))-b7_*b8_*pow(b9_,-1)*exp(-(b5_*b8_)-b9_*p1+b8_*T)+b7_*b8_*pow(b9_,-1)*exp(-(b5_*b8_)-b9_*p2+b8_*T);
 }
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::sIntM(scalar p1, scalar p2, scalar T) const
+inline Foam::scalar Foam::taitHCR<Specie>::sIntM(scalar p1, scalar p2, scalar T) const
 {
     return//fim_01_01_E_04_02_entropija.txt - koda generirana iz mathematice
     b2m_*p1-b2m_*p2-b4m_*C_*p1*(b1m_+b2m_*(-b5_+T))+b4m_*C_*p2*(b1m_+b2m_*(-b5_+T))+b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p1*exp(b4m_*T))*exp(b4m_*(b5_-T))-b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p2*exp(b4m_*T))*exp(b4m_*(b5_-T))+b2m_*C_*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*log(1+p1*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*(p2+b3m_*exp(b4m_*(b5_-T)))+b2m_*C_*log(1+p2*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p2+b3m_*exp(b4m_*(b5_-T)));
@@ -263,7 +263,7 @@ inline Foam::scalar Foam::polymerPVT<Specie>::sIntM(scalar p1, scalar p2, scalar
 }
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::interpolation(scalar vS ,scalar vM ,scalar p ,scalar T) const
+inline Foam::scalar Foam::taitHCR<Specie>::interpolation(scalar vS ,scalar vM ,scalar p ,scalar T) const
 {
     scalar Td = 1.0; //[K] half the interpolation band
     scalar T0 = b5_ + b6_*p; //Tait solidification temperature
@@ -287,9 +287,9 @@ inline Foam::scalar Foam::polymerPVT<Specie>::interpolation(scalar vS ,scalar vM
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 /*
 template<class Specie>
-inline void Foam::polymerPVT<Specie>::operator+=
+inline void Foam::taitHCR<Specie>::operator+=
 (
-    const polymerPVT<Specie>& pf
+    const taitHCR<Specie>& pf
 )
 {
     scalar molr1 = this->nMoles();
@@ -305,9 +305,9 @@ inline void Foam::polymerPVT<Specie>::operator+=
 
 
 template<class Specie>
-inline void Foam::polymerPVT<Specie>::operator-=
+inline void Foam::taitHCR<Specie>::operator-=
 (
-    const polymerPVT<Specie>& pf
+    const taitHCR<Specie>& pf
 )
 {
     scalar molr1 = this->nMoles();
@@ -323,7 +323,7 @@ inline void Foam::polymerPVT<Specie>::operator-=
 
 
 template<class Specie>
-inline void Foam::polymerPVT<Specie>::operator*=(const scalar s)
+inline void Foam::taitHCR<Specie>::operator*=(const scalar s)
 {
     Specie::operator*=(s);
 }
@@ -332,17 +332,17 @@ inline void Foam::polymerPVT<Specie>::operator*=(const scalar s)
 // * * * * * * * * * * * * * * * Friend Operators  * * * * * * * * * * * * * //
 
 template<class Specie>
-inline Foam::polymerPVT<Specie> Foam::operator+
+inline Foam::taitHCR<Specie> Foam::operator+
 (
-    const polymerPVT<Specie>& pf1,
-    const polymerPVT<Specie>& pf2
+    const taitHCR<Specie>& pf1,
+    const taitHCR<Specie>& pf2
 )
 {
     scalar nMoles = pf1.nMoles() + pf2.nMoles();
     scalar molr1 = pf1.nMoles()/nMoles;
     scalar molr2 = pf2.nMoles()/nMoles;
 
-    return polymerPVT<Specie>
+    return taitHCR<Specie>
     (
         static_cast<const Specie&>(pf1)
       + static_cast<const Specie&>(pf2),
@@ -353,17 +353,17 @@ inline Foam::polymerPVT<Specie> Foam::operator+
 
 
 template<class Specie>
-inline Foam::polymerPVT<Specie> Foam::operator-
+inline Foam::taitHCR<Specie> Foam::operator-
 (
-    const polymerPVT<Specie>& pf1,
-    const polymerPVT<Specie>& pf2
+    const taitHCR<Specie>& pf1,
+    const taitHCR<Specie>& pf2
 )
 {
     scalar nMoles = pf1.nMoles() + pf2.nMoles();
     scalar molr1 = pf1.nMoles()/nMoles;
     scalar molr2 = pf2.nMoles()/nMoles;
 
-    return polymerPVT<Specie>
+    return taitHCR<Specie>
     (
         static_cast<const Specie&>(pf1)
       - static_cast<const Specie&>(pf2),
@@ -374,13 +374,13 @@ inline Foam::polymerPVT<Specie> Foam::operator-
 
 
 template<class Specie>
-inline Foam::polymerPVT<Specie> Foam::operator*
+inline Foam::taitHCR<Specie> Foam::operator*
 (
     const scalar s,
-    const polymerPVT<Specie>& pf
+    const taitHCR<Specie>& pf
 )
 {
-    return polymerPVT<Specie>
+    return taitHCR<Specie>
     (
         s*static_cast<const Specie&>(pf),
         pf.R_,
@@ -390,10 +390,10 @@ inline Foam::polymerPVT<Specie> Foam::operator*
 
 
 template<class Specie>
-inline Foam::polymerPVT<Specie> Foam::operator==
+inline Foam::taitHCR<Specie> Foam::operator==
 (
-    const polymerPVT<Specie>& pf1,
-    const polymerPVT<Specie>& pf2
+    const taitHCR<Specie>& pf1,
+    const taitHCR<Specie>& pf2
 )
 {
     return pf2 - pf1;

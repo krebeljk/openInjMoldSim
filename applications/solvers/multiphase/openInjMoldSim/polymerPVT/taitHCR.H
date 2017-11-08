@@ -23,19 +23,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::polymerPVT
+    Foam::taitHCR
 
 Description
     Perfect gas equation of state.
 
 SourceFiles
-    polymerPVTI.H
-    polymerPVT.C
+    taitHCRI.H
+    taitHCR.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef polymerPVT_H
-#define polymerPVT_H
+#ifndef taitHCR_H
+#define taitHCR_H
 
 #include "autoPtr.H"
 
@@ -46,50 +46,50 @@ namespace Foam
 
 // Forward declaration of friend functions and operators
 
-template<class Specie> class polymerPVT;
+template<class Specie> class taitHCR;
 
 template<class Specie>
-inline polymerPVT<Specie> operator+
+inline taitHCR<Specie> operator+
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const taitHCR<Specie>&,
+    const taitHCR<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator-
+inline taitHCR<Specie> operator-
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const taitHCR<Specie>&,
+    const taitHCR<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator*
+inline taitHCR<Specie> operator*
 (
     const scalar,
-    const polymerPVT<Specie>&
+    const taitHCR<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator==
+inline taitHCR<Specie> operator==
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const taitHCR<Specie>&,
+    const taitHCR<Specie>&
 );
 
 template<class Specie>
 Ostream& operator<<
 (
     Ostream&,
-    const polymerPVT<Specie>&
+    const taitHCR<Specie>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                           Class polymerPVT Declaration
+                           Class taitHCR Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Specie>
-class polymerPVT
+class taitHCR
 :
     public Specie
 {
@@ -116,7 +116,7 @@ public:
     // Constructors
 
         //- Construct from components
-        inline polymerPVT
+        inline taitHCR
         (
             const Specie& sp,
             const scalar b1m,
@@ -135,22 +135,22 @@ public:
         );
 
         //- Construct from Istream
-        polymerPVT(Istream&);
+        taitHCR(Istream&);
 
         //- Construct from dictionary
-        polymerPVT(const dictionary& dict);
+        taitHCR(const dictionary& dict);
 
         //- Construct as named copy
-        inline polymerPVT(const word& name, const polymerPVT&);
+        inline taitHCR(const word& name, const taitHCR&);
 
         //- Construct and return a clone
-        inline autoPtr<polymerPVT> clone() const;
+        inline autoPtr<taitHCR> clone() const;
 
         // Selector from Istream
-        inline static autoPtr<polymerPVT> New(Istream& is);
+        inline static autoPtr<taitHCR> New(Istream& is);
 
         // Selector from dictionary
-        inline static autoPtr<polymerPVT> New(const dictionary& dict);
+        inline static autoPtr<taitHCR> New(const dictionary& dict);
 
 
     // Member functions
@@ -158,7 +158,7 @@ public:
         //- Return the instantiated type name
         static word typeName()
         {
-            return "polymerPVT<" + word(Specie::typeName_()) + '>';
+            return "taitHCR<" + word(Specie::typeName_()) + '>';
         }
 
 
@@ -197,36 +197,36 @@ public:
 
     // Member operators
 
-        inline void operator+=(const polymerPVT&);
-        inline void operator-=(const polymerPVT&);
+        inline void operator+=(const taitHCR&);
+        inline void operator-=(const taitHCR&);
 
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
-        friend polymerPVT operator+ <Specie>
+        friend taitHCR operator+ <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const taitHCR&,
+            const taitHCR&
         );
 
-        friend polymerPVT operator- <Specie>
+        friend taitHCR operator- <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const taitHCR&,
+            const taitHCR&
         );
 
-        friend polymerPVT operator* <Specie>
+        friend taitHCR operator* <Specie>
         (
             const scalar s,
-            const polymerPVT&
+            const taitHCR&
         );
 
-        friend polymerPVT operator== <Specie>
+        friend taitHCR operator== <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const taitHCR&,
+            const taitHCR&
         );
 
 
@@ -235,7 +235,7 @@ public:
         friend Ostream& operator<< <Specie>
         (
             Ostream&,
-            const polymerPVT&
+            const taitHCR&
         );
 
     // Izracun Entropije
@@ -265,10 +265,10 @@ private:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "polymerPVTI.H"
+#include "taitHCRI.H"
 
 #ifdef NoRepository
-#   include "polymerPVT.C"
+#   include "taitHCR.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -24,13 +24,13 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "polymerPVT.H"
+#include "taitHCR.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::polymerPVT<Specie>::polymerPVT(Istream& is)
+Foam::taitHCR<Specie>::taitHCR(Istream& is)
 :
     Specie(is),
     b1m_(readScalar(is)),
@@ -47,12 +47,12 @@ Foam::polymerPVT<Specie>::polymerPVT(Istream& is)
     b8_(readScalar(is)),
     b9_(readScalar(is))
 {
-    is.check("polymerPVT<Specie>::polymerPVT(Istream& is)");
+    is.check("taitHCR<Specie>::taitHCR(Istream& is)");
 }
 
 
 template<class Specie>
-Foam::polymerPVT<Specie>::polymerPVT(const dictionary& dict)
+Foam::taitHCR<Specie>::taitHCR(const dictionary& dict)
 :
     Specie(dict),
     b1m_(readScalar(dict.subDict("equationOfState").lookup("b1m"))),
@@ -73,12 +73,12 @@ Foam::polymerPVT<Specie>::polymerPVT(const dictionary& dict)
 
 // * * * * * * * * * * * * * * * Podatki * * * * * * * * * * * * * //
 template<class Specie>
-Foam::scalar Foam::polymerPVT<Specie>::C_ = 0.0894; // to se pozneje posplosi
+Foam::scalar Foam::taitHCR<Specie>::C_ = 0.0894; // to se pozneje posplosi
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Specie>
-void Foam::polymerPVT<Specie>::write(Ostream& os) const
+void Foam::taitHCR<Specie>::write(Ostream& os) const
 {
     Specie::write(os);
 
@@ -105,7 +105,7 @@ void Foam::polymerPVT<Specie>::write(Ostream& os) const
 // * * * * * * * * * * * * * * * Ostream Operator  * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::Ostream& Foam::operator<<(Ostream& os, const polymerPVT<Specie>& pf)
+Foam::Ostream& Foam::operator<<(Ostream& os, const taitHCR<Specie>& pf)
 {
     os  << static_cast<const Specie&>(pf)
         << token::SPACE << pf.b1m_
@@ -123,7 +123,7 @@ Foam::Ostream& Foam::operator<<(Ostream& os, const polymerPVT<Specie>& pf)
         << token::SPACE << pf.b9_;
 
 
-    os.check("Ostream& operator<<(Ostream&, const polymerPVT<Specie>&)");
+    os.check("Ostream& operator<<(Ostream&, const taitHCR<Specie>&)");
     return os;
 }
 
