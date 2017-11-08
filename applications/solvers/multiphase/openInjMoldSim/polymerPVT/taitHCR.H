@@ -236,11 +236,6 @@ public:
 
     // Izracun Entropije
 private:
-            //- Integral entropije v SOLID obmocju
-            inline scalar sIntS(scalar p1, scalar p2, scalar T) const;
-
-            //- Integral entropije v MELT obmocju
-            inline scalar sIntM(scalar p1, scalar p2, scalar T) const;
 
             //- Solidification interpolation to continuity
             inline scalar interpolation

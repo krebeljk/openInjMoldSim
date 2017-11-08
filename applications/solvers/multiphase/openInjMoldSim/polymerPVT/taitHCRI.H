@@ -148,37 +148,9 @@ inline Foam::scalar Foam::taitHCR<Specie>::rho(scalar p, scalar T) const // math
 template<class Specie>
 inline Foam::scalar Foam::taitHCR<Specie>::s(scalar p, scalar T) const // POZOR - NI TESTIRANO
 {
-    scalar pZ = (T - b5_)/b6_; //Tlak na meji med S in M domenama
-    scalar entr;
+    notImplemented("Foam::taitHCR<Specie>::s");//kristjan
 
-    if (T < b5_ && p > 0.0) //solid
-    {
-        entr = sIntS(0.0, p, T);
-    }
-    else if (T < b5_ && p < 0.0 && p > pZ)
-    {
-        entr = sIntS(0.0, p, T);
-    }
-    else if (T < b5_ && p < pZ)
-    {
-        entr = sIntS(0.0, pZ, T) + sIntM(pZ, p, T);
-    }
-    else if (T > b5_ && p < 0.0)  //melt
-    {
-        entr = sIntM(0.0, p, T);
-    }
-    else if (T > b5_ && p > 0.0 && p < pZ)
-    {
-        entr = sIntM(0.0, p, T);
-    }
-    else if (T > b5_ && p > pZ)
-    {
-        entr = sIntM(0.0, pZ, T) + sIntS(pZ, p, T);
-    }
-
-    Info << "Ni testirano: s(J/kgK)=" << entr << "s(J/kmolK)=" << entr*this->W() << " p=" << p << " T=" << T << endl;
-
-    return entr*this->W(); // pozor, je v kmol
+    return 0.0;
 }
 
 // A (b1m_+b2m_*(T-b5_))
@@ -217,9 +189,10 @@ inline Foam::scalar Foam::taitHCR<Specie>::Z(scalar p, scalar T) const
 
 
 template<class Specie>
-inline Foam::scalar Foam::taitHCR<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
+inline Foam::scalar Foam::taitHCR<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_I_00_02_cpMcv_01 - MMA generated
 {
     scalar cpmcvMy;
+    scalar cpmcvMol;
     scalar Td = b10_; //[K] crystallization range
     scalar T0 = b5_ + b6_*p; //Tait solidification temperature
     scalar Tm = T0 - Td; //lower band limit
@@ -234,29 +207,12 @@ inline Foam::scalar Foam::taitHCR<Specie>::cpMcv(scalar p, scalar T) const //fim
     }
     else
     {
-        cpmcvMy  = -(T*pow(b10_,-3)*pow(-6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m+b2m*(-b5_+T))*(-1+C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))+6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))-C_*(b10_+2*(b5_+b6_*p-T))*(b1m+b2m*(-b5_+T))*exp(b4m*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m*exp(b4m*b5_)+p*exp(b4m*T),-1)+C_*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),-1)*pow(6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m+b2m*(-b5_+T))*(-1+C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))-6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b2s_*(-3*b10_+2*(b5_+b6_*p-T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))*pow(b5_+b6_*p-T,2)+b2m*(b10_+2*(b5_+b6_*p-T))*(1-C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))*pow(b10_-b5_-b6_*p+T,2)-b4m*C_*p*(b10_+2*(b5_+b6_*p-T))*(b1m+b2m*(-b5_+T))*exp(b4m*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m*exp(b4m*b5_)+p*exp(b4m*T),-1)+b4s_*C_*p*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),2));
-
+        cpmcvMy = -(T*pow(b10_,-3)*pow(-6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m_+b2m_*(-b5_+T))*(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))+6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))-C_*(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*exp(b4m_*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T),-1)+C_*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),-1)*pow(6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m_+b2m_*(-b5_+T))*(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))-6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b2s_*(-3*b10_+2*(b5_+b6_*p-T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))*pow(b5_+b6_*p-T,2)+b2m_*(b10_+2*(b5_+b6_*p-T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))*pow(b10_-b5_-b6_*p+T,2)-b4m_*C_*p*(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*exp(b4m_*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T),-1)+b4s_*C_*p*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),2));
     }
 
      cpmcvMol = cpmcvMy  * this->W();
     //Info << "cpmcvM[J/(kmol K)]=" << cpmcvMol << " p=" << p << " T=" << T << endl;
     return cpmcvMol;
-}
-
-
-template<class Specie>
-inline Foam::scalar Foam::taitHCR<Specie>::sIntS(scalar p1, scalar p2, scalar T) const
-{
-    return //fim_01_01_E_04_02_entropija.txt - koda generirana iz mathematice
-    b2s_*p1-b2s_*p2-b4s_*C_*p1*(b1s_+b2s_*(-b5_+T))+b4s_*C_*p2*(b1s_+b2s_*(-b5_+T))+b3s_*b4s_*C_*(b1s_+b2s_*(-b5_+T))*log(b3s_*exp(b4s_*b5_)+p1*exp(b4s_*T))*exp(b4s_*(b5_-T))-b3s_*b4s_*C_*(b1s_+b2s_*(-b5_+T))*log(b3s_*exp(b4s_*b5_)+p2*exp(b4s_*T))*exp(b4s_*(b5_-T))+b2s_*C_*(p1+b3s_*exp(b4s_*(b5_-T)))-b2s_*C_*log(1+p1*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*(p1+b3s_*exp(b4s_*(b5_-T)))-b2s_*C_*(p2+b3s_*exp(b4s_*(b5_-T)))+b2s_*C_*log(1+p2*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*(p2+b3s_*exp(b4s_*(b5_-T)))-b7_*b8_*pow(b9_,-1)*exp(-(b5_*b8_)-b9_*p1+b8_*T)+b7_*b8_*pow(b9_,-1)*exp(-(b5_*b8_)-b9_*p2+b8_*T);
-}
-
-template<class Specie>
-inline Foam::scalar Foam::taitHCR<Specie>::sIntM(scalar p1, scalar p2, scalar T) const
-{
-    return//fim_01_01_E_04_02_entropija.txt - koda generirana iz mathematice
-    b2m_*p1-b2m_*p2-b4m_*C_*p1*(b1m_+b2m_*(-b5_+T))+b4m_*C_*p2*(b1m_+b2m_*(-b5_+T))+b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p1*exp(b4m_*T))*exp(b4m_*(b5_-T))-b3m_*b4m_*C_*(b1m_+b2m_*(-b5_+T))*log(b3m_*exp(b4m_*b5_)+p2*exp(b4m_*T))*exp(b4m_*(b5_-T))+b2m_*C_*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*log(1+p1*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p1+b3m_*exp(b4m_*(b5_-T)))-b2m_*C_*(p2+b3m_*exp(b4m_*(b5_-T)))+b2m_*C_*log(1+p2*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p2+b3m_*exp(b4m_*(b5_-T)));
-
 }
 
 template<class Specie>
