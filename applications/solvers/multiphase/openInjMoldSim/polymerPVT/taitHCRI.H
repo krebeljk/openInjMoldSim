@@ -259,22 +259,23 @@ inline Foam::scalar Foam::taitHCR<Specie>::sIntM(scalar p1, scalar p2, scalar T)
 template<class Specie>
 inline Foam::scalar Foam::taitHCR<Specie>::interpolation(scalar vS ,scalar vM ,scalar p ,scalar T) const
 {
-    scalar Td = 1.0; //[K] half the interpolation band
+    scalar Td = b10_; //[K] crystallization range
     scalar T0 = b5_ + b6_*p; //Tait solidification temperature
-    scalar Tp = T0 + Td; //upper band limit
     scalar Tm = T0 - Td; //lower band limit
 
-    if ( T > Tp )//melt
+    if ( T > T0 )//melt
     {
         return vM;
     }
-    else if ( T > Tm)
+    else if ( T < Tm)
     {
-        return (T-Tm)/(Tp-Tm) * vM + (Tp-T)/(Tp-Tm) * vS;
+        return vS;
     }
     else
     {
-        return vS;
+        scalar var = (T-T0)/b10_;
+        scalar weig = 3.0*pow(var,2) + 2.0*pow(var,3);
+        return (1.0 - weig) * vM + weig * vS;
     }
 
 }
