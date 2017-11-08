@@ -43,9 +43,7 @@ Foam::taitHCR<Specie>::taitHCR(Istream& is)
     b4s_(readScalar(is)),
     b5_(readScalar(is)),
     b6_(readScalar(is)),
-    b7_(readScalar(is)),
-    b8_(readScalar(is)),
-    b9_(readScalar(is))
+    b10_(readScalar(is))
 {
     is.check("taitHCR<Specie>::taitHCR(Istream& is)");
 }
@@ -65,9 +63,7 @@ Foam::taitHCR<Specie>::taitHCR(const dictionary& dict)
     b4s_(readScalar(dict.subDict("equationOfState").lookup("b4s"))),
     b5_(readScalar(dict.subDict("equationOfState").lookup("b5"))),
     b6_(readScalar(dict.subDict("equationOfState").lookup("b6"))),
-    b7_(readScalar(dict.subDict("equationOfState").lookup("b7"))),
-    b8_(readScalar(dict.subDict("equationOfState").lookup("b8"))),
-    b9_(readScalar(dict.subDict("equationOfState").lookup("b9")))
+    b10_(readScalar(dict.subDict("equationOfState").lookup("b10")))
 {}
 
 
@@ -93,9 +89,7 @@ void Foam::taitHCR<Specie>::write(Ostream& os) const
     dict.add("b4s", b4s_);
     dict.add("b5", b5_);
     dict.add("b6", b6_);
-    dict.add("b7", b7_);
-    dict.add("b8", b8_);
-    dict.add("b9", b9_);
+    dict.add("b10", b10_);
 
 
     os  << indent << dict.dictName() << dict;
@@ -118,9 +112,7 @@ Foam::Ostream& Foam::operator<<(Ostream& os, const taitHCR<Specie>& pf)
         << token::SPACE << pf.b4s_
         << token::SPACE << pf.b5_
         << token::SPACE << pf.b6_
-        << token::SPACE << pf.b7_
-        << token::SPACE << pf.b8_
-        << token::SPACE << pf.b9_;
+        << token::SPACE << pf.b10_;
 
 
     os.check("Ostream& operator<<(Ostream&, const taitHCR<Specie>&)");

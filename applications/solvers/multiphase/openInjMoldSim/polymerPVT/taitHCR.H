@@ -106,9 +106,7 @@ class taitHCR
         scalar b4s_;
         scalar b5_;
         scalar b6_;
-        scalar b7_;
-        scalar b8_;
-        scalar b9_;
+        scalar b10_;
         static scalar C_;// definicija v .C // univerzalna konstanta v Taitovi enacbi
 
 public:
@@ -129,9 +127,7 @@ public:
             const scalar b4s,
             const scalar b5,
             const scalar b6,
-            const scalar b7,
-            const scalar b8,
-            const scalar b9
+            const scalar b10
         );
 
         //- Construct from Istream

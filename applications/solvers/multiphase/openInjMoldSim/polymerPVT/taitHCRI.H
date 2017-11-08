@@ -43,9 +43,7 @@ inline Foam::taitHCR<Specie>::taitHCR
     const scalar b4s,
     const scalar b5,
     const scalar b6,
-    const scalar b7,
-    const scalar b8,
-    const scalar b9
+    const scalar b10
 )
 :
     Specie(sp),
@@ -59,9 +57,7 @@ inline Foam::taitHCR<Specie>::taitHCR
     b4s_(b4s),
     b5_(b5),
     b6_(b6),
-    b7_(b7),
-    b8_(b8),
-    b9_(b9)
+    b10_(b10)
 {}
 
 
@@ -85,9 +81,7 @@ inline Foam::taitHCR<Specie>::taitHCR
     b4s_(pf.b4s_),
     b5_(pf.b5_),
     b6_(pf.b6_),
-    b7_(pf.b7_),
-    b8_(pf.b8_),
-    b9_(pf.b9_)
+    b10_(pf.b10_)
 {}
 
 
