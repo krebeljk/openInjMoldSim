@@ -45,6 +45,7 @@ License
 #include "mojConstTransport.H"
 #include "sutherlandTransport.H"
 #include "polymerPVT.H"
+#include "taitHCR.H"
 #include "crossWLFTransport.H"
 #include "crossWLFTransportTTC.H"
 
@@ -99,6 +100,18 @@ mojMakeThermo
     mojConstTransport,
     sensibleInternalEnergy,
     hConstThermo,
+    taitHCR,
+    specie
+);
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    mojConstTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
     perfectFluid,
     specie
 );
@@ -122,11 +135,35 @@ mojMakeThermo
     pureMixture,
     crossWLFTransport,
     sensibleInternalEnergy,
+    hConstThermo,
+    taitHCR,
+    specie
+);
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
     hPolynomialThermo,//new
     polymerPVT,
     specie
 );
 
+
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
+    hPolynomialThermo,//new
+    taitHCR,
+    specie
+);
 mojMakeThermo
 (
     mojRhoThermo,
@@ -139,6 +176,17 @@ mojMakeThermo
     specie
 );
 
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
+    hTabularThermo,//new
+    taitHCR,
+    specie
+);
 
 mojMakeThermo
 (
@@ -159,11 +207,33 @@ mojMakeThermo
     pureMixture,
     crossWLFTransportTTC,//new
     sensibleInternalEnergy,
+    hPolynomialThermo,
+    taitHCR,
+    specie
+);
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
     hTabularThermo,//new
     polymerPVT,
     specie
 );
 
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransportTTC,//new
+    sensibleInternalEnergy,
+    hTabularThermo,//new
+    taitHCR,
+    specie
+);
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
