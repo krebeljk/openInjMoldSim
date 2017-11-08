@@ -219,23 +219,26 @@ inline Foam::scalar Foam::taitHCR<Specie>::Z(scalar p, scalar T) const
 template<class Specie>
 inline Foam::scalar Foam::taitHCR<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
 {
-    scalar cpmcv;
-    scalar cpmcvMol;
-    scalar cpmcvM;
-    scalar cpmcvS;
-    //melt
-    cpmcvM = T*pow(C_,-1)*pow(b1m_+b2m_*(-b5_+T),-1)*pow(p+b3m_*exp(b4m_*(b5_-T)),-1)*pow(b1m_*b4m_*C_*p+b2m_*C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))*(p+b3m_*exp(b4m_*(b5_-T)))-b2m_*(p+b4m_*b5_*C_*p-b4m_*C_*p*T+b3m_*exp(b4m_*(b5_-T))),2);
+    scalar cpmcvMy;
+    scalar Td = b10_; //[K] crystallization range
+    scalar T0 = b5_ + b6_*p; //Tait solidification temperature
+    scalar Tm = T0 - Td; //lower band limit
 
-    //solid
-    cpmcvS = T*exp(-(b5_*b8_)-b9_*p-2*b4s_*T)*pow(p+b3s_*exp(b4s_*(b5_-T)),-1)*pow(C_*(b1s_+b2s_*(-b5_+T))*exp(b5_*b8_+b9_*p)+b7_*b9_*(p+b3s_*exp(b4s_*(b5_-T)))*exp(b8_*T),-1)*pow(b2s_*exp(b5_*b8_+b9_*p)*(b3s_*exp(b4s_*b5_)+p*(1+b4s_*C_*(b5_-T))*exp(b4s_*T))+b7_*b8_*p*exp((b4s_+b8_)*T)-b2s_*C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))*exp(b9_*p)*(b3s_*exp(b5_*(b4s_+b8_))+p*exp(b5_*b8_+b4s_*T))-b1s_*b4s_*C_*p*exp(b5_*b8_+b9_*p+b4s_*T)+b3s_*b7_*b8_*exp(b4s_*b5_+b8_*T),2);
+    if ( T > T0 )//melt
+    {
+        cpmcvMy = T*pow(C_,-1)*exp(-(b4m_*T))*(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T))*pow(b1m_+b2m_*(-b5_+T),-1)*pow(-b2m_+b2m_*C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T)))+b4m_*C_*p*(b1m_+b2m_*(-b5_+T))*exp(b4m_*T)*pow(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T),-1),2);
+    }
+    else if ( T < Tm)//solid
+    {
+        cpmcvMy  = T*pow(C_,-1)*exp(-(b4s_*T))*(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T))*pow(b1s_+b2s_*(-b5_+T),-1)*pow(-b2s_+b2s_*C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T)))+b4s_*C_*p*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),2);
+    }
+    else
+    {
+        cpmcvMy  = -(T*pow(b10_,-3)*pow(-6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m+b2m*(-b5_+T))*(-1+C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))+6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))-C_*(b10_+2*(b5_+b6_*p-T))*(b1m+b2m*(-b5_+T))*exp(b4m*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m*exp(b4m*b5_)+p*exp(b4m*T),-1)+C_*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),-1)*pow(6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m+b2m*(-b5_+T))*(-1+C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))-6*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))+b2s_*(-3*b10_+2*(b5_+b6_*p-T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))*pow(b5_+b6_*p-T,2)+b2m*(b10_+2*(b5_+b6_*p-T))*(1-C_*log(1+p*pow(b3m,-1)*exp(b4m*(-b5_+T))))*pow(b10_-b5_-b6_*p+T,2)-b4m*C_*p*(b10_+2*(b5_+b6_*p-T))*(b1m+b2m*(-b5_+T))*exp(b4m*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m*exp(b4m*b5_)+p*exp(b4m*T),-1)+b4s_*C_*p*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1),2));
 
-     cpmcv = interpolation(
-          cpmcvS
-         ,cpmcvM
-         ,p
-         ,T
-     );
-    cpmcvMol = cpmcv * this->W();
+    }
+
+     cpmcvMol = cpmcvMy  * this->W();
     //Info << "cpmcvM[J/(kmol K)]=" << cpmcvMol << " p=" << p << " T=" << T << endl;
     return cpmcvMol;
 }
