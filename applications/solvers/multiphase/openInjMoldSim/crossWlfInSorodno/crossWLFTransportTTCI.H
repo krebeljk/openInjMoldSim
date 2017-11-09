@@ -167,6 +167,7 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
     const scalar strig
 ) const
 {   
+    if (T < TnoFlow_) { return etaMax_; } //leave immediately to avoid n0 = infinite
     const scalar n0 = D1_*::exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_));
     scalar visk = n0/(1.0+pow(n0*strig/Tau_,1.0-n_));
     scalar deltaTemp = 5.0; //degC before TnoFlow solidification starts
@@ -177,7 +178,6 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
     if (visk > etaMax_) { visk = etaMax_; }
     if (visk < etaMin_) { visk = etaMin_; }
 
-    if (T < TnoFlow_) { visk = etaMax_; }
     else if (T < Tstart) //interpolated increase of viscosity
         {
             visk = etaMax_ * (Tstart-T)/deltaTemp
