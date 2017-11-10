@@ -174,7 +174,7 @@ inline Foam::scalar Foam::crossWLFTransport<Thermo>::mu
     if (visk > etaMax_) { visk = etaMax_; }
     if (visk < etaMin_) { visk = etaMin_; }
 
-    else if (T < Tstart) //interpolated increase of viscosity
+    if (T < Tstart) //interpolated increase of viscosity
         {
             visk = etaMax_ * (Tstart-T)/deltaTemp
                   +  visk *(T-TnoFlow_)/deltaTemp;
