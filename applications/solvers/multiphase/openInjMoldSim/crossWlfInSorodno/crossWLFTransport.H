@@ -134,7 +134,8 @@ public:
             const scalar lambda_,
             const scalar etaMin_,
             const scalar etaMax_,
-            const scalar TnoFlow_
+            const scalar TnoFlow_,
+            const scalar deltaTempInterp_
         );
 
         //- Construct from two viscosities
