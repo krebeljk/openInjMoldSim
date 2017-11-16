@@ -102,7 +102,7 @@ class crossWLFTransport
 
         // crossWLF's coefficients
         scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_, lambda_;
-        scalar etaMin_, etaMax_, TnoFlow_;
+        scalar etaMin_, etaMax_, TnoFlow_, deltaTempInterp_;
 
 
     // Private Member Functions
