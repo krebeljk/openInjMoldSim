@@ -111,7 +111,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     D3_(st.D3_),
     A1_(st.A1_),
     A2_(st.A2_),
-    kappa_(kappa),
+    kappa_(st.kappa),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
     TnoFlow_(st.TnoFlow),
