@@ -60,7 +60,8 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     const scalar lambda,
     const scalar etaMin,
     const scalar etaMax,
-    const scalar TnoFlow
+    const scalar TnoFlow,
+    const scalar deltaTempInterp_
 )
 :
     Thermo(t),
@@ -74,7 +75,8 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     lambda_(lambda),
     etaMin_(etaMin),
     etaMax_(etaMax),
-    TnoFlow_(TnoFlow)
+    TnoFlow_(TnoFlow),
+    deltaTempInterp_(deltaTempInterp)
 {}
 
 /*
@@ -110,7 +112,8 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     lambda_(st.lambda_),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
-    TnoFlow_(st.TnoFlow_)
+    TnoFlow_(TnoFlow),
+    deltaTempInterp_(deltaTempInterp)
 {}
 
 
@@ -166,8 +169,7 @@ inline Foam::scalar Foam::crossWLFTransport<Thermo>::mu
     if (T < TnoFlow_) { return etaMax_; } //leave immediately to avoid n0 = infinite
     const scalar n0 = D1_*::exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_));
     scalar visk = n0/(1.0+pow(n0*strig/Tau_,1.0-n_));
-    scalar deltaTemp = 5.0; //degC before TnoFlow solidification starts
-    scalar Tstart = TnoFlow_ + deltaTemp; //solidification onset temperature
+    scalar Tstart = TnoFlow_ + deltaTempInterp_; //solidification onset temperature
 
     //Info << "visk= " << visk  << " p=" << p << " T=" << T << " strig=" << strig << endl;   // debug Kristjan
 
@@ -176,8 +178,8 @@ inline Foam::scalar Foam::crossWLFTransport<Thermo>::mu
 
     if (T < Tstart) //interpolated increase of viscosity
         {
-            visk = etaMax_ * (Tstart-T)/deltaTemp
-                  +  visk *(T-TnoFlow_)/deltaTemp;
+            visk = etaMax_ * (Tstart-T)/deltaTempInterp_
+                  +  visk *(T-TnoFlow_)/deltaTempInterp_;
         }
 
     return visk;
@@ -230,6 +232,7 @@ Foam::crossWLFTransport<Thermo>::operator=
     etaMin_ = st.etaMin_;
     etaMax_ = st.etaMax_;
     TnoFlow_ = st.TnoFlow_;
+    deltaTempInterp_ = st.deltaTempInterp_;
 
     return *this;
 }
