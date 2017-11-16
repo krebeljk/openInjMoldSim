@@ -67,7 +67,21 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
     deltaTempInterp_(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0))
-{}
+{
+    Info << "CrossWLF:" << endl;
+    Info << "n_               : " << n_              << endl;
+    Info << "Tau_             : " << Tau_            << endl;
+    Info << "D1_              : " << D1_             << endl;
+    Info << "D2_              : " << D2_             << endl;
+    Info << "D3_              : " << D3_             << endl;
+    Info << "A1_              : " << A1_             << endl;
+    Info << "A2_              : " << A2_             << endl;
+    Info << "lambda_          : " << lambda_         << endl;
+    Info << "etaMin_          : " << etaMin_         << endl;
+    Info << "etaMax_          : " << etaMax_         << endl;
+    Info << "TnoFlow_         : " << TnoFlow_        << endl;
+    Info << "deltaTempInterp_ : " << deltaTempInterp_<< endl << endl;
+}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
@@ -107,9 +121,16 @@ Foam::Ostream& Foam::operator<<
     const crossWLFTransport<Thermo>& st
 )
 {
-    os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_
-    << tab << st.D1_ << tab << st.D2_ << tab << st.D3_ << tab << st.A1_ << tab << st.A2_
-    << tab << st.etaMin_ << tab << st.etaMax_
+    os << static_cast<const Thermo&>(st)
+    << tab << st.n_
+    << tab << st.Tau_
+    << tab << st.D1_
+    << tab << st.D2_
+    << tab << st.D3_
+    << tab << st.A1_
+    << tab << st.A2_
+    << tab << st.etaMin_
+    << tab << st.etaMax_
     << tab << st.TnoFlow_
     << tab << st.lambda_
     << tab << st.deltaTempInterp_ << endl;
