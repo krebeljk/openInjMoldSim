@@ -43,7 +43,8 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream& is)
     A2_(readScalar(is)),
     etaMin_(readScalar(is)),
     etaMax_(readScalar(is)),
-    TnoFlow_(readScalar(is))
+    TnoFlow_(readScalar(is)),
+    deltaTempInterp_(readScalar(is))
 {
     is.check("crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(Istream&)");
     kappa_ = interpolation2DTable<scalar>("constant/kappaTable");
@@ -64,10 +65,24 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(const dictionary& dict)
     A2_(readScalar(dict.subDict("transport").lookup("A2"))),
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
-    TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow")))
+    TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
+    deltaTempInterp_(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0))
 {
     kappa_ = interpolation2DTable<scalar>("constant/kappaTable");
     kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
+    Info << "CrossWLF:" << endl;
+    Info << "n_               : " << n_              << endl;
+    Info << "Tau_             : " << Tau_            << endl;
+    Info << "D1_              : " << D1_             << endl;
+    Info << "D2_              : " << D2_             << endl;
+    Info << "D3_              : " << D3_             << endl;
+    Info << "A1_              : " << A1_             << endl;
+    Info << "A2_              : " << A2_             << endl;
+    Info << "Tab. Therm. Cond.  "                    << endl;
+    Info << "etaMin_          : " << etaMin_         << endl;
+    Info << "etaMax_          : " << etaMax_         << endl;
+    Info << "TnoFlow_         : " << TnoFlow_        << endl;
+    Info << "deltaTempInterp_ : " << deltaTempInterp_<< endl << endl;
 }
 
 
@@ -92,6 +107,7 @@ void Foam::crossWLFTransportTTC<Thermo>::write(Ostream& os) const
     dict.add("etaMin", etaMin_);
     dict.add("etaMax", etaMax_);
     dict.add("TnoFlow", TnoFlow_);
+    dict.add("deltaTempInterp", deltaTempInterp_);
     os  << indent << dict.dictName() << dict;
 
     os  << decrIndent << token::END_BLOCK << nl;
@@ -106,9 +122,18 @@ Foam::Ostream& Foam::operator<<
     const crossWLFTransportTTC<Thermo>& st
 )
 {
-    os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_ 
-    << tab << st.D1_ << tab << st.D2_ << tab << st.D3_ << tab << st.A1_ << tab << st.A2_
-    << tab << st.etaMin_ << tab << st.etaMax_ << tab << st.TnoFlow_ << endl; 
+    os << static_cast<const Thermo&>(st)
+    << tab << st.n_
+    << tab << st.Tau_
+    << tab << st.D1_
+    << tab << st.D2_
+    << tab << st.D3_
+    << tab << st.A1_
+    << tab << st.A2_
+    << tab << st.etaMin_
+    << tab << st.etaMax_
+    << tab << st.TnoFlow_
+    << tab << st.deltaTempInterp_ << endl;
 
     os.check
     (

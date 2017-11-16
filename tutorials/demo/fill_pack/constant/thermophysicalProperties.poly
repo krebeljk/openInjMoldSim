@@ -66,7 +66,7 @@ mixture
         D3         0.0e-6;//K/Pa
         A1         25.7;//1
         A2         61.06;//K
-        lambda     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
+        kappa     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
         etaMin     5;//Pas
         etaMax     1e7;//Pas //This is the value of viscosity at T < TnoFlow.
         TnoFlow    373.15;//K

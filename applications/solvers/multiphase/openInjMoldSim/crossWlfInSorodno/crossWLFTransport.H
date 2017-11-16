@@ -101,8 +101,8 @@ class crossWLFTransport
     // Private data
 
         // crossWLF's coefficients
-        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_, lambda_;
-        scalar etaMin_, etaMax_, TnoFlow_;
+        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_, kappa_;
+        scalar etaMin_, etaMax_, TnoFlow_, deltaTempInterp_;
 
 
     // Private Member Functions
@@ -131,10 +131,11 @@ public:
             const scalar D3_,
             const scalar A1_,
             const scalar A2_,
-            const scalar lambda_,
+            const scalar kappa_,
             const scalar etaMin_,
             const scalar etaMax_,
-            const scalar TnoFlow_
+            const scalar TnoFlow_,
+            const scalar deltaTempInterp_
         );
 
         //- Construct from two viscosities
