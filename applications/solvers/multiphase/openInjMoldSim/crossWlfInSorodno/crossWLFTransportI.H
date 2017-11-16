@@ -61,7 +61,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     const scalar etaMin,
     const scalar etaMax,
     const scalar TnoFlow,
-    const scalar deltaTempInterp_
+    const scalar deltaTempInterp
 )
 :
     Thermo(t),
