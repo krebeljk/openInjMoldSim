@@ -66,7 +66,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
-    deltaTempInterp_(readScalar(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0)))
+    deltaTempInterp_(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0))
 {}
 
 

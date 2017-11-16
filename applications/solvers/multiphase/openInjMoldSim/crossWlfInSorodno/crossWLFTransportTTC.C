@@ -66,7 +66,7 @@ Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC(const dictionary& dict)
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
-    deltaTempInterp_(readScalar(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0)))
+    deltaTempInterp_(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0))
 {
     kappa_ = interpolation2DTable<scalar>("constant/kappaTable");
     kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
