@@ -57,7 +57,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     const scalar D3,
     const scalar A1,
     const scalar A2,
-    const scalar lambda,
+    const scalar kappa,
     const scalar etaMin,
     const scalar etaMax,
     const scalar TnoFlow,
@@ -72,7 +72,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     D3_(D3),
     A1_(A1),
     A2_(A2),
-    lambda_(lambda),
+    kappa_(kappa),
     etaMin_(etaMin),
     etaMax_(etaMax),
     TnoFlow_(TnoFlow),
@@ -109,7 +109,7 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     D3_(st.D3_),
     A1_(st.A1_),
     A2_(st.A2_),
-    lambda_(st.lambda_),
+    kappa_(st.kappa_),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
     TnoFlow_(st.TnoFlow),
@@ -194,7 +194,7 @@ inline Foam::scalar Foam::crossWLFTransport<Thermo>::kappa
 {
     //scalar Cv_ = this->Cv(p, T);
     //return mu(p, T)*Cv_*(1.32 + 1.77*this->R()/Cv_);
-    return lambda_;
+    return kappa_;
 }
 
 
@@ -228,7 +228,7 @@ Foam::crossWLFTransport<Thermo>::operator=
     D3_ = st.D3_;
     A1_ = st.A1_;
     A2_ = st.A2_;
-    lambda_ = st.lambda_;
+    kappa_ = st.kappa_;
     etaMin_ = st.etaMin_;
     etaMax_ = st.etaMax_;
     TnoFlow_ = st.TnoFlow_;
