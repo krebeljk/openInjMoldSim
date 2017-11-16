@@ -112,8 +112,8 @@ inline Foam::crossWLFTransport<Thermo>::crossWLFTransport
     lambda_(st.lambda_),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
-    TnoFlow_(TnoFlow),
-    deltaTempInterp_(deltaTempInterp)
+    TnoFlow_(st.TnoFlow),
+    deltaTempInterp_(st.deltaTempInterp)
 {}
 
 

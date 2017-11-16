@@ -114,8 +114,8 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     kappa_(kappa),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
-    TnoFlow_(TnoFlow),
-    deltaTempInterp_(deltaTempInterp)
+    TnoFlow_(st.TnoFlow),
+    deltaTempInterp_(st.deltaTempInterp)
 {
     kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
