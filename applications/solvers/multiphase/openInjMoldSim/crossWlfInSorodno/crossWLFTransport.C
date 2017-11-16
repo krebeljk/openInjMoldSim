@@ -41,7 +41,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
     D3_(readScalar(is)),
     A1_(readScalar(is)),
     A2_(readScalar(is)),
-    lambda_(readScalar(is)),
+    kappa_(readScalar(is)),
     etaMin_(readScalar(is)),
     etaMax_(readScalar(is)),
     TnoFlow_(readScalar(is)),
@@ -62,7 +62,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     D3_(readScalar(dict.subDict("transport").lookup("D3"))),
     A1_(readScalar(dict.subDict("transport").lookup("A1"))),
     A2_(readScalar(dict.subDict("transport").lookup("A2"))),
-    lambda_(readScalar(dict.subDict("transport").lookup("lambda"))),
+    kappa_(readScalar(dict.subDict("transport").lookup("kappa"))),
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
     TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
@@ -76,7 +76,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     Info << "D3_              : " << D3_             << endl;
     Info << "A1_              : " << A1_             << endl;
     Info << "A2_              : " << A2_             << endl;
-    Info << "lambda_          : " << lambda_         << endl;
+    Info << "kappa_           : " << kappa_         << endl;
     Info << "etaMin_          : " << etaMin_         << endl;
     Info << "etaMax_          : " << etaMax_         << endl;
     Info << "TnoFlow_         : " << TnoFlow_        << endl;
@@ -102,7 +102,7 @@ void Foam::crossWLFTransport<Thermo>::write(Ostream& os) const
     dict.add("D3", D3_);
     dict.add("A1", A1_);
     dict.add("A2", A2_);
-    dict.add("lambda", lambda_);
+    dict.add("kappa", kappa_);
     dict.add("etaMin", etaMin_);
     dict.add("etaMax", etaMax_);
     dict.add("TnoFlow", TnoFlow_);
@@ -132,7 +132,7 @@ Foam::Ostream& Foam::operator<<
     << tab << st.etaMin_
     << tab << st.etaMax_
     << tab << st.TnoFlow_
-    << tab << st.lambda_
+    << tab << st.kappa_
     << tab << st.deltaTempInterp_ << endl;
 
     os.check
