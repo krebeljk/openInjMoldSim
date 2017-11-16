@@ -44,7 +44,8 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
     lambda_(readScalar(is)),
     etaMin_(readScalar(is)),
     etaMax_(readScalar(is)),
-    TnoFlow_(readScalar(is))
+    TnoFlow_(readScalar(is)),
+    deltaTempInterp_(readScalar(is))
 {
     is.check("crossWLFTransport<Thermo>::crossWLFTransport(Istream&)");
 }
@@ -64,7 +65,8 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     lambda_(readScalar(dict.subDict("transport").lookup("lambda"))),
     etaMin_(readScalar(dict.subDict("transport").lookup("etaMin"))),
     etaMax_(readScalar(dict.subDict("transport").lookup("etaMax"))),
-    TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow")))
+    TnoFlow_(readScalar(dict.subDict("transport").lookup("TnoFlow"))),
+    deltaTempInterp_(readScalar(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0)))
 {}
 
 
@@ -90,6 +92,7 @@ void Foam::crossWLFTransport<Thermo>::write(Ostream& os) const
     dict.add("etaMin", etaMin_);
     dict.add("etaMax", etaMax_);
     dict.add("TnoFlow", TnoFlow_);
+    dict.add("deltaTempInterp", deltaTempInterp_);
     os  << indent << dict.dictName() << dict;
 
     os  << decrIndent << token::END_BLOCK << nl;
@@ -104,9 +107,12 @@ Foam::Ostream& Foam::operator<<
     const crossWLFTransport<Thermo>& st
 )
 {
-    os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_ 
+    os << static_cast<const Thermo&>(st) << tab << st.n_ << tab << st.Tau_
     << tab << st.D1_ << tab << st.D2_ << tab << st.D3_ << tab << st.A1_ << tab << st.A2_
-    << tab << st.etaMin_ << tab << st.etaMax_ << tab << st.TnoFlow_ << endl; 
+    << tab << st.etaMin_ << tab << st.etaMax_
+    << tab << st.TnoFlow_
+    << tab << st.lambda_
+    << tab << st.deltaTempInterp_ << endl;
 
     os.check
     (
