@@ -17,20 +17,20 @@ FoamFile
 
 thermoType
 {
-    type            mojHeRhoThermo;
-    mixture         pureMixture;
-    //transport     crossWLF;
+    type            mojHeRhoThermo;//leave alone
+    mixture         pureMixture;//leave alone
+    //transport     crossWLF;// specify thermal conductivity kappa with the crossWLF constants.
     transport       crossWLFTTC;// TTC = T-abulated T-hermal C-onductivity // see file: kappaTable
     //thermo        hPolynomial; // Use this also for constant Cp.
-    thermo          hTabular;//hPolynomial; //see file: constant/cpTable
+    thermo          hTabular; //see file: constant/cpTable
     equationOfState polymerPVT;//TaitEquation. Might be renamed in the future.
-    specie          specie;
-    energy          sensibleInternalEnergy;
+    specie          specie;//leave alone
+    energy          sensibleInternalEnergy;//leave alone
 }
 
 mixture
 {
-    specie
+    specie//leave alone
     {
         nMoles      1;
         molWeight   18.0;
@@ -53,8 +53,8 @@ mixture
     }
     thermodynamics
     {
-        Hf              0;
-        Sf              0;
+        Hf              0;//leave alone
+        Sf              0;//leave alone
         //CpCoeffs<8>     (1000.0    0.0 0.0 0.0 0.0 0.0 0.0 0.0);//J/(kgK)
     }
     transport //PS Styron 678E - Vietri 2011
@@ -66,10 +66,12 @@ mixture
         D3         0.0e-6;//K/Pa
         A1         25.7;//1
         A2         61.06;//K
-        lambda     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
+        kappa     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
         etaMin     5;//Pas
-        etaMax     1e7;//Pas //This is the value of viscosity at T < TnoFlow.
+        etaMax     1e7;//Pas //This is the value of viscosity at T < TnoFlow. //Set higher than the value in the solidificationProperties to have elasticity.
         TnoFlow    373.15;//K
+        deltaTempInterp 5.0;//The crossWLF viscosity starts interpolating to etaMax at TnoFlow+deltaTempInterp.
+        //deltaTempInterp must be greater than 0. Leaving it out sets it to 5K.
     }
 }
 //etaMax - High values cause instability during solidification, packing. High viscosity must reduce the shear rate and
