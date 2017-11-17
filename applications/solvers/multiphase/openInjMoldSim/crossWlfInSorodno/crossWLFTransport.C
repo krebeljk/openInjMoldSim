@@ -69,18 +69,18 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     deltaTempInterp_(dict.subDict("transport").lookupOrDefault<scalar>("deltaTempInterp", 5.0))
 {
     Info << "CrossWLF:" << endl;
-    Info << "n_               : " << n_              << endl;
-    Info << "Tau_             : " << Tau_            << endl;
-    Info << "D1_              : " << D1_             << endl;
-    Info << "D2_              : " << D2_             << endl;
-    Info << "D3_              : " << D3_             << endl;
-    Info << "A1_              : " << A1_             << endl;
-    Info << "A2_              : " << A2_             << endl;
-    Info << "kappa_           : " << kappa_         << endl;
-    Info << "etaMin_          : " << etaMin_         << endl;
-    Info << "etaMax_          : " << etaMax_         << endl;
-    Info << "TnoFlow_         : " << TnoFlow_        << endl;
-    Info << "deltaTempInterp_ : " << deltaTempInterp_<< endl << endl;
+    Info << "n               : " << n_              << endl;
+    Info << "Tau             : " << Tau_            << endl;
+    Info << "D1              : " << D1_             << endl;
+    Info << "D2              : " << D2_             << endl;
+    Info << "D3              : " << D3_             << endl;
+    Info << "A1              : " << A1_             << endl;
+    Info << "A2              : " << A2_             << endl;
+    Info << "kappa           : " << kappa_         << endl;
+    Info << "etaMin          : " << etaMin_         << endl;
+    Info << "etaMax          : " << etaMax_         << endl;
+    Info << "TnoFlow         : " << TnoFlow_        << endl;
+    Info << "deltaTempInterp : " << deltaTempInterp_<< endl << endl;
 }
 
 
