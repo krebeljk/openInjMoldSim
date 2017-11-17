@@ -60,7 +60,8 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     const interpolation2DTable<scalar> kappa,
     const scalar etaMin,
     const scalar etaMax,
-    const scalar TnoFlow
+    const scalar TnoFlow,
+    const scalar deltaTempInterp
 )
 :
     Thermo(t),
@@ -74,7 +75,8 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     kappa_(kappa),
     etaMin_(etaMin),
     etaMax_(etaMax),
-    TnoFlow_(TnoFlow)
+    TnoFlow_(TnoFlow),
+    deltaTempInterp_(deltaTempInterp)
 {
     kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
@@ -109,10 +111,11 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     D3_(st.D3_),
     A1_(st.A1_),
     A2_(st.A2_),
-    kappa_(kappa),
+    kappa_(st.kappa),
     etaMin_(st.etaMin_),
     etaMax_(st.etaMax_),
-    TnoFlow_(st.TnoFlow_)
+    TnoFlow_(st.TnoFlow),
+    deltaTempInterp_(st.deltaTempInterp)
 {
     kappa_.outOfBounds(interpolation2DTable<scalar>::CLAMP);
 }
@@ -170,8 +173,7 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
     if (T < TnoFlow_) { return etaMax_; } //leave immediately to avoid n0 = infinite
     const scalar n0 = D1_*::exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_));
     scalar visk = n0/(1.0+pow(n0*strig/Tau_,1.0-n_));
-    scalar deltaTemp = 5.0; //degC before TnoFlow solidification starts
-    scalar Tstart = TnoFlow_ + deltaTemp; //solidification onset temperature
+    scalar Tstart = TnoFlow_ + deltaTempInterp_; //solidification onset temperature
 
     //Info << "visk= " << visk  << " p=" << p << " T=" << T << " strig=" << strig << endl;   // debug Kristjan
 
@@ -180,8 +182,8 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
 
     if (T < Tstart) //interpolated increase of viscosity
         {
-            visk = etaMax_ * (Tstart-T)/deltaTemp
-                  +  visk *(T-TnoFlow_)/deltaTemp;
+            visk = etaMax_ * (Tstart-T)/deltaTempInterp_
+                  +  visk *(T-TnoFlow_)/deltaTempInterp_;
         }
 
     return visk;
@@ -208,7 +210,7 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::alphah
 ) const
 {
 
-    return kappa(p, T)/this->Cpv(p, T);
+    return kappa(p, T)/this->Cp(p, T);
 }
 
 
@@ -234,6 +236,7 @@ Foam::crossWLFTransportTTC<Thermo>::operator=
     etaMin_ = st.etaMin_;
     etaMax_ = st.etaMax_;
     TnoFlow_ = st.TnoFlow_;
+    deltaTempInterp_ = st.deltaTempInterp_;
 
     return *this;
 }

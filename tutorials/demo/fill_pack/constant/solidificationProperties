@@ -14,12 +14,12 @@ FoamFile
     object      solidificationProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
 shearModulus 907e6;//Pa
 
-TshearModulus 1000.15;//K
-
+// There will be no elastic behavior at shear rates above shrRateLimEl.
 shrRateLimEl 1.0;//1/s
 
+// There will be no elastic behavior at viscosities below viscLimEl.
+// viscLimEl should be less than etaMax of crossWLF to allow elastic behavior.
 viscLimEl 1e6;//1/s
 // ************************************************************************* //

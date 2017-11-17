@@ -64,7 +64,7 @@ mixture
         D3         0.51e-6;//K/Pa
         A1         25.7;//1
         A2         61.06;//K
-    	lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
+    	kappa     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
         etaMin     1.0;//Pas
         etaMax     1.0;//Pas
         TnoFlow    373.15;//K
