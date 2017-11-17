@@ -15,3 +15,16 @@ dictionary. To control this according to temperature, change the TnoFlow tempera
 experience, elastic behavior should be limited to slow flow. This is effected with the shearRate limit, also given in the
 solidificationProperties. Not providing the solidificationProperties dictionary will make the solver skip the elastic
 calculation and only use the CrossWLF viscosity. The fvSchemes for elasticity must still be provided even though they are not used.
+
+## Version v1.1.1
+- Important bug fix for thermal conductivity.
+- Parameter deltaTempInterp in crossWLF.
+- Renamed lambda to kappa.
+
+The [bug fix for kappa](https://bugs.openfoam.org/view.php?id=2532) was incorporated. This was needed for
+semi-crystalline simulation where Cv is significantly less than Cp (specific heat at constant pressure).
+
+The parameter deltaTempInterp can now be chosen or left at 5K. It allows to make a gradual transition to the maximal
+viscosity on solidification.
+
+The naming of constant thermal conductivity as lambda was changed to kappa.
