@@ -21,5 +21,5 @@ shrRateLimEl 1.0;//1/s
 
 // There will be no elastic behavior at viscosities below viscLimEl.
 // viscLimEl should be less than etaMax of crossWLF to allow elastic behavior.
-viscLimEl 1e6;//1/s
+viscLimEl 1e6;//Pas
 // ************************************************************************* //
