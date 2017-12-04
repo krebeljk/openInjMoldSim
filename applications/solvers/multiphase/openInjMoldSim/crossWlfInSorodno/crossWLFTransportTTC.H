@@ -101,7 +101,7 @@ class crossWLFTransportTTC
     // Private data
 
         // crossWLF's coefficients
-        scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_;
+        scalar n_, Tau_, D1_, D2_, D3_, D3s_, A1_, A2_;
         scalar etaMin_, etaMax_, TnoFlow_, deltaTempInterp_;
 
 	// thermal conductivity [W/(Km)]
@@ -132,6 +132,7 @@ public:
             const scalar D1_,
             const scalar D2_,
             const scalar D3_,
+            const scalar D3s_,
             const scalar A1_,
             const scalar A2_,
             const interpolation2DTable<scalar> kappa_,

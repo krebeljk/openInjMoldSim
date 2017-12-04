@@ -21,7 +21,7 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
- scalar n_, Tau_, D1_, D2_, D3_, A1_, A2_;
+ scalar n_, Tau_, D1_, D2_, D3_, D3s_, A1_, A2_;
 
 \*---------------------------------------------------------------------------*/
 
@@ -39,6 +39,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(Istream& is)
     D1_(readScalar(is)),
     D2_(readScalar(is)),
     D3_(readScalar(is)),
+    D3s_(readScalar(is)),
     A1_(readScalar(is)),
     A2_(readScalar(is)),
     kappa_(readScalar(is)),
@@ -60,6 +61,8 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     D1_(readScalar(dict.subDict("transport").lookup("D1"))),
     D2_(readScalar(dict.subDict("transport").lookup("D2"))),
     D3_(readScalar(dict.subDict("transport").lookup("D3"))),
+    D3s_(dict.subDict("transport").lookupOrDefault<scalar>("D3s"
+    , readScalar(dict.subDict("transport").lookup("D3")))),
     A1_(readScalar(dict.subDict("transport").lookup("A1"))),
     A2_(readScalar(dict.subDict("transport").lookup("A2"))),
     kappa_(readScalar(dict.subDict("transport").lookup("kappa"))),
@@ -74,6 +77,7 @@ Foam::crossWLFTransport<Thermo>::crossWLFTransport(const dictionary& dict)
     Info << "D1_              : " << D1_             << endl;
     Info << "D2_              : " << D2_             << endl;
     Info << "D3_              : " << D3_             << endl;
+    Info << "D3s_             : " << D3s_             << endl;
     Info << "A1_              : " << A1_             << endl;
     Info << "A2_              : " << A2_             << endl;
     Info << "kappa_           : " << kappa_         << endl;
@@ -100,6 +104,7 @@ void Foam::crossWLFTransport<Thermo>::write(Ostream& os) const
     dict.add("D1", D1_);
     dict.add("D2", D2_);
     dict.add("D3", D3_);
+    dict.add("D3s", D3s_);
     dict.add("A1", A1_);
     dict.add("A2", A2_);
     dict.add("kappa", kappa_);
@@ -127,6 +132,7 @@ Foam::Ostream& Foam::operator<<
     << tab << st.D1_
     << tab << st.D2_
     << tab << st.D3_
+    << tab << st.D3s_
     << tab << st.A1_
     << tab << st.A2_
     << tab << st.etaMin_

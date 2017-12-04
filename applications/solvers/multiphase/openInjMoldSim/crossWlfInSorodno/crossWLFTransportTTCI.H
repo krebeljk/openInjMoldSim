@@ -55,6 +55,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     const scalar D1,
     const scalar D2,
     const scalar D3,
+    const scalar D3s,
     const scalar A1,
     const scalar A2,
     const interpolation2DTable<scalar> kappa,
@@ -69,7 +70,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     Tau_(Tau),
     D1_(D1),
     D2_(D2),
-    D3_(D3),
+    D3s_(D3s),
     A1_(A1),
     A2_(A2),
     kappa_(kappa),
@@ -109,6 +110,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     D1_(st.D1_),
     D2_(st.D2_),
     D3_(st.D3_),
+    D3s_(st.D3s_),
     A1_(st.A1_),
     A2_(st.A2_),
     kappa_(st.kappa),
@@ -169,11 +171,12 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
     const scalar T,
     const scalar strig
 ) const
-{   
-    if (T < TnoFlow_) { return etaMax_; } //leave immediately to avoid n0 = infinite
+{
+    scalar TnoFlowS = TnoFlow_ + D3s_ * p;
+    if (T < TnoFlowS) { return etaMax_; } //leave immediately to avoid n0 = infinite
     const scalar n0 = D1_*::exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_));
     scalar visk = n0/(1.0+pow(n0*strig/Tau_,1.0-n_));
-    scalar Tstart = TnoFlow_ + deltaTempInterp_; //solidification onset temperature
+    scalar Tstart = TnoFlowS + deltaTempInterp_; //solidification onset temperature .. D3s*p from TnoFlowS
 
     //Info << "visk= " << visk  << " p=" << p << " T=" << T << " strig=" << strig << endl;   // debug Kristjan
 
@@ -183,7 +186,7 @@ inline Foam::scalar Foam::crossWLFTransportTTC<Thermo>::mu
     if (T < Tstart) //interpolated increase of viscosity
         {
             visk = pow(etaMax_, (Tstart-T)/deltaTempInterp_)
-                  *  pow(visk, (T-TnoFlow_)/deltaTempInterp_);//weighted avg in log space
+                  *  pow(visk, (T-TnoFlowS)/deltaTempInterp_);//weighted avg in log space
         }
 
     return visk;
@@ -230,6 +233,7 @@ Foam::crossWLFTransportTTC<Thermo>::operator=
     D1_ = st.D1_;
     D2_ = st.D2_;
     D3_ = st.D3_;
+    D3s_ = st.D3s_;
     A1_ = st.A1_;
     A2_ = st.A2_;
     kappa_ = st.kappa_;
