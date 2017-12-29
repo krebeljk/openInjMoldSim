@@ -15,4 +15,5 @@ constant/polyMesh/*
 !constant/polyMesh/blockMeshDict
 constant/cellToRegion
 *.OpenFOAM
+nohup.out
 # end-of-file

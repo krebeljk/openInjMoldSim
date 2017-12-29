@@ -18,4 +18,5 @@ constant/cellToRegion
 0/T.air
 0/T.poly
 *.png
+nohup.out
 # end-of-file
