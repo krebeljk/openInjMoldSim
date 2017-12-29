@@ -87,4 +87,5 @@ doc/Doxygen/DTAGS
 /tags
 err.txt
 nohup.out
+.ipynb_checkpoints
 # end-of-file
