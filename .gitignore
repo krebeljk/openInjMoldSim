@@ -86,4 +86,6 @@ doc/Doxygen/DTAGS
 #kristjan
 /tags
 err.txt
+nohup.out
+.ipynb_checkpoints
 # end-of-file

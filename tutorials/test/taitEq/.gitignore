@@ -10,9 +10,10 @@ processor*
 !0.org
 constant/extendedFeatureEdgeMesh
 *.eMesh
+*.png
 constant/polyMesh/*
 !constant/polyMesh/blockMeshDict
 constant/cellToRegion
 *.OpenFOAM
-*.png
+nohup.out
 # end-of-file
