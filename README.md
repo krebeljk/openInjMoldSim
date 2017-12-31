@@ -5,7 +5,7 @@ modification of the compressibleInterFoam solver distributed with OpenFOAM. The 
 2D demo case for amorphous polystyrene. A simulation of (semi-crystalline) HDPE is under development. Currently,
 the simulation is prohibitively inconvenient for typical industrial use.
 
-See the [tutorials](tutorials/Tutorials.ipynb) for more info.
+See the [tutorials](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) for more info.
 
 See the official website [openfoam.org](https://openfoam.org/), unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
