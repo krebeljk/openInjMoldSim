@@ -1,6 +1,8 @@
 #!/bin/bash
 cd ${0%/*} || exit 1    # Run from this directory
 
+cp -r org0 0
+
 # Echoes all commands before executing.
 set -o xtrace
 
@@ -14,3 +16,5 @@ application=`getApplication`
 blockMesh
 
 runApplication $application
+
+writeCellCentres

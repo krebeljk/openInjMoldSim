@@ -23,13 +23,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         0.005;
+endTime         0.5;
 
-deltaT          1e-4;
+deltaT          1e-7;
 
 writeControl    adjustableRunTime;
 
-writeInterval   0.001;
+writeInterval   0.05;
 
 purgeWrite      0;
 
@@ -47,7 +47,7 @@ runTimeModifiable yes;
 
 adjustTimeStep  yes;
 
-maxCo           0.01;
+maxCo           0.4;
 
 maxDeltaT       1;
 maxAlphaCo      1;
@@ -76,6 +76,37 @@ functions {
             e1          (1 0 0);
             e2          (0 1 0);
         }
+    }
+
+    probes
+    {
+        type            probes; //patchProbes;//
+        functionObjectLibs ("libsampling.so");
+        outputControl   timeStep;
+        outputInterval  1;
+        probeLocations
+        (
+            (0.5e-3 0.025e-3 0.025e-3)
+        );
+        fields
+        (
+            Tc p rho
+            shrRate visc U
+        );
+    }
+
+    residuals
+    {
+        type           residuals;
+        functionObjectLibs ("libutilityFunctionObjects.so");
+        enabled        true;
+        writeControl   timeStep;
+        writeInterval  1;
+        fields
+        (
+            p_rgh
+            T
+        );
     }
 }
 

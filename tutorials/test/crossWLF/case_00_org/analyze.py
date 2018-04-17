@@ -29,7 +29,7 @@ def main():
 
     Tc = 200 # degC
     p = 60e6 # Pa
-    L = 0.01 # m
+    L = 0.1e-3 # m
     W = 1e-4 # m
     Thc = 1e-3 # m
     U = 0.1 # m/s

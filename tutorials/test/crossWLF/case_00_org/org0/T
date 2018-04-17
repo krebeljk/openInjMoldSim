@@ -10,24 +10,27 @@ FoamFile
     version     2.0;
     format      ascii;
     class       volScalarField;
-    object      p_rgh;
+    object      T;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [1 -1 -2 0 0 0 0];
+dimensions      [0 0 0 1 0 0 0];
 
-internalField   uniform 60e6;
+temp PY_PL_HLD_01; // injected by python
+internalField   uniform $temp; //200degC
 
 boundaryField
 {
     wallIn
     {
-        type            zeroGradient;
+        type            fixedValue;
+        value           uniform $temp;
     }
 
     wallOut
     {
-        type            zeroGradient;
+        type            fixedValue;
+        value           uniform $temp;
     }
 
     wallUp
@@ -40,10 +43,16 @@ boundaryField
         type            cyclic;
     }
 
-
-    frontAndBack
+    front
     {
-        type            empty;
+        type            fixedValue;
+        value           uniform $temp;
+    }
+
+    back
+    {
+        type            fixedValue;
+        value           uniform $temp;
     }
 }
 
