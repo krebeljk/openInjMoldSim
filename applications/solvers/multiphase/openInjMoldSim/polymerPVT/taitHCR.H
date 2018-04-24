@@ -184,6 +184,9 @@ public:
             //- Return (cp - cv) [J/(kmol K]
             inline scalar cpMcv(scalar p, scalar T) const;
 
+            //- Return coef. of vol. therm. expansion [J/(kmol K]
+            inline scalar cTExp(scalar p, scalar T) const;
+
 
         // IO
 
