@@ -220,6 +220,17 @@ public:
             //- Heat capacity at constant volume [J/kg/K]
             virtual tmp<volScalarField> Cv() const;
 
+            //- Vol. therm. exp. [1/K]
+            virtual tmp<scalarField> cTExp
+            (
+                const scalarField& p,
+                const scalarField& T,
+                const label patchi
+            ) const;
+
+            //- Vol. therm. exp. [1/K]
+            virtual tmp<volScalarField> cTExp() const;
+
             //- Gamma = Cp/Cv []
             virtual tmp<volScalarField> gamma() const;
 
