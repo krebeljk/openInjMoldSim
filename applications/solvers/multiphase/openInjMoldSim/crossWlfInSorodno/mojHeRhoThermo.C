@@ -120,7 +120,7 @@ Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::mojHeRhoThermo
     const word& phaseName
 )
 :
-    heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
+    mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
 {
     calculate();
 }

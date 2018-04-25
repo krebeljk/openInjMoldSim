@@ -23,14 +23,14 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "heThermo.H"
+#include "mojHeThermo.H"
 #include "gradientEnergyFvPatchScalarField.H"
 #include "mixedEnergyFvPatchScalarField.H"
 
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
 
 template<class BasicThermo, class MixtureType>
-void Foam::heThermo<BasicThermo, MixtureType>::
+void Foam::mojHeThermo<BasicThermo, MixtureType>::
 heBoundaryCorrection(volScalarField& h)
 {
     volScalarField::GeometricBoundaryField& hbf = h.boundaryField();
@@ -52,7 +52,7 @@ heBoundaryCorrection(volScalarField& h)
 
 
 template<class BasicThermo, class MixtureType>
-void Foam::heThermo<BasicThermo, MixtureType>::init()
+void Foam::mojHeThermo<BasicThermo, MixtureType>::init()
 {
     scalarField& heCells = he_.internalField();
     const scalarField& pCells = this->p_.internalField();
@@ -82,7 +82,7 @@ void Foam::heThermo<BasicThermo, MixtureType>::init()
 
 
 template<class BasicThermo, class MixtureType>
-Foam::heThermo<BasicThermo, MixtureType>::heThermo
+Foam::mojHeThermo<BasicThermo, MixtureType>::mojHeThermo
 (
     const fvMesh& mesh,
     const word& phaseName
@@ -115,7 +115,7 @@ Foam::heThermo<BasicThermo, MixtureType>::heThermo
 
 
 template<class BasicThermo, class MixtureType>
-Foam::heThermo<BasicThermo, MixtureType>::heThermo
+Foam::mojHeThermo<BasicThermo, MixtureType>::mojHeThermo
 (
     const fvMesh& mesh,
     const dictionary& dict,
@@ -151,14 +151,14 @@ Foam::heThermo<BasicThermo, MixtureType>::heThermo
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class BasicThermo, class MixtureType>
-Foam::heThermo<BasicThermo, MixtureType>::~heThermo()
+Foam::mojHeThermo<BasicThermo, MixtureType>::~mojHeThermo()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::volScalarField> Foam::heThermo<BasicThermo, MixtureType>::he
+Foam::tmp<Foam::volScalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::he
 (
     const volScalarField& p,
     const volScalarField& T
@@ -213,7 +213,7 @@ Foam::tmp<Foam::volScalarField> Foam::heThermo<BasicThermo, MixtureType>::he
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::he
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::he
 (
     const scalarField& p,
     const scalarField& T,
@@ -233,7 +233,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::he
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::he
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::he
 (
     const scalarField& p,
     const scalarField& T,
@@ -255,7 +255,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::he
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::hc() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::hc() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -300,7 +300,7 @@ Foam::heThermo<BasicThermo, MixtureType>::hc() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::Cp
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::Cp
 (
     const scalarField& p,
     const scalarField& T,
@@ -322,7 +322,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::Cp
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::Cp() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::Cp() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -371,7 +371,7 @@ Foam::heThermo<BasicThermo, MixtureType>::Cp() const
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::scalarField>
-Foam::heThermo<BasicThermo, MixtureType>::Cv
+Foam::mojHeThermo<BasicThermo, MixtureType>::Cv
 (
     const scalarField& p,
     const scalarField& T,
@@ -393,7 +393,7 @@ Foam::heThermo<BasicThermo, MixtureType>::Cv
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::Cv() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::Cv() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -438,7 +438,7 @@ Foam::heThermo<BasicThermo, MixtureType>::Cv() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::gamma
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::gamma
 (
     const scalarField& p,
     const scalarField& T,
@@ -460,7 +460,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::gamma
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::gamma() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::gamma() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -511,7 +511,7 @@ Foam::heThermo<BasicThermo, MixtureType>::gamma() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::Cpv
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::Cpv
 (
     const scalarField& p,
     const scalarField& T,
@@ -533,7 +533,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::Cpv
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::Cpv() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::Cpv() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -581,7 +581,7 @@ Foam::heThermo<BasicThermo, MixtureType>::Cpv() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::CpByCpv
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::CpByCpv
 (
     const scalarField& p,
     const scalarField& T,
@@ -603,7 +603,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::CpByCpv
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::CpByCpv() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::CpByCpv() const
 {
     const fvMesh& mesh = this->T_.mesh();
 
@@ -657,7 +657,7 @@ Foam::heThermo<BasicThermo, MixtureType>::CpByCpv() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::THE
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::THE
 (
     const scalarField& h,
     const scalarField& p,
@@ -679,7 +679,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::THE
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::THE
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::THE
 (
     const scalarField& h,
     const scalarField& p,
@@ -705,7 +705,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::THE
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::kappa() const
+Foam::mojHeThermo<BasicThermo, MixtureType>::kappa() const
 {
     tmp<Foam::volScalarField> kappa(Cp()*this->alpha_);
     kappa().rename("kappa");
@@ -714,7 +714,7 @@ Foam::heThermo<BasicThermo, MixtureType>::kappa() const
 
 
 template<class BasicThermo, class MixtureType>
-Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::kappa
+Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::kappa
 (
     const label patchi
 ) const
@@ -731,7 +731,7 @@ Foam::tmp<Foam::scalarField> Foam::heThermo<BasicThermo, MixtureType>::kappa
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::kappaEff
+Foam::mojHeThermo<BasicThermo, MixtureType>::kappaEff
 (
     const volScalarField& alphat
 ) const
@@ -744,7 +744,7 @@ Foam::heThermo<BasicThermo, MixtureType>::kappaEff
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::scalarField>
-Foam::heThermo<BasicThermo, MixtureType>::kappaEff
+Foam::mojHeThermo<BasicThermo, MixtureType>::kappaEff
 (
     const scalarField& alphat,
     const label patchi
@@ -766,7 +766,7 @@ Foam::heThermo<BasicThermo, MixtureType>::kappaEff
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>
-Foam::heThermo<BasicThermo, MixtureType>::alphaEff
+Foam::mojHeThermo<BasicThermo, MixtureType>::alphaEff
 (
     const volScalarField& alphat
 ) const
@@ -779,7 +779,7 @@ Foam::heThermo<BasicThermo, MixtureType>::alphaEff
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::scalarField>
-Foam::heThermo<BasicThermo, MixtureType>::alphaEff
+Foam::mojHeThermo<BasicThermo, MixtureType>::alphaEff
 (
     const scalarField& alphat,
     const label patchi
@@ -800,7 +800,7 @@ Foam::heThermo<BasicThermo, MixtureType>::alphaEff
 
 
 template<class BasicThermo, class MixtureType>
-bool Foam::heThermo<BasicThermo, MixtureType>::read()
+bool Foam::mojHeThermo<BasicThermo, MixtureType>::read()
 {
     if (BasicThermo::read())
     {
