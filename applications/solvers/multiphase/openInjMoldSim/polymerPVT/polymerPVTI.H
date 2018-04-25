@@ -150,6 +150,37 @@ inline Foam::scalar Foam::polymerPVT<Specie>::rho(scalar p, scalar T) const // m
     return 1.0/spec_vol;
 }
 
+template<class Specie>
+inline Foam::scalar Foam::polymerPVT<Specie>::cTExp(scalar p, scalar T) const // num. der.
+{
+    scalar spec_volS;
+    scalar spec_volSp;
+    scalar spec_volSm;
+    scalar spec_volM;
+    scalar spec_volMp;
+    scalar spec_volMm;
+    scalar coefThermExp;
+
+    scalar dT = 2.0; //[K]
+
+    //melt
+     spec_volMp = (b1m_+b2m_*(-b5_+T+dT))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T+dT))));
+     spec_volMm = (b1m_+b2m_*(-b5_+T-dT))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T-dT))));
+     spec_volM  = (b1m_+b2m_*(-b5_+T   ))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T   ))));
+    //solid
+     spec_volSp = (b1s_+b2s_*(-b5_+T+dT))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T+dT))));
+     spec_volSm = (b1s_+b2s_*(-b5_+T-dT))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T-dT))));
+     spec_volS  = (b1s_+b2s_*(-b5_+T   ))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T   ))));
+
+     coefThermExp = interpolation( // this eliminates crystallization effect on thermal volume change
+          (spec_volSp-spec_volSm)/(spec_volS*2.0*dT)
+         ,(spec_volMp-spec_volMm)/(spec_volM*2.0*dT)
+         ,p
+         ,T
+     );
+    return coefThermExp;
+}
+
 
 template<class Specie>
 inline Foam::scalar Foam::polymerPVT<Specie>::s(scalar p, scalar T) const // POZOR - NI TESTIRANO

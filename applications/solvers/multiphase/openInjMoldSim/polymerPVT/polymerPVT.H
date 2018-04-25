@@ -176,6 +176,9 @@ public:
             //- Return density [kg/m^3]
             inline scalar rho(scalar p, scalar T) const;
 
+            //- Return coef. of therm. expan. [1/K]
+            inline scalar cTExp(scalar p, scalar T) const;
+
             //- Return entropy [J/(kmol K)]
             inline scalar s(const scalar p, const scalar T) const;
 
