@@ -345,6 +345,9 @@ public:
             //- Heat capacity at constant pressure [J/kg/K]
             virtual tmp<volScalarField> Cp() const = 0;
 
+            //- Thermal expnansion coef. [1/K]
+            virtual tmp<volScalarField> cTExp() const = 0;
+
             //- Heat capacity at constant pressure for patch [J/kg/K]
             virtual tmp<scalarField> Cp
             (
