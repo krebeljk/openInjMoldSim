@@ -451,7 +451,7 @@ Foam::mojHeThermo<BasicThermo, MixtureType>::cTExp
     forAll(T, facei)
     {
         cv[facei] =
-            this->patchFaceMixture(patchi, facei).Cv(p[facei], T[facei]);
+            this->patchFaceMixture(patchi, facei).cTExp(p[facei], T[facei]);
     }
 
     return tCv;
@@ -470,7 +470,7 @@ Foam::mojHeThermo<BasicThermo, MixtureType>::cTExp() const
         (
             IOobject
             (
-                "Cv",
+                "cTExp",
                 mesh.time().timeName(),
                 mesh,
                 IOobject::NO_READ,
@@ -478,7 +478,7 @@ Foam::mojHeThermo<BasicThermo, MixtureType>::cTExp() const
                 false
             ),
             mesh,
-            dimEnergy/dimMass/dimTemperature
+            dimless/dimTemperature
         )
     );
 
@@ -487,12 +487,12 @@ Foam::mojHeThermo<BasicThermo, MixtureType>::cTExp() const
     forAll(this->T_, celli)
     {
         cv[celli] =
-            this->cellMixture(celli).Cv(this->p_[celli], this->T_[celli]);
+            this->cellMixture(celli).cTExp(this->p_[celli], this->T_[celli]);
     }
 
     forAll(this->T_.boundaryField(), patchi)
     {
-        cv.boundaryField()[patchi] = Cv
+        cv.boundaryField()[patchi] = cTExp
         (
             this->p_.boundaryField()[patchi],
             this->T_.boundaryField()[patchi],
