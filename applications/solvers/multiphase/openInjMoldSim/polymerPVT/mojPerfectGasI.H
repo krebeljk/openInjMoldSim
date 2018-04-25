@@ -81,6 +81,11 @@ inline Foam::scalar Foam::mojPerfectGas<Specie>::rho(scalar p, scalar T) const
     return p/(this->R()*T);
 }
 
+template<class Specie>
+inline Foam::scalar Foam::mojPerfectGas<Specie>::cTExp(scalar p, scalar T) const
+{
+    return 1/T;
+}
 
 template<class Specie>
 inline Foam::scalar Foam::mojPerfectGas<Specie>::s(scalar p, scalar T) const
