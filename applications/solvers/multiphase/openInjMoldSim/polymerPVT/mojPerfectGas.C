@@ -23,22 +23,22 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "perfectGas.H"
+#include "mojPerfectGas.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::perfectGas<Specie>::perfectGas(Istream& is)
+Foam::mojPerfectGas<Specie>::mojPerfectGas(Istream& is)
 :
     Specie(is)
 {
-    is.check("perfectGas<Specie>::perfectGas(Istream& is)");
+    is.check("mojPerfectGas<Specie>::mojPerfectGas(Istream& is)");
 }
 
 
 template<class Specie>
-Foam::perfectGas<Specie>::perfectGas(const dictionary& dict)
+Foam::mojPerfectGas<Specie>::mojPerfectGas(const dictionary& dict)
 :
     Specie(dict)
 {}
@@ -47,7 +47,7 @@ Foam::perfectGas<Specie>::perfectGas(const dictionary& dict)
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Specie>
-void Foam::perfectGas<Specie>::write(Ostream& os) const
+void Foam::mojPerfectGas<Specie>::write(Ostream& os) const
 {
     Specie::write(os);
 }
@@ -56,11 +56,11 @@ void Foam::perfectGas<Specie>::write(Ostream& os) const
 // * * * * * * * * * * * * * * * Ostream Operator  * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::Ostream& Foam::operator<<(Ostream& os, const perfectGas<Specie>& pg)
+Foam::Ostream& Foam::operator<<(Ostream& os, const mojPerfectGas<Specie>& pg)
 {
     os  << static_cast<const Specie&>(pg);
 
-    os.check("Ostream& operator<<(Ostream& os, const perfectGas<Specie>& st)");
+    os.check("Ostream& operator<<(Ostream& os, const mojPerfectGas<Specie>& st)");
     return os;
 }
 
