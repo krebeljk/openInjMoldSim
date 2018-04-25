@@ -22,18 +22,18 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::heThermo
+    Foam::mojHeThermo
 
 Description
     Enthalpy/Internal energy for a mixture
 
 SourceFiles
-    heThermo.C
+    mojHeThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef heThermo_H
-#define heThermo_H
+#ifndef mojHeThermo_H
+#define mojHeThermo_H
 
 #include "basicMixture.H"
 
@@ -43,11 +43,11 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class heThermo Declaration
+                         Class mojHeThermo Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class BasicThermo, class MixtureType>
-class heThermo
+class mojHeThermo
 :
     public BasicThermo,
     public MixtureType
@@ -73,10 +73,10 @@ private:
     // Private Member Functions
 
         //- Construct as copy (not implemented)
-        heThermo(const heThermo<BasicThermo, MixtureType>&);
+        mojHeThermo(const mojHeThermo<BasicThermo, MixtureType>&);
 
 
-        //- Initialize heThermo
+        //- Initialize mojHeThermo
         void init();
 
 
@@ -85,14 +85,14 @@ public:
     // Constructors
 
         //- Construct from mesh
-        heThermo
+        mojHeThermo
         (
             const fvMesh&,
             const word& phaseName
         );
 
         //- Construct from mesh and dictionary
-        heThermo
+        mojHeThermo
         (
             const fvMesh&,
             const dictionary&,
@@ -101,7 +101,7 @@ public:
 
 
     //- Destructor
-    virtual ~heThermo();
+    virtual ~mojHeThermo();
 
 
     // Member functions
@@ -304,7 +304,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 #ifdef NoRepository
-#   include "heThermo.C"
+#   include "mojHeThermo.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
