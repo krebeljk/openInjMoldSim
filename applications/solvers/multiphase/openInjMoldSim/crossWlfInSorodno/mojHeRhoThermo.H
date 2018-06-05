@@ -36,7 +36,7 @@ SourceFiles
 #define mojHeRhoThermo_H
 
 #include "mojRhoThermo.H"
-#include "heThermo.H"
+#include "mojHeThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,7 +50,7 @@ namespace Foam
 template<class BasicPsiThermo, class MixtureType>
 class mojHeRhoThermo
 :
-    public heThermo<BasicPsiThermo, MixtureType>
+    public mojHeThermo<BasicPsiThermo, MixtureType>
 {
     // Private Member Functions
 

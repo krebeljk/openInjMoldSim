@@ -10,24 +10,27 @@ FoamFile
     version     2.0;
     format      ascii;
     class       volScalarField;
-    object      T;
+    object      p_rgh;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 0 0 1 0 0 0];
+dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 473.15; //200degC
+press 60e6;
+internalField   uniform $press;
 
 boundaryField
 {
     wallIn
     {
-        type            zeroGradient;
+        type            fixedFluxPressure;
+        value           uniform $press;
     }
 
     wallOut
     {
-        type            zeroGradient;
+        type            fixedFluxPressure;
+        value           uniform $press;
     }
 
     wallUp
@@ -40,10 +43,15 @@ boundaryField
         type            cyclic;
     }
 
-
-    frontAndBack
+    front
     {
-        type            empty;
+        type            fixedValue;
+        value           uniform $press;
+    }
+
+    back
+    {
+        type            zeroGradient;
     }
 }
 

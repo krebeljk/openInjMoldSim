@@ -9,41 +9,53 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    location    "0";
-    object      strig;
+    class       volVectorField;
+    object      U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 0 -1 0 0 0 0];
+dimensions      [0 1 -1 0 0 0 0];
 
-internalField   uniform 0;
+internalField   uniform (0 0 0);
 
 boundaryField
 {
     wallIn
     {
-        type            calculated;
-        value           uniform 0;
+        type            uniformFixedValue;
+        uniformValue    table
+        (
+         (0.0 (0 0 0))
+         (1e-6 (0 1e-4 0))
+        );
     }
+
     wallOut
     {
-        type            calculated;
-        value           uniform 0;
+        type            fixedValue;
+        value           uniform (0 0 0);
     }
-    wallDown
+
+    front
     {
-        type            cyclic;
+        type            zeroGradient;
     }
+
+    back
+    {
+        type            slip;
+    }
+
     wallUp
     {
         type            cyclic;
     }
-    frontAndBack
-    {
-        type            empty;
-    }
-}
 
+    wallDown
+    {
+        type            cyclic;
+    }
+
+}
 
 // ************************************************************************* //

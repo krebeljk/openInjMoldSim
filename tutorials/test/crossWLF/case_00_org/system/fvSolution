@@ -62,7 +62,7 @@ solvers
     p_rgh
     {
         solver          GAMG;
-        tolerance       1e-07;
+        tolerance       1e-10;
         relTol          0.01;
         smoother        DIC;
         nPreSweeps      0;
@@ -80,7 +80,7 @@ solvers
         preconditioner
         {
             preconditioner  GAMG;
-            tolerance       1e-07;
+            tolerance       1e-10;
             relTol          0;
             nVcycles        2;
             smoother        DICGaussSeidel;
@@ -92,7 +92,7 @@ solvers
             agglomerator    faceAreaPair;
             mergeLevels     1;
         }
-        tolerance       1e-07;
+        tolerance       1e-10;
         relTol          0;
         maxIter         20;
     }
@@ -110,7 +110,7 @@ solvers
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-08;
+        tolerance       1e-10;
         relTol          0;
     }
 }
@@ -119,47 +119,47 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 5;
-    nCorrectors     2;
+    nOuterCorrectors 300;
+    nCorrectors     1;
     nNonOrthogonalCorrectors 0;
 
-    //residualControl
-    //{
-    //    p_rgh
-    //    {
-    //            tolerance   1e-4;
-    //            relTol      1e-3;
-    //    }
-    //    T
-    //    {
-    //            tolerance   1e-5;
-    //            relTol      1e-3;
-    //    }
-    //    elSigDev
-    //    {
-    //            tolerance   1e-4;
-    //            relTol      0.0;
-    //    }
-    // }
+    residualControl
+    {
+        p_rgh
+        {
+                tolerance   1e-3;
+                relTol      0;
+        }
+        T
+        {
+                tolerance   1e-4;
+                relTol      0;
+        }
+        elSigDev
+        {
+                tolerance   1e-4;
+                relTol      0;
+        }
+     }
 }
 
-//relaxationFactors
-//{
-//    fields
-//    {
-//        p_rgh      0.4;
-//        p_rghFinal   1;
-//        T      0.4;
-//        TFinal          1;
-//        elSigDev      0.3;
-//        elSigDevFinal   1;
-//    }
-//    equations
-//    {
-//        "U|k|epsilon|T|elSigDev"     0.4;
-//        "(U|k|epsilon|T|elSigDev)Final"   1;
-//    }
-//}
+relaxationFactors
+{
+    fields
+    {
+        p_rgh      0.4;
+        p_rghFinal   1;
+        T      0.4;
+        TFinal          1;
+        elSigDev      0.3;
+        elSigDevFinal   1;
+    }
+    equations
+    {
+        "U|k|epsilon|T|elSigDev"     0.4;
+        "(U|k|epsilon|T|elSigDev)Final"   1;
+    }
+}
 
 
 // ************************************************************************* //

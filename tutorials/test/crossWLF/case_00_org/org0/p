@@ -16,18 +16,21 @@ FoamFile
 
 dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 60e6;
+press 60e6;
+internalField   uniform $press;
 
 boundaryField
 {
     wallIn
     {
-        type            zeroGradient;
+        type            calculated;
+        value           uniform $press;
     }
 
     wallOut
     {
-        type            zeroGradient;
+        type            calculated;
+        value           uniform $press;
     }
 
     wallUp
@@ -40,10 +43,16 @@ boundaryField
         type            cyclic;
     }
 
-
-    frontAndBack
+    front
     {
-        type            empty;
+        type            calculated;
+        value           uniform $press;
+    }
+
+    back
+    {
+        type            calculated;
+        value           uniform $press;
     }
 }
 

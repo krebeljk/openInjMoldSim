@@ -1,13 +1,5 @@
 #!/bin/bash
-cd ${0%/*} || exit 1    # run from this directory
 
-# Source tutorial clean functions
-. $WM_PROJECT_DIR/bin/tools/CleanFunctions
-
-cleanCase
-foamClearPolyMesh
-
-rm 0/T.poly
-rm 0/T.air
-rm *.png
-# ----------------------------------------------------------------- end-of-file
+# remove case dirs except for the original
+find -type d -name "case*" | grep -v "case_00_org" | xargs rm -rf
+rm -rf nohup.out
