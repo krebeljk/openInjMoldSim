@@ -1,9 +1,8 @@
 /*---------------------------------------------------------------------------*\
-modified from: OpenFOAM-3.0.0/src/thermophysicalModels/specie/transport/sutherland/sutherlandTransport.H
- =========                 |
+  =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -23,19 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::polymerPVT
+    Foam::mojPerfectGas
 
 Description
     Perfect gas equation of state.
 
 SourceFiles
-    polymerPVTI.H
-    polymerPVT.C
+    mojPerfectGasI.H
+    mojPerfectGas.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef polymerPVT_H
-#define polymerPVT_H
+#ifndef mojPerfectGas_H
+#define mojPerfectGas_H
 
 #include "autoPtr.H"
 
@@ -46,111 +45,78 @@ namespace Foam
 
 // Forward declaration of friend functions and operators
 
-template<class Specie> class polymerPVT;
+template<class Specie> class mojPerfectGas;
 
 template<class Specie>
-inline polymerPVT<Specie> operator+
+inline mojPerfectGas<Specie> operator+
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator-
+inline mojPerfectGas<Specie> operator-
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator*
+inline mojPerfectGas<Specie> operator*
 (
     const scalar,
-    const polymerPVT<Specie>&
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline polymerPVT<Specie> operator==
+inline mojPerfectGas<Specie> operator==
 (
-    const polymerPVT<Specie>&,
-    const polymerPVT<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
 Ostream& operator<<
 (
     Ostream&,
-    const polymerPVT<Specie>&
+    const mojPerfectGas<Specie>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                           Class polymerPVT Declaration
+                           Class mojPerfectGas Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Specie>
-class polymerPVT
+class mojPerfectGas
 :
     public Specie
 {
-    // Private data
-
-        //- Fluid constant
-        scalar b1m_;
-        scalar b2m_;
-        scalar b3m_;
-        scalar b4m_;
-        scalar b1s_;
-        scalar b2s_;
-        scalar b3s_;
-        scalar b4s_;
-        scalar b5_;
-        scalar b6_;
-        scalar b7_;
-        scalar b8_;
-        scalar b9_;
-        static scalar C_;// definicija v .C // univerzalna konstanta v Taitovi enacbi
 
 public:
 
     // Constructors
 
         //- Construct from components
-        inline polymerPVT
-        (
-            const Specie& sp,
-            const scalar b1m,
-            const scalar b2m,
-            const scalar b3m,
-            const scalar b4m,
-            const scalar b1s,
-            const scalar b2s,
-            const scalar b3s,
-            const scalar b4s,
-            const scalar b5,
-            const scalar b6,
-            const scalar b7,
-            const scalar b8,
-            const scalar b9
-        );
+        inline mojPerfectGas(const Specie& sp);
 
         //- Construct from Istream
-        polymerPVT(Istream&);
+        mojPerfectGas(Istream&);
 
         //- Construct from dictionary
-        polymerPVT(const dictionary& dict);
+        mojPerfectGas(const dictionary& dict);
 
         //- Construct as named copy
-        inline polymerPVT(const word& name, const polymerPVT&);
+        inline mojPerfectGas(const word& name, const mojPerfectGas&);
 
         //- Construct and return a clone
-        inline autoPtr<polymerPVT> clone() const;
+        inline autoPtr<mojPerfectGas> clone() const;
 
         // Selector from Istream
-        inline static autoPtr<polymerPVT> New(Istream& is);
+        inline static autoPtr<mojPerfectGas> New(Istream& is);
 
         // Selector from dictionary
-        inline static autoPtr<polymerPVT> New(const dictionary& dict);
+        inline static autoPtr<mojPerfectGas> New(const dictionary& dict);
 
 
     // Member functions
@@ -158,7 +124,7 @@ public:
         //- Return the instantiated type name
         static word typeName()
         {
-            return "polymerPVT<" + word(Specie::typeName_()) + '>';
+            return "perfectGas<" + word(Specie::typeName_()) + '>';
         }
 
 
@@ -170,13 +136,10 @@ public:
             //- Is the equation of state is isochoric i.e. rho = const
             static const bool isochoric = false;
 
-            //- Return fluid constant [J/(kg K)]
-            inline scalar R() const;
-
             //- Return density [kg/m^3]
             inline scalar rho(scalar p, scalar T) const;
 
-            //- Return coef. of therm. expan. [1/K]
+            //- Return thermal expansion [1/K]
             inline scalar cTExp(scalar p, scalar T) const;
 
             //- Return entropy [J/(kmol K)]
@@ -200,36 +163,36 @@ public:
 
     // Member operators
 
-        inline void operator+=(const polymerPVT&);
-        inline void operator-=(const polymerPVT&);
+        inline void operator+=(const mojPerfectGas&);
+        inline void operator-=(const mojPerfectGas&);
 
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
-        friend polymerPVT operator+ <Specie>
+        friend mojPerfectGas operator+ <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
-        friend polymerPVT operator- <Specie>
+        friend mojPerfectGas operator- <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
-        friend polymerPVT operator* <Specie>
+        friend mojPerfectGas operator* <Specie>
         (
             const scalar s,
-            const polymerPVT&
+            const mojPerfectGas&
         );
 
-        friend polymerPVT operator== <Specie>
+        friend mojPerfectGas operator== <Specie>
         (
-            const polymerPVT&,
-            const polymerPVT&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
 
@@ -238,27 +201,8 @@ public:
         friend Ostream& operator<< <Specie>
         (
             Ostream&,
-            const polymerPVT&
+            const mojPerfectGas&
         );
-
-    // Izracun Entropije
-private:
-            //- Integral entropije v SOLID obmocju
-            inline scalar sIntS(scalar p1, scalar p2, scalar T) const;
-
-            //- Integral entropije v MELT obmocju
-            inline scalar sIntM(scalar p1, scalar p2, scalar T) const;
-
-            //- Solidification interpolation to continuity
-            inline scalar interpolation
-            (
-                 scalar vS
-                ,scalar vM
-                ,scalar p
-                ,scalar T
-            ) const;
-
-
 };
 
 
@@ -268,10 +212,10 @@ private:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "polymerPVTI.H"
+#include "mojPerfectGasI.H"
 
 #ifdef NoRepository
-#   include "polymerPVT.C"
+#   include "mojPerfectGas.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -351,5 +351,10 @@ Foam::tmp<Foam::scalarField> Foam::mojTwoPhaseMixtureThermo::alphaEff
     ;
 }
 
+Foam::tmp<Foam::volScalarField> Foam::mojTwoPhaseMixtureThermo::cTExp() const
+{
+    return
+        alpha1()*thermo1_->cTExp(); // coef. of therm. expan. for thermo1
+}
 
 // ************************************************************************* //
