@@ -28,3 +28,6 @@ The parameter deltaTempInterp can now be chosen or left at 5K. It allows to make
 viscosity on solidification.
 
 The naming of constant thermal conductivity as lambda was changed to kappa.
+
+## Version v1.1.2
+- Bug fix. Thermal conductivity in the energy equation calculated properly.
