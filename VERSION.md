@@ -31,3 +31,4 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 
 ## Version v1.1.2
 - Bug fix. Thermal conductivity in the energy equation calculated properly.
+- test/CrossWLF tests multiple temperatures and numerical parameters are corrected (see jupyter notebook).
