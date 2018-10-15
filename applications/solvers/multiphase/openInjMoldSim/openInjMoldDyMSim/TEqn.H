@@ -8,7 +8,7 @@
       - sqrt(T * mixture.psi() * (mixture.Cp() - mixture.Cv()) ) // <- T*alpha_v
         * (
             fvc::ddt(p)
-          + fvc::div(phi, p)
+          + fvc::div(fvc::absolute(phi, U), p)
           )// Dp/Dt
           /mixture.Cp()
     );
