@@ -9,7 +9,7 @@
     (
         "phiHbyA",
         (fvc::interpolate(HbyA) & mesh.Sf())
-      + fvc::interpolate(rho*rAU)*fvc::ddtCorr(U, phi)
+      + fvc::interpolate(rho*rAU)*fvc::ddtCorr(U, Uf)
     );
 
     surfaceScalarField phig
@@ -31,6 +31,9 @@
           - (mesh.Sf().boundaryField() & U.boundaryField())
         )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
     );
+
+    // Make the fluxes relative to the mesh motion
+    fvc::makeRelative(phiHbyA, U);
 
     tmp<fvScalarMatrix> p_rghEqnComp1;
     tmp<fvScalarMatrix> p_rghEqnComp2;
@@ -110,6 +113,13 @@
             U.correctBoundaryConditions();
         }
     }
+
+    {
+        Uf = fvc::interpolate(U);
+        surfaceVectorField n(mesh.Sf()/mesh.magSf());
+        Uf += n*(fvc::absolute(phi, U)/mesh.magSf() - (n & Uf));
+    }
+
 
     p_rgh_resid = mag
     (
