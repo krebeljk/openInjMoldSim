@@ -38,7 +38,6 @@ Description
 #include "fvCFD.H"
 #include "MULES.H"
 #include "subCycle.H"
-#include "mojRhoThermo.H"
 #include "interfaceProperties.H"
 #include "twoPhaseMixture.H"
 #include "mojTwoPhaseMixtureThermo.H"
