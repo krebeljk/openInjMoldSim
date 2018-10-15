@@ -36,6 +36,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "dynamicFvMesh.H"
 #include "MULES.H"
 #include "subCycle.H"
 #include "interfaceProperties.H"
@@ -43,6 +44,7 @@ Description
 #include "mojTwoPhaseMixtureThermo.H"
 #include "mojTurbulentFluidThermoModel.H"
 #include "pimpleControl.H"
+#include "CorrectPhi.H"
 #include "fixedFluxPressureFvPatchScalarField.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -52,12 +54,14 @@ int main(int argc, char *argv[])
     Info << "openInjMoldSim v1.1.1" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
-    #include "createMesh.H"
+    #include "createDynamicFvMesh.H"
+    #include "initContinuityErrs.H"
 
     pimpleControl pimple(mesh);
 
-    #include "createTimeControls.H"
     #include "createFields.H"
+    #include "createUf.H"
+    #include "createControls.H"
     #include "CourantNo.H"
     #include "setInitialDeltaT.H"
 
@@ -70,13 +74,54 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-        #include "createTimeControls.H"
-        #include "CourantNo.H"
-        #include "setDeltaT.H"
+        #include "readControls.H"
 
-        runTime++;
+        {
+            // Store divU from the previous mesh so that it can be mapped
+            // and used in correctPhi to ensure the corrected phi has the
+            // same divergence
+            volScalarField divU("divU0", fvc::div(fvc::absolute(phi, U)));
 
-        Info<< "Time = " << runTime.timeName() << nl << endl;
+            #include "CourantNo.H"
+            #include "setDeltaT.H"
+
+            runTime++;
+
+            Info<< "Time = " << runTime.timeName() << nl << endl;
+
+            scalar timeBeforeMeshUpdate = runTime.elapsedCpuTime();
+
+            // Do any mesh changes
+            mesh.update();
+
+            if (mesh.changing())
+            {
+                Info<< "Execution time for mesh.update() = "
+                    << runTime.elapsedCpuTime() - timeBeforeMeshUpdate
+                    << " s" << endl;
+
+                gh = (g & mesh.C()) - ghRef;
+                ghf = (g & mesh.Cf()) - ghRef;
+            }
+
+            if (mesh.changing() && correctPhi)
+            {
+                // Calculate absolute flux from the mapped surface velocity
+                phi = mesh.Sf() & Uf;
+
+                #include "correctPhi.H"
+
+                // Make the fluxes relative to the mesh motion
+                fvc::makeRelative(phi, U);
+            }
+        }
+
+        if (mesh.changing() && checkMeshCourantNo)
+        {
+            #include "meshCourantNo.H"
+        }
+
+        turbulence->correct();
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
@@ -123,12 +168,9 @@ int main(int argc, char *argv[])
             // visc - kristjan
             visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu(); 
 
-            if (pimple.turbCorr())
-            {
-                turbulence->correct();
-            }
         }
 
+        rho = alpha1*rho1 + alpha2*rho2;
         Tc = T - twoSevenThree;
         runTime.write();
 
