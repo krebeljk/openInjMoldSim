@@ -23,19 +23,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::taitHCR
+    Foam::taitTg
 
 Description
     Perfect gas equation of state.
 
 SourceFiles
-    taitHCRI.H
-    taitHCR.C
+    taitTgI.H
+    taitTg.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef taitHCR_H
-#define taitHCR_H
+#ifndef taitTg_H
+#define taitTg_H
 
 #include "autoPtr.H"
 
@@ -46,50 +46,50 @@ namespace Foam
 
 // Forward declaration of friend functions and operators
 
-template<class Specie> class taitHCR;
+template<class Specie> class taitTg;
 
 template<class Specie>
-inline taitHCR<Specie> operator+
+inline taitTg<Specie> operator+
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const taitTg<Specie>&,
+    const taitTg<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator-
+inline taitTg<Specie> operator-
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const taitTg<Specie>&,
+    const taitTg<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator*
+inline taitTg<Specie> operator*
 (
     const scalar,
-    const taitHCR<Specie>&
+    const taitTg<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator==
+inline taitTg<Specie> operator==
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const taitTg<Specie>&,
+    const taitTg<Specie>&
 );
 
 template<class Specie>
 Ostream& operator<<
 (
     Ostream&,
-    const taitHCR<Specie>&
+    const taitTg<Specie>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                           Class taitHCR Declaration
+                           Class taitTg Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Specie>
-class taitHCR
+class taitTg
 :
     public Specie
 {
@@ -114,7 +114,7 @@ public:
     // Constructors
 
         //- Construct from components
-        inline taitHCR
+        inline taitTg
         (
             const Specie& sp,
             const scalar b1m,
@@ -131,22 +131,22 @@ public:
         );
 
         //- Construct from Istream
-        taitHCR(Istream&);
+        taitTg(Istream&);
 
         //- Construct from dictionary
-        taitHCR(const dictionary& dict);
+        taitTg(const dictionary& dict);
 
         //- Construct as named copy
-        inline taitHCR(const word& name, const taitHCR&);
+        inline taitTg(const word& name, const taitTg&);
 
         //- Construct and return a clone
-        inline autoPtr<taitHCR> clone() const;
+        inline autoPtr<taitTg> clone() const;
 
         // Selector from Istream
-        inline static autoPtr<taitHCR> New(Istream& is);
+        inline static autoPtr<taitTg> New(Istream& is);
 
         // Selector from dictionary
-        inline static autoPtr<taitHCR> New(const dictionary& dict);
+        inline static autoPtr<taitTg> New(const dictionary& dict);
 
 
     // Member functions
@@ -154,7 +154,7 @@ public:
         //- Return the instantiated type name
         static word typeName()
         {
-            return "taitHCR<" + word(Specie::typeName_()) + '>';
+            return "taitTg<" + word(Specie::typeName_()) + '>';
         }
 
 
@@ -196,36 +196,36 @@ public:
 
     // Member operators
 
-        inline void operator+=(const taitHCR&);
-        inline void operator-=(const taitHCR&);
+        inline void operator+=(const taitTg&);
+        inline void operator-=(const taitTg&);
 
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
-        friend taitHCR operator+ <Specie>
+        friend taitTg operator+ <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const taitTg&,
+            const taitTg&
         );
 
-        friend taitHCR operator- <Specie>
+        friend taitTg operator- <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const taitTg&,
+            const taitTg&
         );
 
-        friend taitHCR operator* <Specie>
+        friend taitTg operator* <Specie>
         (
             const scalar s,
-            const taitHCR&
+            const taitTg&
         );
 
-        friend taitHCR operator== <Specie>
+        friend taitTg operator== <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const taitTg&,
+            const taitTg&
         );
 
 
@@ -234,7 +234,7 @@ public:
         friend Ostream& operator<< <Specie>
         (
             Ostream&,
-            const taitHCR&
+            const taitTg&
         );
 
     // Izracun Entropije
@@ -259,10 +259,10 @@ private:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "taitHCRI.H"
+#include "taitTgI.H"
 
 #ifdef NoRepository
-#   include "taitHCR.C"
+#   include "taitTg.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

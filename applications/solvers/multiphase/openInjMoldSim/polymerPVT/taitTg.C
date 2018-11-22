@@ -24,13 +24,13 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "taitHCR.H"
+#include "taitTg.H"
 #include "IOstreams.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::taitHCR<Specie>::taitHCR(Istream& is)
+Foam::taitTg<Specie>::taitTg(Istream& is)
 :
     Specie(is),
     b1m_(readScalar(is)),
@@ -45,12 +45,12 @@ Foam::taitHCR<Specie>::taitHCR(Istream& is)
     b6_(readScalar(is)),
     b10_(readScalar(is))
 {
-    is.check("taitHCR<Specie>::taitHCR(Istream& is)");
+    is.check("taitTg<Specie>::taitTg(Istream& is)");
 }
 
 
 template<class Specie>
-Foam::taitHCR<Specie>::taitHCR(const dictionary& dict)
+Foam::taitTg<Specie>::taitTg(const dictionary& dict)
 :
     Specie(dict),
     b1m_(readScalar(dict.subDict("equationOfState").lookup("b1m"))),
@@ -69,12 +69,12 @@ Foam::taitHCR<Specie>::taitHCR(const dictionary& dict)
 
 // * * * * * * * * * * * * * * * Podatki * * * * * * * * * * * * * //
 template<class Specie>
-Foam::scalar Foam::taitHCR<Specie>::C_ = 0.0894; // to se pozneje posplosi
+Foam::scalar Foam::taitTg<Specie>::C_ = 0.0894; // to se pozneje posplosi
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class Specie>
-void Foam::taitHCR<Specie>::write(Ostream& os) const
+void Foam::taitTg<Specie>::write(Ostream& os) const
 {
     Specie::write(os);
 
@@ -99,7 +99,7 @@ void Foam::taitHCR<Specie>::write(Ostream& os) const
 // * * * * * * * * * * * * * * * Ostream Operator  * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::Ostream& Foam::operator<<(Ostream& os, const taitHCR<Specie>& pf)
+Foam::Ostream& Foam::operator<<(Ostream& os, const taitTg<Specie>& pf)
 {
     os  << static_cast<const Specie&>(pf)
         << token::SPACE << pf.b1m_
@@ -115,7 +115,7 @@ Foam::Ostream& Foam::operator<<(Ostream& os, const taitHCR<Specie>& pf)
         << token::SPACE << pf.b10_;
 
 
-    os.check("Ostream& operator<<(Ostream&, const taitHCR<Specie>&)");
+    os.check("Ostream& operator<<(Ostream&, const taitTg<Specie>&)");
     return os;
 }
 
