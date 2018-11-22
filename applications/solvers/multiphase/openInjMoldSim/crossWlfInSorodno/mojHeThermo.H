@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2013-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,23 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::mojTwoPhaseMixtureThermo
+    Foam::mojHeThermo
 
 Description
+    Enthalpy/Internal energy for a mixture
 
 SourceFiles
-    mojTwoPhaseMixtureThermoI.H
-    mojTwoPhaseMixtureThermo.C
-    mojTwoPhaseMixtureThermoIO.C
+    mojHeThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef mojTwoPhaseMixtureThermo_H
-#define mojTwoPhaseMixtureThermo_H
+#ifndef mojHeThermo_H
+#define mojHeThermo_H
 
-#include "mojRhoThermo.H"
-#include "mojPsiThermo.H"
-#include "twoPhaseMixture.H"
+#include "basicMixture.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -46,74 +43,96 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class mojTwoPhaseMixtureThermo Declaration
+                         Class mojHeThermo Declaration
 \*---------------------------------------------------------------------------*/
 
-class mojTwoPhaseMixtureThermo
+template<class BasicThermo, class MixtureType>
+class mojHeThermo
 :
-    public mojPsiThermo,
-    public twoPhaseMixture
+    public BasicThermo,
+    public MixtureType
 {
-    // Private data
+protected:
 
-        //- Thermo-package of phase 1
-        autoPtr<mojRhoThermo> thermo1_;
+    // Protected data
 
-        //- Thermo-package of phase 2
-        autoPtr<mojRhoThermo> thermo2_;
+        //- Energy field
+        volScalarField he_;
+
+
+    // Protected Member Functions
+
+        // Enthalpy/Internal energy
+
+            //- Correct the enthalpy/internal energy field boundaries
+            void heBoundaryCorrection(volScalarField& he);
+
+
+private:
+
+    // Private Member Functions
+
+        //- Construct as copy (not implemented)
+        mojHeThermo(const mojHeThermo<BasicThermo, MixtureType>&);
+
+
+        //- Initialize mojHeThermo
+        void init();
 
 
 public:
 
-    //- Runtime type information
-    TypeName("mojTwoPhaseMixtureThermo");
-
-
     // Constructors
 
         //- Construct from mesh
-        mojTwoPhaseMixtureThermo
+        mojHeThermo
         (
-            const fvMesh& mesh
+            const fvMesh&,
+            const word& phaseName
+        );
+
+        //- Construct from mesh and dictionary
+        mojHeThermo
+        (
+            const fvMesh&,
+            const dictionary&,
+            const word& phaseName
         );
 
 
     //- Destructor
-    virtual ~mojTwoPhaseMixtureThermo();
+    virtual ~mojHeThermo();
 
 
-    // Member Functions
+    // Member functions
 
-        const mojRhoThermo& thermo1() const
+        //- Return the compostion of the mixture
+        virtual typename MixtureType::basicMixtureType&
+        composition()
         {
-            return thermo1_();
+            return *this;
         }
 
-        const mojRhoThermo& thermo2() const
+        //- Return the compostion of the mixture
+        virtual const typename MixtureType::basicMixtureType&
+        composition() const
         {
-            return thermo2_();
+            return *this;
         }
-
-        mojRhoThermo& thermo1()
-        {
-            return thermo1_();
-        }
-
-        mojRhoThermo& thermo2()
-        {
-            return thermo2_();
-        }
-
-        //- Update properties
-        virtual void correct();
 
         //- Return true if the equation of state is incompressible
         //  i.e. rho != f(p)
-        virtual bool incompressible() const;
+        virtual bool incompressible() const
+        {
+            return MixtureType::thermoType::incompressible;
+        }
 
         //- Return true if the equation of state is isochoric
         //  i.e. rho = const
-        virtual bool isochoric() const;
+        virtual bool isochoric() const
+        {
+            return MixtureType::thermoType::isochoric;
+        }
 
 
         // Access to thermodynamic state variables
@@ -122,16 +141,17 @@ public:
             //  Non-const access allowed for transport equations
             virtual volScalarField& he()
             {
-                notImplemented("mojTwoPhaseMixtureThermo::he()");
-                return thermo1_->he();
+                return he_;
             }
 
             //- Enthalpy/Internal energy [J/kg]
             virtual const volScalarField& he() const
             {
-                notImplemented("mojTwoPhaseMixtureThermo::he() const");
-                return thermo1_->he();
+                return he_;
             }
+
+
+        // Fields derived from thermodynamic state variables
 
             //- Enthalpy/Internal energy
             //  for given pressure and temperature [J/kg]
@@ -163,7 +183,7 @@ public:
             //- Temperature from enthalpy/internal energy for cell-set
             virtual tmp<scalarField> THE
             (
-                const scalarField& h,
+                const scalarField& he,
                 const scalarField& p,
                 const scalarField& T0,      // starting temperature
                 const labelList& cells
@@ -172,17 +192,11 @@ public:
             //- Temperature from enthalpy/internal energy for patch
             virtual tmp<scalarField> THE
             (
-                const scalarField& h,
+                const scalarField& he,
                 const scalarField& p,
                 const scalarField& T0,      // starting temperature
                 const label patchi
             ) const;
-
-
-        // Fields derived from thermodynamic state variables
-
-            //- Heat capacity at constant pressure [J/kg/K]
-            virtual tmp<volScalarField> Cp() const;
 
             //- Heat capacity at constant pressure for patch [J/kg/K]
             virtual tmp<scalarField> Cp
@@ -192,8 +206,8 @@ public:
                 const label patchi
             ) const;
 
-            //- Heat capacity at constant volume [J/kg/K]
-            virtual tmp<volScalarField> Cv() const;
+            //- Heat capacity at constant pressure [J/kg/K]
+            virtual tmp<volScalarField> Cp() const;
 
             //- Heat capacity at constant volume for patch [J/kg/K]
             virtual tmp<scalarField> Cv
@@ -202,6 +216,20 @@ public:
                 const scalarField& T,
                 const label patchi
             ) const;
+
+            //- Heat capacity at constant volume [J/kg/K]
+            virtual tmp<volScalarField> Cv() const;
+
+            //- Vol. therm. exp. [1/K]
+            virtual tmp<scalarField> cTExp
+            (
+                const scalarField& p,
+                const scalarField& T,
+                const label patchi
+            ) const;
+
+            //- Vol. therm. exp. [1/K]
+            virtual tmp<volScalarField> cTExp() const;
 
             //- Gamma = Cp/Cv []
             virtual tmp<volScalarField> gamma() const;
@@ -214,9 +242,6 @@ public:
                 const label patchi
             ) const;
 
-            //- Heat capacity at constant pressure/volume [J/kg/K]
-            virtual tmp<volScalarField> Cpv() const;
-
             //- Heat capacity at constant pressure/volume for patch [J/kg/K]
             virtual tmp<scalarField> Cpv
             (
@@ -224,6 +249,9 @@ public:
                 const scalarField& T,
                 const label patchi
             ) const;
+
+            //- Heat capacity at constant pressure/volume [J/kg/K]
+            virtual tmp<volScalarField> Cpv() const;
 
             //- Heat capacity ratio []
             virtual tmp<volScalarField> CpByCpv() const;
@@ -236,58 +264,59 @@ public:
                 const label patchi
             ) const;
 
-            //- Coeff. of therm. expan. for thermo1[1/K]
-            virtual tmp<volScalarField> cTExp() const;
-
 
         // Fields derived from transport state variables
-
-            //- Kinematic viscosity of mixture [m^2/s]
-            virtual tmp<volScalarField> nu() const;
-
-            //- Kinematic viscosity of mixture for patch [m^2/s]
-            virtual tmp<scalarField> nu(const label patchi) const;
 
             //- Thermal diffusivity for temperature of mixture [J/m/s/K]
             virtual tmp<volScalarField> kappa() const;
 
-            //- Thermal diffusivity of mixture for patch [J/m/s/K]
+            //- Thermal diffusivity for temperature
+            //  of mixture for patch [J/m/s/K]
             virtual tmp<scalarField> kappa
             (
                 const label patchi
             ) const;
 
-            //- Effective thermal diffusivity of mixture [J/m/s/K]
-            virtual tmp<volScalarField> kappaEff
-            (
-                const volScalarField& alphat
-            ) const;
+            //- Effective thermal diffusivity for temperature
+            //  of mixture [J/m/s/K]
+            virtual tmp<volScalarField> kappaEff(const volScalarField&) const;
 
-            //- Effective thermal diffusivity of mixture for patch [J/m/s/K]
+            //- Effective thermal diffusivity for temperature
+            //  of mixture for patch [J/m/s/K]
             virtual tmp<scalarField> kappaEff
             (
                 const scalarField& alphat,
                 const label patchi
             ) const;
 
-            //- Effective thermal diffusivity of mixture [J/m/s/K]
+            //- Effective thermal diffusivity of mixture [kg/m/s]
             virtual tmp<volScalarField> alphaEff
             (
                 const volScalarField& alphat
             ) const;
 
-            //- Effective thermal diffusivity of mixture for patch [J/m/s/K]
+            //- Effective thermal diffusivity of mixture for patch [kg/m/s]
             virtual tmp<scalarField> alphaEff
             (
                 const scalarField& alphat,
                 const label patchi
             ) const;
+
+
+        //- Read thermophysical properties dictionary
+        virtual bool read();
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+#ifdef NoRepository
+#   include "mojHeThermo.C"
+#endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

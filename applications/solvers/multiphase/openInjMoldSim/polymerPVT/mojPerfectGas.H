@@ -1,9 +1,8 @@
 /*---------------------------------------------------------------------------*\
-modified from: OpenFOAM-3.0.0/src/thermophysicalModels/specie/transport/sutherland/sutherlandTransport.H
- =========                 |
+  =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -23,19 +22,19 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::taitHCR
+    Foam::mojPerfectGas
 
 Description
     Perfect gas equation of state.
 
 SourceFiles
-    taitHCRI.H
-    taitHCR.C
+    mojPerfectGasI.H
+    mojPerfectGas.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef taitHCR_H
-#define taitHCR_H
+#ifndef mojPerfectGas_H
+#define mojPerfectGas_H
 
 #include "autoPtr.H"
 
@@ -46,107 +45,78 @@ namespace Foam
 
 // Forward declaration of friend functions and operators
 
-template<class Specie> class taitHCR;
+template<class Specie> class mojPerfectGas;
 
 template<class Specie>
-inline taitHCR<Specie> operator+
+inline mojPerfectGas<Specie> operator+
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator-
+inline mojPerfectGas<Specie> operator-
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator*
+inline mojPerfectGas<Specie> operator*
 (
     const scalar,
-    const taitHCR<Specie>&
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
-inline taitHCR<Specie> operator==
+inline mojPerfectGas<Specie> operator==
 (
-    const taitHCR<Specie>&,
-    const taitHCR<Specie>&
+    const mojPerfectGas<Specie>&,
+    const mojPerfectGas<Specie>&
 );
 
 template<class Specie>
 Ostream& operator<<
 (
     Ostream&,
-    const taitHCR<Specie>&
+    const mojPerfectGas<Specie>&
 );
 
 
 /*---------------------------------------------------------------------------*\
-                           Class taitHCR Declaration
+                           Class mojPerfectGas Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class Specie>
-class taitHCR
+class mojPerfectGas
 :
     public Specie
 {
-    // Private data
-
-        //- Fluid constant
-        scalar b1m_;
-        scalar b2m_;
-        scalar b3m_;
-        scalar b4m_;
-        scalar b1s_;
-        scalar b2s_;
-        scalar b3s_;
-        scalar b4s_;
-        scalar b5_;
-        scalar b6_;
-        scalar b10_;
-        static scalar C_;// definicija v .C // univerzalna konstanta v Taitovi enacbi
 
 public:
 
     // Constructors
 
         //- Construct from components
-        inline taitHCR
-        (
-            const Specie& sp,
-            const scalar b1m,
-            const scalar b2m,
-            const scalar b3m,
-            const scalar b4m,
-            const scalar b1s,
-            const scalar b2s,
-            const scalar b3s,
-            const scalar b4s,
-            const scalar b5,
-            const scalar b6,
-            const scalar b10
-        );
+        inline mojPerfectGas(const Specie& sp);
 
         //- Construct from Istream
-        taitHCR(Istream&);
+        mojPerfectGas(Istream&);
 
         //- Construct from dictionary
-        taitHCR(const dictionary& dict);
+        mojPerfectGas(const dictionary& dict);
 
         //- Construct as named copy
-        inline taitHCR(const word& name, const taitHCR&);
+        inline mojPerfectGas(const word& name, const mojPerfectGas&);
 
         //- Construct and return a clone
-        inline autoPtr<taitHCR> clone() const;
+        inline autoPtr<mojPerfectGas> clone() const;
 
         // Selector from Istream
-        inline static autoPtr<taitHCR> New(Istream& is);
+        inline static autoPtr<mojPerfectGas> New(Istream& is);
 
         // Selector from dictionary
-        inline static autoPtr<taitHCR> New(const dictionary& dict);
+        inline static autoPtr<mojPerfectGas> New(const dictionary& dict);
 
 
     // Member functions
@@ -154,7 +124,7 @@ public:
         //- Return the instantiated type name
         static word typeName()
         {
-            return "taitHCR<" + word(Specie::typeName_()) + '>';
+            return "perfectGas<" + word(Specie::typeName_()) + '>';
         }
 
 
@@ -166,11 +136,11 @@ public:
             //- Is the equation of state is isochoric i.e. rho = const
             static const bool isochoric = false;
 
-            //- Return fluid constant [J/(kg K)]
-            inline scalar R() const;
-
             //- Return density [kg/m^3]
             inline scalar rho(scalar p, scalar T) const;
+
+            //- Return thermal expansion [1/K]
+            inline scalar cTExp(scalar p, scalar T) const;
 
             //- Return entropy [J/(kmol K)]
             inline scalar s(const scalar p, const scalar T) const;
@@ -184,9 +154,6 @@ public:
             //- Return (cp - cv) [J/(kmol K]
             inline scalar cpMcv(scalar p, scalar T) const;
 
-            //- Return coef. of vol. therm. expansion [J/(kmol K]
-            inline scalar cTExp(scalar p, scalar T) const;
-
 
         // IO
 
@@ -196,36 +163,36 @@ public:
 
     // Member operators
 
-        inline void operator+=(const taitHCR&);
-        inline void operator-=(const taitHCR&);
+        inline void operator+=(const mojPerfectGas&);
+        inline void operator-=(const mojPerfectGas&);
 
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
-        friend taitHCR operator+ <Specie>
+        friend mojPerfectGas operator+ <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
-        friend taitHCR operator- <Specie>
+        friend mojPerfectGas operator- <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
-        friend taitHCR operator* <Specie>
+        friend mojPerfectGas operator* <Specie>
         (
             const scalar s,
-            const taitHCR&
+            const mojPerfectGas&
         );
 
-        friend taitHCR operator== <Specie>
+        friend mojPerfectGas operator== <Specie>
         (
-            const taitHCR&,
-            const taitHCR&
+            const mojPerfectGas&,
+            const mojPerfectGas&
         );
 
 
@@ -234,22 +201,8 @@ public:
         friend Ostream& operator<< <Specie>
         (
             Ostream&,
-            const taitHCR&
+            const mojPerfectGas&
         );
-
-    // Izracun Entropije
-private:
-
-            //- Solidification interpolation to continuity
-            inline scalar interpolation
-            (
-                 scalar vS
-                ,scalar vM
-                ,scalar p
-                ,scalar T
-            ) const;
-
-
 };
 
 
@@ -259,10 +212,10 @@ private:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "taitHCRI.H"
+#include "mojPerfectGasI.H"
 
 #ifdef NoRepository
-#   include "taitHCR.C"
+#   include "mojPerfectGas.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

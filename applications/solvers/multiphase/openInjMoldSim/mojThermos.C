@@ -28,10 +28,9 @@ License
 #include "mojMakeThermo.H"
 
 #include "specie.H"
-#include "perfectGas.H"
+#include "mojPerfectGas.H"
 #include "incompressiblePerfectGas.H"
 #include "rhoConst.H"
-#include "perfectFluid.H"
 #include "PengRobinsonGas.H"
 #include "adiabaticPerfectFluid.H"
 
@@ -76,7 +75,7 @@ mojMakeThermo
     mojConstTransport,
     sensibleInternalEnergy,
     hConstThermo,
-    perfectGas,
+    mojPerfectGas,
     specie
 );
 
@@ -101,18 +100,6 @@ mojMakeThermo
     sensibleInternalEnergy,
     hConstThermo,
     taitHCR,
-    specie
-);
-
-mojMakeThermo
-(
-    mojRhoThermo,
-    mojHeRhoThermo,
-    pureMixture,
-    mojConstTransport,
-    sensibleInternalEnergy,
-    hConstThermo,
-    perfectFluid,
     specie
 );
 
