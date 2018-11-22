@@ -22,18 +22,18 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::mojHeRhoThermo
+    Foam::mojHeRhoTgThermo
 
 Description
     Energy for a mixture based on density
 
 SourceFiles
-    mojHeRhoThermo.C
+    mojHeRhoTgThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef mojHeRhoThermo_H
-#define mojHeRhoThermo_H
+#ifndef mojHeRhoTgThermo_H
+#define mojHeRhoTgThermo_H
 
 #include "mojRhoThermo.H"
 #include "mojHeThermo.H"
@@ -44,11 +44,11 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class mojHeRhoThermo Declaration
+                         Class mojHeRhoTgThermo Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class BasicPsiThermo, class MixtureType>
-class mojHeRhoThermo
+class mojHeRhoTgThermo
 :
     public mojHeThermo<BasicPsiThermo, MixtureType>
 {
@@ -58,19 +58,19 @@ class mojHeRhoThermo
         void calculate();
 
         //- Construct as copy (not implemented)
-        mojHeRhoThermo(const mojHeRhoThermo<BasicPsiThermo, MixtureType>&);
+        mojHeRhoTgThermo(const mojHeRhoTgThermo<BasicPsiThermo, MixtureType>&);
 
 
 public:
 
     //- Runtime type information
-    TypeName("mojHeRhoThermo");
+    TypeName("mojHeRhoTgThermo");
 
 
     // Constructors
 
         //- Construct from mesh and phase name
-        mojHeRhoThermo
+        mojHeRhoTgThermo
         (
             const fvMesh&,
             const word& phaseName
@@ -78,7 +78,7 @@ public:
 
 
     //- Destructor
-    virtual ~mojHeRhoThermo();
+    virtual ~mojHeRhoTgThermo();
 
 
     // Member functions
@@ -95,7 +95,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-#   include "mojHeRhoThermo.C"
+#   include "mojHeRhoTgThermo.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

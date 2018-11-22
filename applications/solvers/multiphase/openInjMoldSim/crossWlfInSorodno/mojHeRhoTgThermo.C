@@ -23,12 +23,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "mojHeRhoThermo.H"
+#include "mojHeRhoTgThermo.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
+void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 {
     //const scalarField& hCells = this->he().internalField(); //Kristjan: governed by TEqn
     const scalarField& pCells = this->p_.internalField();
@@ -114,7 +114,7 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::mojHeRhoThermo
+Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
 (
     const fvMesh& mesh,
     const word& phaseName
@@ -129,25 +129,25 @@ Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::mojHeRhoThermo
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::~mojHeRhoThermo()
+Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::~mojHeRhoTgThermo()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::correct()
+void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::correct()
 {
     if (debug)
     {
-        Info<< "entering mojHeRhoThermo<MixtureType>::correct()" << endl;
+        Info<< "entering mojHeRhoTgThermo<MixtureType>::correct()" << endl;
     }
 
     calculate();
 
     if (debug)
     {
-        Info<< "exiting mojHeRhoThermo<MixtureType>::correct()" << endl;
+        Info<< "exiting mojHeRhoTgThermo<MixtureType>::correct()" << endl;
     }
 }
 
