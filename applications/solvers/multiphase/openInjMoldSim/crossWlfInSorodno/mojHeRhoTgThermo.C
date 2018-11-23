@@ -125,7 +125,7 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
     (
         IOobject
         (
-            phasePropertyName("thermo:vf"),
+            "vf",
             mesh.time().timeName(),
             mesh,
             IOobject::NO_READ,
