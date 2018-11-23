@@ -120,7 +120,20 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
     const word& phaseName
 )
 :
-    mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
+    mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName),
+    vf_
+    (
+        IOobject
+        (
+            phasePropertyName("thermo:vf"),
+            mesh.time().timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionSet(-1, 3, 0, 0, 0)
+    )
 {
     calculate();
 }
