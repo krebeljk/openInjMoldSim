@@ -60,6 +60,11 @@ class mojHeRhoTgThermo
         //- Construct as copy (not implemented)
         mojHeRhoTgThermo(const mojHeRhoTgThermo<BasicPsiThermo, MixtureType>&);
 
+    // Private Member Data
+
+        // free volume [m3/kg]
+        volScalarField vf_;
+
 
 public:
 

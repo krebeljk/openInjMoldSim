@@ -172,6 +172,12 @@ public:
             //- Return density [kg/m^3]
             inline scalar rho(scalar p, scalar T) const;
 
+            //- Return glassy specific volume [kg/m^3]
+            inline scalar vg(scalar p, scalar T) const;
+
+            //- Return equilibrium specific volume [kg/m^3]
+            inline scalar veq(scalar p, scalar T) const;
+
             //- Return entropy [J/(kmol K)]
             inline scalar s(const scalar p, const scalar T) const;
 
