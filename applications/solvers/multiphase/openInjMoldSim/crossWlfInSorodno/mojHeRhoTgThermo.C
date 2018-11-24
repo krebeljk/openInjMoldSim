@@ -40,7 +40,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     scalarField& rhoEqCells = this->rhoEq_.internalField();
     scalarField& muCells = this->mu_.internalField();
     scalarField& alphaCells = this->alpha_.internalField();
-    scalarField& vCells = this->v_.internalField();
 
     forAll(TCells, celli)
     {
@@ -60,8 +59,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli], strigCells[celli]);
 
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
-        vCells[celli] =   mixture_.veq(pCells[celli], TCells[celli])
-                         - mixture_.vg(pCells[celli], TCells[celli]);
     }
 
     forAll(this->T_.boundaryField(), patchi)
@@ -79,7 +76,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
         fvPatchScalarField& pmu = this->mu_.boundaryField()[patchi];
         fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
-        fvPatchScalarField& pv = this->v_.boundaryField()[patchi];
 
         if (pT.fixesValue())
         {
@@ -95,8 +91,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
-                              - mixture_.vg(pp[facei], pT[facei]);
             }
         }
         else
@@ -112,8 +106,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
-                              - mixture_.vg(pp[facei], pT[facei]);
             }
         }
     }
