@@ -120,13 +120,13 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     // calculate lagging density
 
     // relaxation time
-    dimensionedScalar tauRlx("vZero", dimensionSet(0,0,1,0,0,0,0), 1.0),
+    dimensionedScalar tauRlx("vZero", dimensionSet(0,0,1,0,0,0,0), 1.0);
 
     // volume relaxation
     fvScalarMatrix vEqn
     (
         fvm::ddt(v_)
-      + U_ & fvc::grad(v_)
+      + this->U_ & fvc::grad(v_)
       - (
          v_ - scalar(1)/rhoEq_
          )/tauRlx
@@ -135,7 +135,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     vEqn.solve();
 
     // get current density
-    rho_ = scalar(1)/v_;
+    this->rho_ = scalar(1)/v_;
 }
 
 
