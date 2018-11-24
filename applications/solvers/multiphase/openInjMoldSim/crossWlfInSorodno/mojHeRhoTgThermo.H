@@ -65,6 +65,9 @@ class mojHeRhoTgThermo
         // spec. volume [m3/kg]
         volScalarField v_;
 
+        // equilibrium density [kg/m3]
+        volScalarField rhoEq_;
+
 
 public:
 

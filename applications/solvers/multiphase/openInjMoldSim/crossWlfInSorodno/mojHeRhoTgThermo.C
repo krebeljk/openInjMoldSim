@@ -143,6 +143,19 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
         mesh,
         dimensionedScalar("vZero", dimensionSet(-1,3,0,0,0,0,0), 0.0),
         "zeroGradient"
+    ),
+    rhoEq_
+    (
+        IOobject
+        (
+            "rhoEq",
+            mesh.time().timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        mesh,
+        dimensionedScalar("rhoEqZero", dimensionSet(1,-3,0,0,0,0,0), 0.0)
     )
 {
     if(max(v_).value() < VSMALL)//not a restart
@@ -174,6 +187,7 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
             }
         }
         v_ = scalar(1)/this->rho_;//specific volume is the inverse of equilibrium density
+        rhoEq_ = this->rho_;
     }
     calculate();
 }
