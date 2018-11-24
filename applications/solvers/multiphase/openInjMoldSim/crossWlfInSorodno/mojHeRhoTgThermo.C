@@ -37,7 +37,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
     scalarField& TCells = this->T_.internalField();
     scalarField& psiCells = this->psi_.internalField();
-    scalarField& rhoCells = this->rho_.internalField();
+    scalarField& rhoEqCells = this->rhoEq_.internalField();
     scalarField& muCells = this->mu_.internalField();
     scalarField& alphaCells = this->alpha_.internalField();
     scalarField& vCells = this->v_.internalField();
@@ -55,7 +55,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
         //);
 
         psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
-        rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+        rhoEqCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
 
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli], strigCells[celli]);
 
@@ -72,7 +72,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 	//fvPatchScalarField& pU = strig.boundaryField()[patchi]; // tukaj boundary
 
         fvPatchScalarField& ppsi = this->psi_.boundaryField()[patchi];
-        fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+        fvPatchScalarField& prhoEq = this->rhoEq_.boundaryField()[patchi];
 
         //fvPatchScalarField& ph = this->he().boundaryField()[patchi];//Kristjan: governed by TEqn
 
@@ -92,7 +92,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
                 pv[facei] =    mixture_.veq(pp[facei], pT[facei])
@@ -109,7 +109,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 //pT[facei] = mixture_.THE(ph[facei], pp[facei], pT[facei]);//Kristjan: governed by TEqn
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
                 pv[facei] =    mixture_.veq(pp[facei], pT[facei])
