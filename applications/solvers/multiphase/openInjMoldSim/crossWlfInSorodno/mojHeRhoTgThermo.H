@@ -62,8 +62,8 @@ class mojHeRhoTgThermo
 
     // Private Member Data
 
-        // free volume [m3/kg]
-        volScalarField vf_;
+        // spec. volume [m3/kg]
+        volScalarField v_;
 
 
 public:

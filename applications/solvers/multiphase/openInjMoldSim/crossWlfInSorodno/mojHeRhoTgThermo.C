@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "mojHeRhoTgThermo.H"
+#include "fvCFD.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
@@ -39,7 +40,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     scalarField& rhoCells = this->rho_.internalField();
     scalarField& muCells = this->mu_.internalField();
     scalarField& alphaCells = this->alpha_.internalField();
-    scalarField& vfCells = this->vf_.internalField();
+    scalarField& vCells = this->v_.internalField();
 
     forAll(TCells, celli)
     {
@@ -59,7 +60,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli], strigCells[celli]);
 
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
-        vfCells[celli] =   mixture_.veq(pCells[celli], TCells[celli])
+        vCells[celli] =   mixture_.veq(pCells[celli], TCells[celli])
                          - mixture_.vg(pCells[celli], TCells[celli]);
     }
 
@@ -78,7 +79,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
         fvPatchScalarField& pmu = this->mu_.boundaryField()[patchi];
         fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
-        fvPatchScalarField& pvf = this->vf_.boundaryField()[patchi];
+        fvPatchScalarField& pv = this->v_.boundaryField()[patchi];
 
         if (pT.fixesValue())
         {
@@ -94,7 +95,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pvf[facei] =    mixture_.veq(pp[facei], pT[facei])
+                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
                               - mixture_.vg(pp[facei], pT[facei]);
             }
         }
@@ -111,7 +112,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pvf[facei] =    mixture_.veq(pp[facei], pT[facei])
+                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
                               - mixture_.vg(pp[facei], pT[facei]);
             }
         }
@@ -129,20 +130,51 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
 )
 :
     mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName),
-    vf_
+    v_
     (
         IOobject
         (
-            "vf",
+            "v",
             mesh.time().timeName(),
             mesh,
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
         mesh,
-        dimensionSet(-1, 3, 0, 0, 0)
+        dimensionedScalar("vZero", dimensionSet(-1,3,0,0,0,0,0), 0.0),
+        "zeroGradient"
     )
 {
+    if(max(v_).value() < VSMALL)//not a restart
+    {
+        const scalarField& pCells = this->p_.internalField();
+        scalarField& TCells = this->T_.internalField();
+        scalarField& rhoCells = this->rho_.internalField();
+
+        forAll(TCells, celli)
+        {
+            const typename MixtureType::thermoType& mixture_ =
+                this->cellMixture(celli);
+
+            rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+        }
+
+        forAll(this->T_.boundaryField(), patchi)
+        {
+            fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
+            fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
+            fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+
+            forAll(pT, facei)
+            {
+                const typename MixtureType::thermoType& mixture_ =
+                    this->patchFaceMixture(patchi, facei);
+
+                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+            }
+        }
+        v_ = scalar(1)/this->rho_;//specific volume is the inverse of equilibrium density
+    }
     calculate();
 }
 
