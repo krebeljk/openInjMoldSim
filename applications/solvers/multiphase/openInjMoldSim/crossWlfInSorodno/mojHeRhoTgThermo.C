@@ -24,6 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "mojHeRhoTgThermo.H"
+#include "fvCFD.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
