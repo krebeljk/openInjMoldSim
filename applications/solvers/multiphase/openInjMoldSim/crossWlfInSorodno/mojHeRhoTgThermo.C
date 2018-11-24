@@ -183,33 +183,33 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
     {
         const scalarField& pCells = this->p_.internalField();
         scalarField& TCells = this->T_.internalField();
-        scalarField& rhoCells = this->rho_.internalField();
+        scalarField& rhoEqCells = this->rhoEq_.internalField();
 
         forAll(TCells, celli)
         {
             const typename MixtureType::thermoType& mixture_ =
                 this->cellMixture(celli);
 
-            rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+            rhoEqCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
         }
 
         forAll(this->T_.boundaryField(), patchi)
         {
             fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
             fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
-            fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+            fvPatchScalarField& prhoEq = this->rhoEq_.boundaryField()[patchi];
 
             forAll(pT, facei)
             {
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
 
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
             }
         }
-        v_ = scalar(1)/this->rho_;//specific volume is the inverse of equilibrium density
-        rhoEq_ = this->rho_;
+        v_ = scalar(1)/this->rhoEq_;//specific volume is the inverse of equilibrium density
     }
+    this->rho_ = scalar(1)/v_;// initialize density
     calculate();
 }
 
