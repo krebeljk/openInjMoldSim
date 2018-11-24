@@ -122,14 +122,16 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     // relaxation time
     dimensionedScalar tauRlx("vZero", dimensionSet(0,0,1,0,0,0,0), 1.0);
 
+    const volVectorField& U = this->db().objectRegistry::lookupObject<volVectorField>("U");
+
     // volume relaxation
     fvScalarMatrix vEqn
     (
         fvm::ddt(v_)
-      + this->U_ & fvc::grad(v_)
-      - (
-         v_ - scalar(1)/rhoEq_
-         )/tauRlx
+        + (U & fvc::grad(v_))
+        - (
+             v_ - scalar(1)/rhoEq_
+           )/tauRlx
      );
     vEqn.relax();
     vEqn.solve();
