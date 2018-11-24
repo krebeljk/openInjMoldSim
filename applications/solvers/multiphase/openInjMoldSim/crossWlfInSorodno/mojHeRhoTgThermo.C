@@ -141,7 +141,7 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
             IOobject::AUTO_WRITE
         ),
         mesh,
-        dimensionedScalar("vZero", dimensionSet(1,-3,0,0,0,0,0), 0.0),
+        dimensionedScalar("vZero", dimensionSet(-1,3,0,0,0,0,0), 0.0),
         "zeroGradient"
     )
 {
