@@ -153,22 +153,14 @@ inline Foam::scalar Foam::taitTg<Specie>::vg(scalar p, scalar T) const
 template<class Specie>
 inline Foam::scalar Foam::taitTg<Specie>::veq(scalar p, scalar T) const
 {
-    scalar spec_volS;
-    scalar spec_volM;
-    scalar spec_vol;
+    return scalar(1)/rho(p, T);
+}
 
-    //melt
-     spec_volM = (b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))));
-    //solid
-     spec_volS = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))));
+template<class Specie>
+inline Foam::scalar Foam::taitTg<Specie>::vfeq(scalar p, scalar T) const
+{
 
-     spec_vol = interpolation(
-          spec_volS
-         ,spec_volM
-         ,p
-         ,T
-     );
-    return spec_vol;
+    return veq(p, T) - vg(p, T);
 }
 
 template<class Specie>
