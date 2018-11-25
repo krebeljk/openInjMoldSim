@@ -70,7 +70,7 @@ inline Foam::crossWLFTransportTTC<Thermo>::crossWLFTransportTTC
     Tau_(Tau),
     D1_(D1),
     D2_(D2),
-    D3s_(D3s),
+    D3s_(D3s),// bug here, missing D3 with no s
     A1_(A1),
     A2_(A2),
     kappa_(kappa),

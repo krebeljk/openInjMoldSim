@@ -33,6 +33,11 @@ template<class Specie>
 Foam::taitTg<Specie>::taitTg(Istream& is)
 :
     Specie(is),
+    D1_(readScalar(is)),
+    D2_(readScalar(is)),
+    D3_(readScalar(is)),
+    A1_(readScalar(is)),
+    A2_(readScalar(is)),
     b1m_(readScalar(is)),
     b2m_(readScalar(is)),
     b3m_(readScalar(is)),
@@ -53,6 +58,11 @@ template<class Specie>
 Foam::taitTg<Specie>::taitTg(const dictionary& dict)
 :
     Specie(dict),
+    D1_(readScalar(dict.subDict("equationOfState").lookup("D1"))),
+    D2_(readScalar(dict.subDict("equationOfState").lookup("D2"))),
+    D3_(readScalar(dict.subDict("equationOfState").lookup("D3"))),
+    A1_(readScalar(dict.subDict("equationOfState").lookup("A1"))),
+    A2_(readScalar(dict.subDict("equationOfState").lookup("A2"))),
     b1m_(readScalar(dict.subDict("equationOfState").lookup("b1m"))),
     b2m_(readScalar(dict.subDict("equationOfState").lookup("b2m"))),
     b3m_(readScalar(dict.subDict("equationOfState").lookup("b3m"))),
@@ -79,6 +89,11 @@ void Foam::taitTg<Specie>::write(Ostream& os) const
     Specie::write(os);
 
     dictionary dict("equationOfState");
+    dict.add("D1", D1_);
+    dict.add("D2", D2_);
+    dict.add("D3", D3_);
+    dict.add("A1", A1_);
+    dict.add("A2", A2_);
     dict.add("b1m", b1m_);
     dict.add("b2m", b2m_);
     dict.add("b3m", b3m_);
@@ -102,6 +117,11 @@ template<class Specie>
 Foam::Ostream& Foam::operator<<(Ostream& os, const taitTg<Specie>& pf)
 {
     os  << static_cast<const Specie&>(pf)
+        << token::SPACE << pf.D1_
+        << token::SPACE << pf.D2_
+        << token::SPACE << pf.D3_
+        << token::SPACE << pf.A1_
+        << token::SPACE << pf.A2_
         << token::SPACE << pf.b1m_
         << token::SPACE << pf.b2m_
         << token::SPACE << pf.b3m_

@@ -95,6 +95,9 @@ class taitTg
 {
     // Private data
 
+        // WLF coefficients
+        scalar  D1_, D2_, D3_, A1_, A2_;
+
         //- Fluid constant
         scalar b1m_;
         scalar b2m_;
@@ -117,6 +120,11 @@ public:
         inline taitTg
         (
             const Specie& sp,
+            const scalar D1_,
+            const scalar D2_,
+            const scalar D3_,
+            const scalar A1_,
+            const scalar A2_,
             const scalar b1m,
             const scalar b2m,
             const scalar b3m,
