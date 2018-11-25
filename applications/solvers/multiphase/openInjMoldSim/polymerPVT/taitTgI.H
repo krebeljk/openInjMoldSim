@@ -33,7 +33,6 @@ template<class Specie>
 inline Foam::taitTg<Specie>::taitTg
 (
     const Specie& sp,
-    const scalar D1,
     const scalar D2,
     const scalar D3,
     const scalar A1,
@@ -53,7 +52,6 @@ inline Foam::taitTg<Specie>::taitTg
 )
 :
     Specie(sp),
-    D1_(D1),
     D2_(D2),
     D3_(D3),
     A1_(A1),
@@ -83,7 +81,6 @@ inline Foam::taitTg<Specie>::taitTg
 )
 :
     Specie(name, pf),
-    D1_(pf.D1_),
     D2_(pf.D2_),
     D3_(pf.D3_),
     A1_(pf.A1_),

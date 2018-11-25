@@ -96,7 +96,7 @@ class taitTg
     // Private data
 
         // WLF coefficients
-        scalar  D1_, D2_, D3_, A1_, A2_;
+        scalar  D2_, D3_, A1_, A2_;
 
         // volume relaxation time
         scalar tauRlx_;
@@ -123,7 +123,6 @@ public:
         inline taitTg
         (
             const Specie& sp,
-            const scalar D1_,
             const scalar D2_,
             const scalar D3_,
             const scalar A1_,
