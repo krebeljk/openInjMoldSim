@@ -98,6 +98,9 @@ class taitTg
         // WLF coefficients
         scalar  D1_, D2_, D3_, A1_, A2_;
 
+        // volume relaxation time
+        scalar tauRlx_;
+
         //- Fluid constant
         scalar b1m_;
         scalar b2m_;
@@ -125,6 +128,7 @@ public:
             const scalar D3_,
             const scalar A1_,
             const scalar A2_,
+            const scalar tauRlx_,
             const scalar b1m,
             const scalar b2m,
             const scalar b3m,

@@ -38,6 +38,7 @@ Foam::taitTg<Specie>::taitTg(Istream& is)
     D3_(readScalar(is)),
     A1_(readScalar(is)),
     A2_(readScalar(is)),
+    tauRlx_(readScalar(is)),
     b1m_(readScalar(is)),
     b2m_(readScalar(is)),
     b3m_(readScalar(is)),
@@ -63,6 +64,7 @@ Foam::taitTg<Specie>::taitTg(const dictionary& dict)
     D3_(readScalar(dict.subDict("equationOfState").lookup("D3"))),
     A1_(readScalar(dict.subDict("equationOfState").lookup("A1"))),
     A2_(readScalar(dict.subDict("equationOfState").lookup("A2"))),
+    tauRlx_(readScalar(dict.subDict("equationOfState").lookup("tauRlx"))),
     b1m_(readScalar(dict.subDict("equationOfState").lookup("b1m"))),
     b2m_(readScalar(dict.subDict("equationOfState").lookup("b2m"))),
     b3m_(readScalar(dict.subDict("equationOfState").lookup("b3m"))),
@@ -94,6 +96,7 @@ void Foam::taitTg<Specie>::write(Ostream& os) const
     dict.add("D3", D3_);
     dict.add("A1", A1_);
     dict.add("A2", A2_);
+    dict.add("tauRlx", tauRlx_);
     dict.add("b1m", b1m_);
     dict.add("b2m", b2m_);
     dict.add("b3m", b3m_);
@@ -122,6 +125,7 @@ Foam::Ostream& Foam::operator<<(Ostream& os, const taitTg<Specie>& pf)
         << token::SPACE << pf.D3_
         << token::SPACE << pf.A1_
         << token::SPACE << pf.A2_
+        << token::SPACE << pf.tauRlx_
         << token::SPACE << pf.b1m_
         << token::SPACE << pf.b2m_
         << token::SPACE << pf.b3m_
