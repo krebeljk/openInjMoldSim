@@ -153,22 +153,14 @@ inline Foam::scalar Foam::taitTg<Specie>::vg(scalar p, scalar T) const
 template<class Specie>
 inline Foam::scalar Foam::taitTg<Specie>::veq(scalar p, scalar T) const
 {
-    scalar spec_volS;
-    scalar spec_volM;
-    scalar spec_vol;
+    return scalar(1)/rho(p, T);
+}
 
-    //melt
-     spec_volM = (b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))));
-    //solid
-     spec_volS = (b1s_+b2s_*(-b5_+T))*(1-C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))));
+template<class Specie>
+inline Foam::scalar Foam::taitTg<Specie>::vfeq(scalar p, scalar T) const
+{
 
-     spec_vol = interpolation(
-          spec_volS
-         ,spec_volM
-         ,p
-         ,T
-     );
-    return spec_vol;
+    return veq(p, T) - vg(p, T);
 }
 
 template<class Specie>
@@ -215,32 +207,14 @@ inline Foam::scalar Foam::taitTg<Specie>::s(scalar p, scalar T) const // POZOR -
 // B (b3m_*exp(-b4m_*(T-b5_)))
  
 template<class Specie>
-inline Foam::scalar Foam::taitTg<Specie>::psi(scalar p, scalar T) const // mathematica export fim_01_01_I_00_02_psiMush_01.txt
+inline Foam::scalar Foam::taitTg<Specie>::psi(scalar p, scalar T) const
 {
     if (p < scalar(10.0)) //majhen tlak
     {
         Info << "Pozor! Majhen tlak, nevarnost deljenja z 0 v enacbi stanja, funkcija psi. p=" << p << " Pa" << endl;
     }
 
-    scalar Td = b10_; //[K] crystallization range
-    scalar T0 = b5_ + b6_*p; //Tait solidification temperature
-    scalar Tm = T0 - Td; //lower band limit
-    scalar psiRet;
-
-    if ( T > T0 )//melt
-    {
-        psiRet = C_*exp(b4m_*(-b5_+T))*pow(b1m_+b2m_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))),-2)*pow(b3m_+p*exp(b4m_*(-b5_+T)),-1);
-    }
-    else if ( T < Tm)//solid
-    {
-        psiRet = C_*exp(b4s_*(-b5_+T))*pow(b1s_+b2s_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))),-2)*pow(b3s_+p*exp(b4s_*(-b5_+T)),-1);
-    }
-    else//mushy
-    {
-        psiRet = -(pow(b10_,3)*(-6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1m_+b2m_*(-b5_+T))*(-1+C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))+6*b6_*(b5_+b6_*p-T)*(-b10_+b5_+b6_*p-T)*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))-C_*(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*exp(b4m_*T)*pow(b10_-b5_-b6_*p+T,2)*pow(b3m_*exp(b4m_*b5_)+p*exp(b4m_*T),-1)+C_*(-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*exp(b4s_*T)*pow(b5_+b6_*p-T,2)*pow(b3s_*exp(b4s_*b5_)+p*exp(b4s_*T),-1))*pow((-3*b10_+2*(b5_+b6_*p-T))*(b1s_+b2s_*(-b5_+T))*(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))))*pow(b5_+b6_*p-T,2)+(b10_+2*(b5_+b6_*p-T))*(b1m_+b2m_*(-b5_+T))*(1-C_*log(1+p*pow(b3m_,-1)*exp(b4m_*(-b5_+T))))*pow(b10_-b5_-b6_*p+T,2),-2));
-
-    }
-    return psiRet;
+    return C_*exp(b4s_*(-b5_+T))*pow(b1s_+b2s_*(-b5_+T),-1)*pow(-1+C_*log(1+p*pow(b3s_,-1)*exp(b4s_*(-b5_+T))),-2)*pow(b3s_+p*exp(b4s_*(-b5_+T)),-1);
 }
 
 

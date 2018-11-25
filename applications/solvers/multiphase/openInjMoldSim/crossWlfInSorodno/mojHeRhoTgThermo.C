@@ -35,12 +35,15 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     const scalarField& pCells = this->p_.internalField();
     const scalarField& strigCells = this->strig_.internalField();
 
+    volScalarField vfeq = vf_; // allocate equil free vol
+    volScalarField vg = vf_; // allocate glassy vol
+
     scalarField& TCells = this->T_.internalField();
     scalarField& psiCells = this->psi_.internalField();
-    scalarField& rhoCells = this->rho_.internalField();
+    scalarField& vfeqCells = vfeq.internalField();
+    scalarField& vgCells = vg.internalField();
     scalarField& muCells = this->mu_.internalField();
     scalarField& alphaCells = this->alpha_.internalField();
-    scalarField& vCells = this->v_.internalField();
 
     forAll(TCells, celli)
     {
@@ -55,13 +58,12 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
         //);
 
         psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
-        rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+        vfeqCells[celli] = mixture_.vfeq(pCells[celli], TCells[celli]);
+        vgCells[celli] = mixture_.vg(pCells[celli], TCells[celli]);
 
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli], strigCells[celli]);
 
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
-        vCells[celli] =   mixture_.veq(pCells[celli], TCells[celli])
-                         - mixture_.vg(pCells[celli], TCells[celli]);
     }
 
     forAll(this->T_.boundaryField(), patchi)
@@ -72,14 +74,14 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 	//fvPatchScalarField& pU = strig.boundaryField()[patchi]; // tukaj boundary
 
         fvPatchScalarField& ppsi = this->psi_.boundaryField()[patchi];
-        fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+        fvPatchScalarField& pvfeq = vfeq.boundaryField()[patchi];
+        fvPatchScalarField& pvg = vg.boundaryField()[patchi];
 
         //fvPatchScalarField& ph = this->he().boundaryField()[patchi];//Kristjan: governed by TEqn
 
 
         fvPatchScalarField& pmu = this->mu_.boundaryField()[patchi];
         fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
-        fvPatchScalarField& pv = this->v_.boundaryField()[patchi];
 
         if (pT.fixesValue())
         {
@@ -92,11 +94,10 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                pvfeq[facei] = mixture_.vfeq(pp[facei], pT[facei]);
+                pvg[facei] = mixture_.vg(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
-                              - mixture_.vg(pp[facei], pT[facei]);
             }
         }
         else
@@ -109,14 +110,33 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
                 //pT[facei] = mixture_.THE(ph[facei], pp[facei], pT[facei]);//Kristjan: governed by TEqn
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                pvfeq[facei] = mixture_.vfeq(pp[facei], pT[facei]);
+                pvg[facei] = mixture_.vg(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei], pstrig[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-                pv[facei] =    mixture_.veq(pp[facei], pT[facei])
-                              - mixture_.vg(pp[facei], pT[facei]);
             }
         }
     }
+    // calculate lagging density
+
+    // relaxation time
+    dimensionedScalar tauRlx("tauRlxInit", dimensionSet(0,0,1,0,0,0,0), 1.0);
+
+    const volVectorField& U = this->db().objectRegistry::lookupObject<volVectorField>("U");
+
+    // volume relaxation
+    fvScalarMatrix vfEqn
+    (
+        fvm::ddt(vf_)
+        + (U & fvc::grad(vf_))
+        ==
+        - (vf_ - vfeq)/tauRlx
+     );
+    vfEqn.relax();
+    vfEqn.solve();
+
+    // get current density
+    this->rho_ = scalar(1)/(vg + vf_);
 }
 
 
@@ -130,14 +150,14 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
 )
 :
     mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName),
-    v_
+    vf_
     (
         IOobject
         (
-            "v",
+            "vf",
             mesh.time().timeName(),
             mesh,
-            IOobject::NO_READ,
+            IOobject::READ_IF_PRESENT,
             IOobject::AUTO_WRITE
         ),
         mesh,
@@ -145,35 +165,34 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
         "zeroGradient"
     )
 {
-    if(max(v_).value() < VSMALL)//not a restart
+    if(max(vf_).value() < VSMALL)//not a restart -> init vf
     {
         const scalarField& pCells = this->p_.internalField();
         scalarField& TCells = this->T_.internalField();
-        scalarField& rhoCells = this->rho_.internalField();
+        scalarField& vfCells = this->vf_.internalField();
 
         forAll(TCells, celli)
         {
             const typename MixtureType::thermoType& mixture_ =
                 this->cellMixture(celli);
 
-            rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+            vfCells[celli] = mixture_.vfeq(pCells[celli], TCells[celli]);
         }
 
         forAll(this->T_.boundaryField(), patchi)
         {
             fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
             fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
-            fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+            fvPatchScalarField& pvf = this->vf_.boundaryField()[patchi];
 
             forAll(pT, facei)
             {
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
 
-                prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+                pvf[facei] = mixture_.vfeq(pp[facei], pT[facei]);
             }
         }
-        v_ = scalar(1)/this->rho_;//specific volume is the inverse of equilibrium density
     }
     calculate();
 }
