@@ -182,6 +182,19 @@ inline Foam::scalar Foam::taitTg<Specie>::vfeq(scalar p, scalar T) const
 }
 
 template<class Specie>
+inline Foam::scalar Foam::taitTg<Specie>::tauRlx(scalar p, scalar T) const
+{
+    if(A2_+T-D2_ > VSMALL)
+    {
+        return exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_)) * tauRlx_;
+    }
+    else
+    {
+        return VGREAT;
+    }
+}
+
+template<class Specie>
 inline Foam::scalar Foam::taitTg<Specie>::cTExp(scalar p, scalar T) const // num. der.
 {
     scalar spec_volS;

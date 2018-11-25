@@ -193,6 +193,9 @@ public:
             //- Return equilibrium free specific volume [kg/m^3]
             inline scalar vfeq(scalar p, scalar T) const;
 
+            //- Volume relaxation time [s]
+            inline scalar tauRlx(scalar p, scalar T) const;
+
             //- Return entropy [J/(kmol K)]
             inline scalar s(const scalar p, const scalar T) const;
 
