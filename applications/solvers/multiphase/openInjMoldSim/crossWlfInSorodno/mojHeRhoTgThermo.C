@@ -37,7 +37,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
     volScalarField vfeq = vf_; // allocate equil free vol
     volScalarField vg = vf_; // allocate glassy vol
-    dimensionedScalar deltaT = this->T_.mesh().time().deltaT();
+    dimensionedScalar tauMin = 1e10 * this->T_.mesh().time().deltaT();// min relaxation time
     volScalarField tauRlx
     (
         IOobject
@@ -148,7 +148,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
         fvm::ddt(vf_)
         + (U & fvc::grad(vf_))
         ==
-        - (vf_ - vfeq)/max(tauRlx, deltaT)
+        - (vf_ - vfeq)/max(tauRlx, tauMin)
      );
     vfEqn.relax();
     vfEqn.solve();
