@@ -37,7 +37,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
     volScalarField vfeq = vf_; // allocate equil free vol
     volScalarField vg = vf_; // allocate glassy vol
-    dimensionedScalar deltaT = this->T_.mesh().time().deltaTValue();
+    dimensionedScalar deltaT = this->T_.mesh().time().deltaT();
     volScalarField tauRlx
     (
         IOobject
