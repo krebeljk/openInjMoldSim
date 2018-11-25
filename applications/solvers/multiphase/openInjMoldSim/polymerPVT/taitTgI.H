@@ -186,7 +186,11 @@ inline Foam::scalar Foam::taitTg<Specie>::tauRlx(scalar p, scalar T) const
 {
     if(A2_+T-D2_ > VSMALL)
     {
-        return exp(-(A1_*(T-D2_-D3_*p))/(A2_+T-D2_)) * tauRlx_;
+        // limit exponent to 40 before exponentiation (returns ~1e17)
+        return exp(
+                min(40,
+                    -(A1_*(T-D2_-D3_*p))/(A2_+T-D2_))
+                ) * tauRlx_;
     }
     else
     {
