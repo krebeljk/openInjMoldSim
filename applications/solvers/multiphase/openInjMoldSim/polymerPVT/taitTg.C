@@ -76,7 +76,27 @@ Foam::taitTg<Specie>::taitTg(const dictionary& dict)
     b5_(readScalar(dict.subDict("equationOfState").lookup("b5"))),
     b6_(readScalar(dict.subDict("equationOfState").lookup("b6"))),
     b10_(readScalar(dict.subDict("equationOfState").lookup("b10")))
-{}
+{
+    Info << "TaitTg:"    << endl;
+    Info <<   "D1       " << D1_
+         << "\nD2       " << D2_
+         << "\nD3       " << D3_
+         << "\nA1       " << A1_
+         << "\nA2       " << A2_
+         << "\ntauRlx   " << tauRlx_
+         << "\nb1m      " << b1m_
+         << "\nb2m      " << b2m_
+         << "\nb3m      " << b3m_
+         << "\nb4m      " << b4m_
+         << "\nb1s      " << b1s_
+         << "\nb2s      " << b2s_
+         << "\nb3s      " << b3s_
+         << "\nb4s      " << b4s_
+         << "\nb5       " << b5_
+         << "\nb6       " << b6_
+         << "\nb10;     " << b10_
+         << endl;
+}
 
 
 // * * * * * * * * * * * * * * * Podatki * * * * * * * * * * * * * //
