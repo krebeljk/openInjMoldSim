@@ -63,7 +63,7 @@ class mojHeRhoTgThermo
     // Private Member Data
 
         // spec. volume [m3/kg]
-        volScalarField v_;
+        volScalarField vf_;
 
         // equilibrium density [kg/m3]
         volScalarField rhoEq_;

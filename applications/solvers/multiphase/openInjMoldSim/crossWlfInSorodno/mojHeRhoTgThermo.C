@@ -112,24 +112,24 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     // calculate lagging density
 
     // relaxation time
-    dimensionedScalar tauRlx("vZero", dimensionSet(0,0,1,0,0,0,0), 1.0);
+    dimensionedScalar tauRlx("tauRlxInit", dimensionSet(0,0,1,0,0,0,0), 1.0);
 
     const volVectorField& U = this->db().objectRegistry::lookupObject<volVectorField>("U");
 
     // volume relaxation
-    fvScalarMatrix vEqn
+    fvScalarMatrix vfEqn
     (
-        fvm::ddt(v_)
-        + (U & fvc::grad(v_))
+        fvm::ddt(vf_)
+        + (U & fvc::grad(vf_))
         - (
-             v_ - scalar(1)/rhoEq_
+             vf_ - scalar(1)/rhoEq_
            )/tauRlx
      );
-    vEqn.relax();
-    vEqn.solve();
+    vfEqn.relax();
+    vfEqn.solve();
 
     // get current density
-    this->rho_ = scalar(1)/v_;
+    this->rho_ = scalar(1)/vf_;
 }
 
 
@@ -143,11 +143,11 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
 )
 :
     mojHeThermo<BasicPsiThermo, MixtureType>(mesh, phaseName),
-    v_
+    vf_
     (
         IOobject
         (
-            "v",
+            "vf",
             mesh.time().timeName(),
             mesh,
             IOobject::READ_IF_PRESENT,
@@ -171,7 +171,7 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
         dimensionedScalar("rhoEqZero", dimensionSet(1,-3,0,0,0,0,0), 0.0)
     )
 {
-    if(max(v_).value() < VSMALL)//not a restart
+    if(max(vf_).value() < VSMALL)//not a restart
     {
         const scalarField& pCells = this->p_.internalField();
         scalarField& TCells = this->T_.internalField();
@@ -199,9 +199,9 @@ Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::mojHeRhoTgThermo
                 prhoEq[facei] = mixture_.rho(pp[facei], pT[facei]);
             }
         }
-        v_ = scalar(1)/this->rhoEq_;//specific volume is the inverse of equilibrium density
+        vf_ = scalar(1)/this->rhoEq_;//specific volume is the inverse of equilibrium density
     }
-    this->rho_ = scalar(1)/v_;// initialize density
+    this->rho_ = scalar(1)/vf_;// initialize density
     calculate();
 }
 
