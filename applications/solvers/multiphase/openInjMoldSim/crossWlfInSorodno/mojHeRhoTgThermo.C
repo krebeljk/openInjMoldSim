@@ -37,6 +37,19 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
 
     volScalarField vfeq = vf_; // allocate equil free vol
     volScalarField vg = vf_; // allocate glassy vol
+    volScalarField tauRlx
+    (
+        IOobject
+        (
+            "tauRlx",
+            this->T_.mesh().time().timeName(),
+            this->T_.mesh(),
+            IOobject::NO_READ,
+            IOobject::NO_WRITE
+        ),
+        this->T_.mesh(),
+        dimensionedScalar("tauRlxInit", dimensionSet(0,0,1,0,0,0,0), 1.0)
+    );
 
     scalarField& TCells = this->T_.internalField();
     scalarField& psiCells = this->psi_.internalField();
@@ -120,7 +133,6 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     // calculate lagging density
 
     // relaxation time
-    dimensionedScalar tauRlx("tauRlxInit", dimensionSet(0,0,1,0,0,0,0), 1.0);
 
     const volVectorField& U = this->db().objectRegistry::lookupObject<volVectorField>("U");
 
