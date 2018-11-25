@@ -33,6 +33,12 @@ template<class Specie>
 inline Foam::taitTg<Specie>::taitTg
 (
     const Specie& sp,
+    const scalar D1,
+    const scalar D2,
+    const scalar D3,
+    const scalar A1,
+    const scalar A2,
+    const scalar tauRlx,
     const scalar b1m,
     const scalar b2m,
     const scalar b3m,
@@ -47,6 +53,12 @@ inline Foam::taitTg<Specie>::taitTg
 )
 :
     Specie(sp),
+    D1_(D1),
+    D2_(D2),
+    D3_(D3),
+    A1_(A1),
+    A2_(A2),
+    tauRlx_(tauRlx),
     b1m_(b1m),
     b2m_(b2m),
     b3m_(b3m),
@@ -71,6 +83,12 @@ inline Foam::taitTg<Specie>::taitTg
 )
 :
     Specie(name, pf),
+    D1_(pf.D1_),
+    D2_(pf.D2_),
+    D3_(pf.D3_),
+    A1_(pf.A1_),
+    A2_(pf.A2_),
+    tauRlx_(pf.tauRlx_),
     b1m_(pf.b1m_),
     b2m_(pf.b2m_),
     b3m_(pf.b3m_),
@@ -161,6 +179,23 @@ inline Foam::scalar Foam::taitTg<Specie>::vfeq(scalar p, scalar T) const
 {
 
     return veq(p, T) - vg(p, T);
+}
+
+template<class Specie>
+inline Foam::scalar Foam::taitTg<Specie>::tauRlx(scalar p, scalar T) const
+{
+    if(A2_+T-D2_ > VSMALL)
+    {
+        // limit exponent to 40 before exponentiation (returns ~1e17)
+        return exp(
+                min(40,
+                    -(A1_*(T-D2_-D3_*p))/(A2_+T-D2_))
+                ) * tauRlx_;
+    }
+    else
+    {
+        return VGREAT;
+    }
 }
 
 template<class Specie>
