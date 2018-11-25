@@ -129,6 +129,7 @@ void Foam::mojHeRhoTgThermo<BasicPsiThermo, MixtureType>::calculate()
     (
         fvm::ddt(vf_)
         + (U & fvc::grad(vf_))
+        ==
         - (vf_ - vfeq)/tauRlx
      );
     vfEqn.relax();
