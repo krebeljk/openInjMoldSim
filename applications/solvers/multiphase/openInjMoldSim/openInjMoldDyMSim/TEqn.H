@@ -9,7 +9,7 @@
         * (
             fvc::ddt(p)
           + fvc::div(phi, p)
-          - fvc::Sp(fvc::div(phi), p)
+          - fvc::div(phi) * p
           )// Dp/Dt
           /mixture.Cp()
     );
