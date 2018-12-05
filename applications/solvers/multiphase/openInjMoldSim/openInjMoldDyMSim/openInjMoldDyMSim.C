@@ -136,22 +136,7 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
-            //Kristjan: Elastic deviatoric stress equation
-            if (sldDictIO.headerOk())
-            {
-                fvSymmTensorMatrix elSigDevEqn(
-                  fvm::ddt(elSigDev)
-                + fvm::div(phi,elSigDev)
-                  ==
-                  twoSymm(elSigDev & fvc::grad(U))
-                + shrMod * dev(twoSymm(fvc::grad(U)))
-                  * pos(shrRateLimEl-shrRate)
-                  * pos(visc-viscLimEl)
-                );
-                elSigDevEqn.relax();
-                elSigDevEqn.solve();
-                elSigDev = dev(elSigDev);
-            }
+            #include "sigEqn.H"
 
             strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             shrRate = strig;
