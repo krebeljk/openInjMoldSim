@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+temp 503.15;//K
+Twall 323.15;//K
+htc 2.5e3;//W/m2K
+
+internalField   uniform $temp;
+
+boundaryField
+{
+    "wall.*"
+    {
+        type            extWHFTP;
+        kappa           lookup;
+        //q               uniform 1000; //ali q, ali Ta in h
+        Ta              uniform $Twall;
+        h               uniform $htc;//not really used anymore
+        hpr             table (
+                        (0 1019.52)
+                        (1e8 5383.56)
+                        );
+        value           uniform $temp; //initial temperature [K]
+        kappaName       mojKappaOut;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    inlet
+    {
+        type            fixedValue;
+        value           uniform $temp;
+    }
+
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

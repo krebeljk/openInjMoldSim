@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointScalarField;
+    object      pointDisplacement;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    wallUp
+    {
+        type            codedFixedValue;
+        redirectType    kodiranPomik;
+
+        code
+        #{
+            // time
+            const scalar t = this->db().time().value();
+
+            // relaxation (not tested in parallel) <- WARNING
+            const scalar rlx = 0.05;
+
+            // atmospheric pressure
+            const scalar atm = 1e5; // Pa
+
+            // mold compliance
+            const scalar mCpl = 0e-12; // m/Pa
+
+            // pressure field
+            const volScalarField& p_ = this->db().lookupObject<volScalarField>("p");
+
+
+            // OLD DISPLACEMENT
+            // mesh displacement field
+            const pointScalarField& pdis_ = this->db().lookupObject<pointScalarField>("pointDisplacementz");
+            // patch displacement field
+            const Field& bpdis_ = pdis_.boundaryField()[patch().index()].internalField();
+            // old displacement
+            const scalar dispOld = 2.0 * sum(bpdis_)/bpdis_.size(); // averages ALL displacements on processor domain (not just patch)
+
+            // NEW DISPLACEMENT
+            // this patch boundary field
+            const scalarField& bp_ = p_.boundaryField()[patch().index()];
+            // face areas
+            const scalarField& areas = p_.mesh().boundary()[patch().index()].magSf();
+
+            // mean pressure
+            const scalar meanP = gSum(areas * bp_)/gSum(areas) - atm;
+
+            const scalar disp = rlx * (mCpl * meanP) + (1.0 - rlx) * dispOld;
+
+            Info << "t= " << t << " p= " << meanP << " d= " <<  disp << endl;
+
+            operator==(disp);
+        #};
+        value           $internalField;
+
+        codeOptions
+        #{
+            -I$(LIB_SRC)/finiteVolume/lnInclude \
+            -I$(LIB_SRC)/meshTools/lnInclude
+        #};
+
+        codeInclude
+        #{
+            #include "fvCFD.H"
+        #};
+    }
+
+    wallDown
+    {
+        type            uniformFixedValue;
+        uniformValue    constant 0;
+    }
+
+    inlet
+    {
+        type            slip;
+    }
+
+    outlet
+    {
+        type            slip;
+    }
+
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
