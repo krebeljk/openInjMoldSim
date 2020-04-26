@@ -1,0 +1,87 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    alpha.poly
+    {
+        boundaryField
+        {
+            outlet
+            {
+                type            zeroGradient;
+            }
+        }
+    }
+
+    T
+    {
+        boundaryField
+        {
+            outlet
+            {
+                type            extWHFTP;
+                kappa           lookup;
+                //q               uniform 1000; //ali q, ali Ta in h
+                Ta              uniform 323.15;
+                h               uniform 1.25e3;//not used anymore
+                value           uniform 503.15; //initial temperature [K]
+                hpr             table (
+                        (0 1019.52)
+                        (1e8 5383.56)
+                        );
+                kappaName       mojKappaOut;
+            }
+        }
+    }
+
+    U
+    {
+        boundaryField
+        {
+            outlet
+            {
+                type            slip;
+                value           uniform (0 0 0);
+            }
+        }
+    }
+
+    p
+    {
+        boundaryField
+        {
+            outlet
+            {
+                type            calculated;
+                value           uniform 1e5;
+            }
+        }
+    }
+
+    p_rgh
+    {
+        boundaryField
+        {
+            outlet
+            {
+                type            fixedFluxPressure;
+                value           uniform 1e5;
+            }
+        }
+    }
+}
+// ************************************************************************* //
