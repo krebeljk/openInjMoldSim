@@ -1,0 +1,115 @@
+iters
+{
+    expr "PIMPLE:(?: not)* converged (?:with)*in (%f%) iterations";
+    name iters;
+    theTitle "Iters of pimple";
+    titles
+         (
+          iters
+         );
+    type regular;
+}
+
+
+co
+{
+    expr "Courant Number mean: (%f%) max: (%f%)";
+    name co;
+    theTitle "Co number";
+    titles
+         (
+          mean
+          max
+         );
+    type regular;
+    logscale true;
+}
+
+coMesh
+{
+    expr "Mesh Courant Number mean: (%f%) max: (%f%)";
+    name coMesh;
+    theTitle "Co number";
+    titles
+         (
+          meanMesh
+          maxMesh
+         );
+    type slave;
+    master co;
+}
+
+deltaT
+{
+    expr "deltaT = (%f%)";
+    name deltaT ;
+    theTitle "deltaT";
+    titles
+         (
+          deltaT
+         );
+    type regular;
+    logscale true;
+}
+
+maxU
+{
+    expr "max\(U\) (%f%)";
+    name maxU ;
+    theTitle "max U";
+    titles
+         (
+         maxU
+         );
+    type regular;
+    logscale true;
+}
+
+
+fracVolPartic
+{
+    expr "Particle vol fraction (%f%)";
+    name fracVolPartic;
+    theTitle "Volume fraction of the particles";
+    titles
+         (
+          fracVolPartic
+         );
+    type regular;
+}
+
+htcValsIn
+{
+    expr "innerCylinder mojHtc 1\((%f%)\)";
+    name bcHi;
+    theTitle "htc";
+    titles
+         (
+          in-htc
+         );
+    type regular;
+}
+
+moldPress
+{
+    expr ".*p= (%f%).*";
+    name pressureOnMold;
+    theTitle "Pressure on mold";
+    titles
+         (
+          press
+         );
+    type regular;
+}
+
+moldDefl
+{
+    expr ".*d= (%f%).*";
+    name dispOfMold;
+    theTitle "Mold deflection";
+    titles
+         (
+         defl
+         );
+    type regular;
+}

@@ -1,0 +1,41 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    controlDict
+    {
+        endTime 6.0;
+        writeInterval   0.10;
+        maxDeltaT       5e-4;
+        //maxCo 0.01;
+    }
+    fvSolution
+    {
+        PIMPLE
+        {
+            nOuterCorrectors 500;
+            mojCutDeltaT
+            {
+               nPimpleCut 1000;//disable
+               sclDeltaTCut 0.9;
+               sclDeltaTUp 1.003;
+               minDeltaT 1e-4;
+            }
+        }
+    }
+}
+// ************************************************************************* //
