@@ -15,7 +15,7 @@ An OpenFOAM 3.0.1 installation is required to run the code.
 
 Run `wmake` in the [`openInjMoldDyMSim`](applications/solvers/multiphase/openInjMoldSim/openInjMoldDyMSim) directory.
 
-Run `Allwmake` in [`externalWallHeatFluxTemperatureP`](/tutorials/externalWallHeatFluxTemperatureP) tutorial to include the pressure dependent thermal boundary condition.  
+Run `Allwmake` in `/tutorials/externalWallHeatFluxTemperatureP/` to include the pressure dependent thermal boundary condition.  
 
 Run `AllRun` in the [`tutorials`](/tutorials/) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
 
