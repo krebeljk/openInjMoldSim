@@ -1,0 +1,3 @@
+[submodule "tutorials/externalWallHeatFluxTemperatureP"]
+	path = tutorials/externalWallHeatFluxTemperatureP
+	url = https://github.com/krebeljk/externalWallHeatFluxTemperatureP.git
