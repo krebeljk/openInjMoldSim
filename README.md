@@ -2,7 +2,8 @@
 
 This is a fork of [openInjMoldSim](https://github.com/krebeljk/openInjMoldSim) for amorphous polymer volumetric relaxation modeling.  
 
-This fork and the cases are described in a [paper](https://rdcu.be/but3t).
+This fork and the cases are described in a [The cooling rate dependence of the specific volume in amorphous
+plastic injection molding](https://rdcu.be/but3t).
 
 This code is not part of OpenFOAM. It only uses OpenFOAM v3.0.1. To learn about OpenFOAM see [openfoam.org](https://openfoam.org/), unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
