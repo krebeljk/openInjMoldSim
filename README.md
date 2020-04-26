@@ -1,27 +1,30 @@
-# openInjMoldSim [`v1.1`](VERSION.md)
+# openInjMoldDyMSimAmClr v1.0
 
-This is an OpenFOAM-3.0.1 solver for simulation of injection molding filling, packing and cooling stages. It is a
-modification of the compressibleInterFoam solver distributed with OpenFOAM. The solver has so far been used on the small
-2D demo case for amorphous polystyrene. A simulation of (semi-crystalline) HDPE is under development. Currently,
-the simulation is prohibitively inconvenient for typical industrial use.
+This is a fork of [openInjMoldSim](https://github.com/krebeljk/openInjMoldSim) for amorphous polymer volumetric relaxation modeling.  
 
-See the official website [openfoam.org](https://openfoam.org/), unofficial wiki
+This fork and the cases are described in a [paper](https://rdcu.be/but3t).
+
+This code is not part of OpenFOAM. It only uses OpenFOAM v3.0.1. To learn about OpenFOAM see [openfoam.org](https://openfoam.org/), unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
 [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/).
 
 ## Getting Started
 
-An OpenFOAM 3.0.1 installation is required to run the code. This code was run on Linux Ubuntu 14.04 LTS and Centos 6.6 (Rocks 6.2 Sidewinder).
+An OpenFOAM 3.0.1 installation is required to run the code.
 
-Run `Allwmake` in the solver directory to compile the solver.
+Run `wmake` in the [`openInjMoldDyMSim`](applications/solvers/multiphase/openInjMoldSim/openInjMoldDyMSim) directory.
 
-Run `AllRun` in the [`fill_pack`](/tutorials/demo/fill_pack) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
+Run `Allwmake` in [`externalWallHeatFluxTemperatureP`](/tutorials/externalWallHeatFluxTemperatureP) tutorial to include the pressure dependent thermal boundary condition.  
+
+Run `AllRun` in the [`tutorials`](/tutorials/) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
 
 ## Functionality
 
 * Compressible, non-isothermal, laminar cavity flow.
-* Tait equation of state.
+* Tait equation of state with viscoelastic volume relaxation.
 * Cross-WLF viscosity model.
+* Elastic solidification.
+* Cases model a compliant mold wall implemented through dynamic mesh and a coded boundary condition.
 
 ## Feedback
 
@@ -39,7 +42,3 @@ This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * The work was supported by the [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/).
-
-## Demo case
-![Demo geometry](/tutorials/demo/demo_geom.png)
-![Pressure evolution](/tutorials/demo/plot.png)
