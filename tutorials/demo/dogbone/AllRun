@@ -5,7 +5,6 @@ cd ${0%/*} || exit 1    # Run from this directory
 cp -r org0 0
 cp system/controlDict0 system/controlDict
 cp system/fvSolution0 system/fvSolution
-blockMesh
 setFields
 
 # Echoes all commands before executing.
