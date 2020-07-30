@@ -16,22 +16,38 @@ set -o xtrace
 
 # Get application name
 application=`getApplication`
+# cpus
+cpus=`getNumberOfProcessors`
 
 # fill
 phase='_fill'
-runApplication $application
+runApplication decomposePar
+mv log.decomposePar 'log.decomposePar'$phase
+mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 mv 'log.'$application 'log.'$application$phase
+runApplication reconstructPar
+mv log.reconstructPar 'log.reconstructPar'$phase
 
 # pack1
 phase='_pack1'
 sed -i -e 's/^deltaT\s.*;/deltaT 1e-10;/g' 0.135/uniform/time # change init deltaT
 changeDictionary -latestTime -dict system/changeDictionaryDict.bcpack
 changeDictionary -instance system -dict system/changeDictionaryDict.ctrl1
-runApplication $application
+rm -r processor*
+runApplication decomposePar
+mv log.decomposePar 'log.decomposePar'$phase
+mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 mv 'log.'$application 'log.'$application$phase
+runApplication reconstructPar
+mv log.reconstructPar 'log.reconstructPar'$phase
 
 # pack2
 phase='_pack2'
 changeDictionary -instance system -dict system/changeDictionaryDict.ctrl2
-runApplication $application
+rm -r processor*
+runApplication decomposePar
+mv log.decomposePar 'log.decomposePar'$phase
+mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 mv 'log.'$application 'log.'$application$phase
+runApplication reconstructPar
+mv log.reconstructPar 'log.reconstructPar'$phase
