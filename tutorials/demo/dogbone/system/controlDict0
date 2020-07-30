@@ -23,13 +23,13 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         0.135;
+endTime         0.165;
 
 deltaT          1e-6;
 
 writeControl    adjustableRunTime;
 
-writeInterval   0.0135;
+writeInterval   0.005;
 
 purgeWrite      0;
 
@@ -47,11 +47,11 @@ runTimeModifiable yes;
 
 adjustTimeStep  yes;
 
-maxCo           0.5;
+maxCo           0.15;
 
-maxDeltaT       1;
+maxDeltaT       1e-4;
 
-maxAlphaCo      0.5;
+maxAlphaCo      0.05;
 functions {
 
     probes
