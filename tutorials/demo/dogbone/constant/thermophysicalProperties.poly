@@ -37,19 +37,19 @@ mixture
     }
     equationOfState
     {
-        b1m         9.76e-4;
-        b2m         5.8e-7;
-        b3m         1.67e8;
-        b4m         3.6e-3;
-        b1s         9.76e-4;
-        b2s         2.3e-7;
-        b3s         2.6e8;
-        b4s         3.0e-3;
-        b5          373.0;
-        b6          5.1e-7;
-        b7          0.0;
-        b8          0.0;
-        b9          0.0;
+        b1m         0.0012495299;
+        b2m         1.026e-6;
+        b3m         1.042149833644e8;
+        b4m         0.004941;
+        b1s         0.001070046;
+        b2s         2.077e-7;
+        b3s         3.3241950281e8;
+        b4s         2.46e-6;
+        b5          390.65;
+        b6          1.543e-7;
+        b7          0.000189858;
+        b8          0.0283477;
+        b9          1.023e-8;
     }
     thermodynamics
     {
@@ -57,21 +57,20 @@ mixture
         Sf              0;//leave alone
         //CpCoeffs<8>     (1000.0    0.0 0.0 0.0 0.0 0.0 0.0 0.0);//J/(kgK)
     }
-    transport //PS Styron 678E - Vietri 2011
+    transport //HDPE Sabic
     {
-        n          0.252;//1
-        Tau        30800.0;//Pa
-        D1         4.76e10;//Pa s
-        D2         373.15;//K
-        D3         0.0e-6;//K/Pa
-        A1         25.7;//1
-        A2         61.06;//K
-        kappa     0.22;//W/(mK) thermal conductivity in case of "thermo crossWLF". Ignored with crossWLFTTC.
+        n          0.393539;//1
+        Tau        64568.9;//Pa
+        D1         3.76174e15;//Pa s
+        D2         153.15;//K
+        D3         0.0;//K/Pa
+        A1         33.21;//1
+        A2         51.6;//K
+        //lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
         etaMin     5;//Pas
-        etaMax     1e7;//Pas //This is the value of viscosity at T < TnoFlow. //Set higher than the value in the solidificationProperties to have elasticity.
-        TnoFlow    373.15;//K
-        deltaTempInterp 5.0;//The crossWLF viscosity starts interpolating to etaMax at TnoFlow+deltaTempInterp.
-        //deltaTempInterp must be greater than 0. Leaving it out sets it to 5K.
+        etaMax     500e3;//Pas
+        TnoFlow    333.15;//K
+        deltaTempInterp 10.0;//K
     }
 }
 //etaMax - High values cause instability during solidification, packing. High viscosity must reduce the shear rate and

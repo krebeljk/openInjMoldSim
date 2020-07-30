@@ -36,7 +36,7 @@ boundaryField
     {
        type uniformFixedValue;
        uniformValue table 
-#      include "$FOAM_CASE/fim_01_01_F_00_00_01_08.txt"
+#      include "$FOAM_CASE/fim_01_01_G_00_03_01_08.txt"
     }
 
     defaultFaces
