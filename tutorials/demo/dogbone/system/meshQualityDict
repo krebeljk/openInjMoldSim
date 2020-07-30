@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      meshQualityDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+//- Maximum non-orthogonality allowed. Set to 180 to disable.
+maxNonOrtho 75;
+
+//- Max skewness allowed. Set to <0 to disable.
+maxBoundarySkewness 4;	//Original 20 for better quality 4
+maxInternalSkewness 4;
+
+//  Set to 180 to disable.
+maxConcave 80;
+
+//  Set to very negative number (e.g. -1E30) to disable.
+minVol 1e-13;
+
+//- Minimum quality of the tet formed by the face-centre
+//  and variable base point minimum decomposition triangles and
+//  the cell centre. Set to very negative number (e.g. -1E30) to
+//  disable.
+//     <0 = inside out tet,
+//      0 = flat tet
+//      1 = regular tet
+//  1e-15 (small positive) to enable tracking
+// -1e+30 (large negative) for best layer insertion
+//minTetQuality 1e-15;
+minTetQuality -1e+30;
+
+//- Minimum face area. Set to <0 to disable.
+minArea -1;
+
+minTwist 0.02;
+
+minDeterminant 0.001;
+
+minFaceWeight 0.05;
+//minFaceWeight 0.02;
+
+minVolRatio 0.01;
+
+minTriangleTwist -1;
+
+//minVolCollapseRatio 0.1;
+
+// ************************************************************************* //
