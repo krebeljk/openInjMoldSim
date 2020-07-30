@@ -4,6 +4,7 @@
       + fvm::div(rhoPhi, U)
       + turbulence->divDevRhoReff(U)
       - fvc::div(elSigDev)
+      + fvc::grad(pAux)//Kristjan: auxiliary pressure for pMin equilibrium
     );
 
     UEqn.relax();
