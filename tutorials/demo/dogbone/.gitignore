@@ -11,6 +11,7 @@ processor*
 #constant/extendedFeatureEdgeMesh
 *.eMesh
 constant/polyMesh/*
+constant/triSurface/*
 !constant/polyMesh/blockMeshDict
 #constant/cellToRegion
 *.OpenFOAM
