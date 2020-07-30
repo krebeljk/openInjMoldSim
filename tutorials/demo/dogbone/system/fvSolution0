@@ -132,7 +132,7 @@ PIMPLE
         }
         T
         {
-                tolerance   1e-6;
+                tolerance   1e-5;
                 relTol      0.0;
         }
         elSigDev
