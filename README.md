@@ -8,11 +8,11 @@ Currently, the simulation is prohibitively inconvenient for typical industrial u
 
 See the [tutorials](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) for more info.
 
-See the official website [openfoam.org](https://openfoam.org/), unofficial wiki
+This solver built for OpenFOAM but is not part of OpenFOAM. Regarding OpenFOAM, see the official website [openfoam.org](https://openfoam.org/), unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
 [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/).
 
-![openInjMoldSimAxiFill](openInjMoldSimAxiFill.gif)
+![oimsDogbone](oimsDogbone.gif)
 
 ## Getting Started
 
