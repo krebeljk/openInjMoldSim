@@ -41,7 +41,7 @@ regions
     ******************************/
     boxToCell
     {
-        box (9e-3 -1 -1) (11.5e-3 1 1);
+        box (-0.5e-3 -0.5e-3 -10.5) (3e-3 4.5e-3 10.5);
         fieldValues
         (
             volScalarFieldValue alpha.poly 1
