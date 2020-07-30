@@ -18,9 +18,9 @@ dictionaryReplacement
 {
     controlDict
     {
-        endTime 0.5;
-        writeInterval   0.02;
-        //maxDeltaT       1e-3;
+        endTime 15.0;
+        writeInterval   0.5;
+        maxDeltaT       0.25e-3;
     }
 }
 // ************************************************************************* //

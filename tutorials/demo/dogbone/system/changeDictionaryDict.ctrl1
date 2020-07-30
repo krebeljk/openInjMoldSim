@@ -18,23 +18,9 @@ dictionaryReplacement
 {
     controlDict
     {
-        endTime 0.5;
-        writeInterval   0.1;
-        maxDeltaT       1e-4;
-    }
-    fvSolution
-    {
-        PIMPLE
-        {
-            nCorrectors     2;
-            residualControl
-            {
-                p_rgh
-                {
-                    tolerance   1e-5;
-                }
-             }
-        }
+        endTime 0.2;
+        writeInterval   0.005;
+        //maxDeltaT       0.001;
     }
 }
 // ************************************************************************* //
