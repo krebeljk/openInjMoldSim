@@ -243,3 +243,18 @@ Info<< "Reading solidification properties\n" << endl;
         , dimensionedSymmTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
         , "zeroGradient"
     );
+
+// pressure preventing material collapse bellow pMin
+volScalarField pAux
+(
+    IOobject
+    (
+        "pAux",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("zeropAux", dimPressure, 0.0)
+);
