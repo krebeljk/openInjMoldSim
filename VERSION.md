@@ -32,3 +32,8 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 ## Version v1.1.2
 - Bug fix. Thermal conductivity in the energy equation calculated properly.
 - test/CrossWLF tests multiple temperatures and numerical parameters are corrected (see jupyter notebook).
+
+## Version v1.1.3
+- Bug fix. Proper material derivatives for pressure and elSigDev.
+- Bug fix. Convegence possible at p = pMin (when cooling) due to new pAux field.
+- Tutorials. Added the dogbone specimen case.

@@ -50,7 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v1.1.2" << endl;
+    Info << "openInjMoldSim v1.1.3" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -98,6 +98,7 @@ int main(int argc, char *argv[])
                 fvSymmTensorMatrix elSigDevEqn(
                   fvm::ddt(elSigDev)
                 + fvm::div(phi,elSigDev)
+                + fvm::SuSp(-fvc::div(phi),elSigDev)
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
                 + shrMod * dev(twoSymm(fvc::grad(U)))

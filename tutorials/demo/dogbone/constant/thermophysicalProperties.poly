@@ -1,0 +1,81 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            mojHeRhoThermo;//leave alone
+    mixture         pureMixture;//leave alone
+    //transport     crossWLF;// specify thermal conductivity kappa with the crossWLF constants.
+    transport       crossWLFTTC;// TTC = T-abulated T-hermal C-onductivity // see file: kappaTable
+    //thermo        hPolynomial; // Use this also for constant Cp.
+    thermo          hTabular; //see file: constant/cpTable
+    equationOfState polymerPVT;//TaitEquation. Might be renamed in the future.
+    specie          specie;//leave alone
+    energy          sensibleInternalEnergy;//leave alone
+}
+
+mixture
+{
+    specie//leave alone
+    {
+        nMoles      1;
+        molWeight   18.0;
+    }
+    equationOfState
+    {
+        b1m         0.0012495299;
+        b2m         1.026e-6;
+        b3m         1.042149833644e8;
+        b4m         0.004941;
+        b1s         0.001070046;
+        b2s         2.077e-7;
+        b3s         3.3241950281e8;
+        b4s         2.46e-6;
+        b5          390.65;
+        b6          1.543e-7;
+        b7          0.000189858;
+        b8          0.0283477;
+        b9          1.023e-8;
+    }
+    thermodynamics
+    {
+        Hf              0;//leave alone
+        Sf              0;//leave alone
+        //CpCoeffs<8>     (1000.0    0.0 0.0 0.0 0.0 0.0 0.0 0.0);//J/(kgK)
+    }
+    transport //HDPE Sabic
+    {
+        n          0.393539;//1
+        Tau        64568.9;//Pa
+        D1         3.76174e15;//Pa s
+        D2         153.15;//K
+        D3         0.0;//K/Pa
+        A1         33.21;//1
+        A2         51.6;//K
+        //lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
+        etaMin     5;//Pas
+        etaMax     500e3;//Pas
+        TnoFlow    333.15;//K
+        deltaTempInterp 10.0;//K
+    }
+}
+//etaMax - High values cause instability during solidification, packing. High viscosity must reduce the shear rate and
+//then elastic shear stress supports the material. See the constant/solidificationProperties file. If that file is not
+//present, no elastic shear stress will be calculated even though the solver reads the related fvSchemes.
+
+
+// ************************************************************************* //
