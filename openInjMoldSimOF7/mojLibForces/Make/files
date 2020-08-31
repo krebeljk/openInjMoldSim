@@ -1,0 +1,7 @@
+forces/mojForces.C
+forceCoeffs/forceCoeffs.C
+
+../crossWlfInSorodno/mojBasicThermo.C
+../crossWlfInSorodno/mojFluidThermo.C
+
+LIB = $(FOAM_USER_LIBBIN)/libmojforces01
