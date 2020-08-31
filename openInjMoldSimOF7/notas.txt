@@ -1,0 +1,2 @@
+Cp e H departure é 0 na equação de estado tait?
+alterado mojThermo.H e mojThermoI.H para seguir os ficheiros thermo.H e thermoI.H do source code

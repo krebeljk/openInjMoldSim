@@ -1,0 +1,104 @@
+/* vim: ft=cpp: */
+
+// DEJANSKI TYPDEF (po macrojih)
+typedef                                                                       \
+    crossWLFTransport                                                                 \
+    <                                                                         \
+        species::thermo                                                       \
+        <                                                                     \
+            hConstThermo                                                            \
+            <                                                                 \
+                polymerPVT                                                    \
+                <                                                             \
+                    specie                                                    \
+                >                                                             \
+            >,                                                                \
+            sensibleInternalEnergy                                                              \
+        >                                                                     \
+    > crossWLFTransport##sensibleInternalEnergy##hConstThermo##polymerPVT##specie;                                                        \
+
+//mojMakeThermo.C ----------------------------------------------------------------------------------------------------
+#define mojMakeThermoTypedefs(BaseThermo,Cthermo,Mixture,Transport,Type,Thermo,EqnOfState,Specie)\
+                                                                              \
+typedef                                                                       \
+    Transport                                                                 \
+    <                                                                         \
+        species::thermo                                                       \
+        <                                                                     \
+            Thermo                                                            \
+            <                                                                 \
+                EqnOfState                                                    \
+                <                                                             \
+                    Specie                                                    \
+                >                                                             \
+            >,                                                                \
+            Type                                                              \
+        >                                                                     \
+    > Transport##Type##Thermo##EqnOfState##Specie;                            \
+                                                                              \
+typedef                                                                       \
+    Cthermo                                                                   \
+    <                                                                         \
+        BaseThermo,                                                           \
+        Mixture<Transport##Type##Thermo##EqnOfState##Specie>                  \
+    > Cthermo##Mixture##Transport##Type##Thermo##EqnOfState##Specie;          \
+                                                                              \
+defineTemplateTypeNameAndDebugWithName                                        \
+(                                                                             \
+    Cthermo##Mixture##Transport##Type##Thermo##EqnOfState##Specie,            \
+    (                                                                         \
+        #Cthermo"<"#Mixture"<"                                                \
+      + Transport##Type##Thermo##EqnOfState##Specie::typeName()               \
+      + ">>"                                                                  \
+    ).c_str(),                                                                \
+    0                                                                         \
+);
+//mojMakeThermo.C (poenostavljeno) ----------------------------------------------------------------------------------------------------
+#define mojMakeThermoTypedefs(BaseThermo,Cthermo,Mixture,Transport,Type,Thermo,EqnOfState,Specie)\
+                                                                              \
+typedef                                                                       \
+    Transport                                                                 \
+    <                                                                         \
+        species::thermo                                                       \
+        <                                                                     \
+            Thermo                                                            \
+            <                                                                 \
+                EqnOfState                                                    \
+                <                                                             \
+                    Specie                                                    \
+                >                                                             \
+            >,                                                                \
+            Type                                                              \
+        >                                                                     \
+    > "TD1";                            \
+                                                                              \
+typedef                                                                       \
+    Cthermo                                                                   \
+    <                                                                         \
+        BaseThermo,                                                           \
+        Mixture<"TD1">                  \
+    > "TD2";          \
+                                                                              \
+defineTemplateTypeNameAndDebugWithName                                        \
+(                                                                             \
+    "TD2",            \
+    (                                                                         \
+        #Cthermo"<"#Mixture"<"                                                \
+      + "TD1"::typeName()               \
+      + ">>"                                                                  \
+    ).c_str(),                                                                \
+    0                                                                         \
+);
+
+//mojThermos.C ----------------------------------------------------------------------------------------------------
+mojMakeThermo
+(
+    mojRhoThermo,
+    mojHeRhoThermo,
+    pureMixture,
+    crossWLFTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    polymerPVT,
+    specie
+);
