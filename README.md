@@ -1,14 +1,13 @@
 # openInjMoldSim [`v1.1.3`](VERSION.md)
 
-This is an [OpenFOAM 3.0.1](http://openfoamwiki.net/index.php/Installation) solver for simulation of injection molding filling, packing and cooling stages.
+This is an [OpenFOAM](http://openfoamwiki.net/index.php/Installation) solver for simulation of injection molding filling, packing and cooling stages.
 It is a modification of the compressibleInterFoam solver distributed with OpenFOAM.
 The solver has so far been validated on the [2D demo](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) case for amorphous polystyrene.
-A simulation of (semi-crystalline) HDPE is under development.
 Currently, the simulation is prohibitively inconvenient for typical industrial use.
 
 See the [tutorials](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) for more info.
 
-This solver built for OpenFOAM but is not part of OpenFOAM. Regarding OpenFOAM, see the official website [openfoam.org](https://openfoam.org/), unofficial wiki
+This solver built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). See also the unofficial wiki
 [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
 [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/).
 
@@ -16,7 +15,7 @@ This solver built for OpenFOAM but is not part of OpenFOAM. Regarding OpenFOAM, 
 
 ## Getting Started
 
-An [OpenFOAM 3.0.1 installation](http://openfoamwiki.net/index.php/Installation) is required to run the code. This code was run on Linux Ubuntu 14.04 LTS and Centos 6.6 (Rocks 6.2 Sidewinder).
+An [OpenFOAM installation](http://openfoamwiki.net/index.php/Installation) is required to run the code.
 
 Run `Allwmake` in the solver directory to compile the solver.
 
