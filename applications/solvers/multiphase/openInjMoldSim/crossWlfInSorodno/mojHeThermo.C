@@ -814,6 +814,30 @@ Foam::tmp<Foam::scalarField> Foam::mojHeThermo<BasicThermo, MixtureType>::kappa
         )*this->alpha_.boundaryField()[patchi];
 }
 
+template<class BasicThermo, class MixtureType>
+Foam::tmp<Foam::volScalarField>
+Foam::mojHeThermo<BasicThermo, MixtureType>::alphahe() const
+{
+    tmp<Foam::volScalarField> alphaEff(this->CpByCpv()*this->alpha_);
+    alphaEff.ref().rename("alphahe");
+    return alphaEff;
+}
+
+
+template<class BasicThermo, class MixtureType>
+Foam::tmp<Foam::scalarField>
+Foam::mojHeThermo<BasicThermo, MixtureType>::alphahe(const label patchi) const
+{
+    return
+    this->CpByCpv
+    (
+        this->p_.boundaryField()[patchi],
+        this->T_.boundaryField()[patchi],
+        patchi
+    )
+   *this->alpha_.boundaryField()[patchi];
+}
+
 
 template<class BasicThermo, class MixtureType>
 Foam::tmp<Foam::volScalarField>

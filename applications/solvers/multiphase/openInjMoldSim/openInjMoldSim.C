@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
             // correct interface on first PIMPLE corrector
            // if (pimple.corr() == 1)
-            if (pimple.firstIter())  //cbpf on 24/09/2019 compatibility to of6
+            if (pimple.firstPimpleIter())  //cbpf on 24/09/2019 compatibility to of6
             {
                 interface.correct();
             }

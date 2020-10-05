@@ -88,8 +88,7 @@
                 (max(alpha1, scalar(0))/rho1)*p_rghEqnComp1()
               + (max(alpha2, scalar(0))/rho2)*p_rghEqnComp2()
             )
-          + p_rghEqnIncomp,
-            mesh.solver(p_rgh.select(pimple.finalInnerIter()))
+          + p_rghEqnIncomp
         );
 
         if (pimple.finalNonOrthogonalIter())
