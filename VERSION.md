@@ -37,3 +37,6 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 - Bug fix. Proper material derivatives for pressure and elSigDev.
 - Bug fix. Convegence possible at p = pMin (when cooling) due to new pAux field.
 - Tutorials. Added the dogbone specimen case.
+
+## Version v5
+- OpenFOAM 5

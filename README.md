@@ -1,4 +1,4 @@
-# openInjMoldSim [`v1.1.3`](VERSION.md)
+# openInjMoldSim [`v5`](VERSION.md)
 
 This is an [OpenFOAM](http://openfoamwiki.net/index.php/Installation) solver for simulation of injection molding filling, packing and cooling stages.
 It is a modification of the compressibleInterFoam solver distributed with OpenFOAM.

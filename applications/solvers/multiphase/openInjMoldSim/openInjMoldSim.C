@@ -50,7 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v1.1.3" << endl;
+    Info << "openInjMoldSim v5" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
