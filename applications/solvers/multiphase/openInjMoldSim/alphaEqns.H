@@ -69,8 +69,10 @@
             alphaPhi1,
             Sp,
             Su,
-            1,
-            0
+            oneField(),
+            zeroField() //cbpf on 24/09/2019 for compatibility with of6
+            //1,
+            //0
         );
 
         surfaceScalarField rho1f(fvc::interpolate(rho1));

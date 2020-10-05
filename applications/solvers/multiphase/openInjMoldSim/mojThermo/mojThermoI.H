@@ -135,7 +135,8 @@ template<class Thermo, template<class> class Type>
 inline Foam::word
 Foam::species::mojThermo<Thermo, Type>::heName()
 {
-    return Type<mojThermo<Thermo, Type>>::name();
+    //return Type<mojThermo<Thermo, Type>>::name();
+    return Type<mojThermo<Thermo, Type>>::energyName(); //cbpf on 24/09/2019 for ofv6 compatibility
 }
 
 
