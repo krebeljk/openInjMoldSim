@@ -42,4 +42,8 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 - OpenFOAM 5
 
 ## Version v6
+
 - OpenFOAM 6
+
+## Version v7
+- OpenFOAM 7
