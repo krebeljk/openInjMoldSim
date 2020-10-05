@@ -26,7 +26,7 @@ Class
     Foam::polymerPVT
 
 Description
-    Perfect gas equation of state.
+    Tait equation of state.
 
 SourceFiles
     polymerPVTI.H
@@ -176,11 +176,17 @@ public:
             //- Return density [kg/m^3]
             inline scalar rho(scalar p, scalar T) const;
 
-            //- Return coef. of therm. expan. [1/K]
+	    //- Return coef. of therm. expan. [1/K]
             inline scalar cTExp(scalar p, scalar T) const;
 
-            //- Return entropy [J/(kmol K)]
-            inline scalar s(const scalar p, const scalar T) const;
+            //- Return enthalpy departure [J/kg]
+            inline scalar H(const scalar p, const scalar T) const;
+
+            //- Return Cp departure [J/(kg K]
+            inline scalar Cp(scalar p, scalar T) const;
+
+            //- Return entropy [J/(kg K)]
+            inline scalar S(const scalar p, const scalar T) const;
 
             //- Return compressibility rho/p [s^2/m^2]
             inline scalar psi(scalar p, scalar T) const;
@@ -188,8 +194,8 @@ public:
             //- Return compression factor []
             inline scalar Z(scalar p, scalar T) const;
 
-            //- Return (cp - cv) [J/(kmol K]
-            inline scalar cpMcv(scalar p, scalar T) const;
+            //- Return (Cp - Cv) [J/(kg K]
+            inline scalar CpMCv(scalar p, scalar T) const;
 
 
         // IO

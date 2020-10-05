@@ -181,9 +181,24 @@ inline Foam::scalar Foam::polymerPVT<Specie>::cTExp(scalar p, scalar T) const //
     return coefThermExp;
 }
 
+template<class Specie>
+inline Foam::scalar Foam::polymerPVT<Specie>::H(scalar p, scalar T) const //VER SE ESTÁ BEM
+{
+	//Info << "Warning: function H() in polymerPVTI.H" << endl; //if this message is printed during the simulation, this function must be checked
+    return 0;
+}
+
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::s(scalar p, scalar T) const // POZOR - NI TESTIRANO
+inline Foam::scalar Foam::polymerPVT<Specie>::Cp(scalar p, scalar T) const //VER SE ESTÁ BEM
+{
+	//Info << "Warning: function Cp() in polymerPVTI.H" << endl; //if this message is printed during the simulation, this function must be checked
+    return 0;
+}
+
+
+template<class Specie>
+inline Foam::scalar Foam::polymerPVT<Specie>::S(scalar p, scalar T) const // POZOR - NI TESTIRANO
 {
     scalar pZ = (T - b5_)/b6_; //Tlak na meji med S in M domenama
     scalar entr;
@@ -215,7 +230,7 @@ inline Foam::scalar Foam::polymerPVT<Specie>::s(scalar p, scalar T) const // POZ
 
     Info << "Ni testirano: s(J/kgK)=" << entr << "s(J/kmolK)=" << entr*this->W() << " p=" << p << " T=" << T << endl;
 
-    return entr*this->W(); // pozor, je v kmol
+    return entr; // pozor, je v kmol
 }
 
 // A (b1m_+b2m_*(T-b5_))
@@ -254,10 +269,10 @@ inline Foam::scalar Foam::polymerPVT<Specie>::Z(scalar p, scalar T) const
 
 
 template<class Specie>
-inline Foam::scalar Foam::polymerPVT<Specie>::cpMcv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
+inline Foam::scalar Foam::polymerPVT<Specie>::CpMCv(scalar p, scalar T) const //fim_01_01_E_04_01_cpMcv.txt - MMA generated
 {
     scalar cpmcv;
-    scalar cpmcvMol;
+    //scalar cpmcvMol;
     scalar cpmcvM;
     scalar cpmcvS;
     //melt
@@ -272,9 +287,9 @@ inline Foam::scalar Foam::polymerPVT<Specie>::cpMcv(scalar p, scalar T) const //
          ,p
          ,T
      );
-    cpmcvMol = cpmcv * this->W();
+    //cpmcvMol = cpmcv * this->W();
     //Info << "cpmcvM[J/(kmol K)]=" << cpmcvMol << " p=" << p << " T=" << T << endl;
-    return cpmcvMol;
+    return cpmcv;
 }
 
 

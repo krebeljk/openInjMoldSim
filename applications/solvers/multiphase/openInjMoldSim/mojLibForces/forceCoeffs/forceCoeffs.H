@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,22 +22,22 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::forceCoeffs
+    Foam::functionObjects::forceCoeffs
 
 Group
     grpForcesFunctionObjects
 
 Description
-    This function object extends the Foam::forces function object by providing
-    lift, drag and moment coefficients.  The data can optionally be output into
-    bins, defined in a given direction.
+    Extends the forces functionObject by providing lift, drag and moment
+    coefficients.  The data can optionally be output into bins, defined in a
+    given direction.
 
     Example of function object specification:
     \verbatim
     forceCoeffs1
     {
         type        forceCoeffs;
-        functionObjectLibs ("libforces.so");
+        libs        ("libforces.so");
         ...
         log         yes;
         patches     (walls);
@@ -57,7 +57,7 @@ Description
     }
     \endverbatim
 
-    \heading Function object usage
+Usage
     \table
         Property     | Description             | Required    | Default value
         type         | type name: forces       | yes         |
@@ -79,25 +79,26 @@ Description
         cumulative   | bin data accumulated with incresing distance | yes |
     \endtable
 
-SeeAlso
+See also
     Foam::functionObject
-    Foam::OutputFilterFunctionObject
-    Foam::forces
+    Foam::functionObjects::timeControl
+    Foam::functionObjects::forces
 
 SourceFiles
     forceCoeffs.C
-    IOforceCoeffs.H
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef forceCoeffs_H
-#define forceCoeffs_H
+#ifndef functionObjects_forceCoeffs_H
+#define functionObjects_forceCoeffs_H
 
 #include "forces.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
+{
+namespace functionObjects
 {
 
 /*---------------------------------------------------------------------------*\
@@ -160,14 +161,12 @@ public:
 
     // Constructors
 
-        //- Construct for given objectRegistry and dictionary.
-        //  Allow the possibility to load fields from files
+        //- Construct from Time and dictionary
         forceCoeffs
         (
             const word& name,
-            const objectRegistry&,
-            const dictionary&,
-            const bool loadFromFiles = false
+            const Time& runTime,
+            const dictionary&
         );
 
 
@@ -178,24 +177,19 @@ public:
     // Member Functions
 
         //- Read the forces data
-        virtual void read(const dictionary&);
+        virtual bool read(const dictionary&);
 
         //- Execute, currently does nothing
-        virtual void execute();
-
-        //- Execute at the final time-loop, currently does nothing
-        virtual void end();
-
-        //- Called when time was set at the end of the Time::operator++
-        virtual void timeSet();
+        virtual bool execute();
 
         //- Write the forces
-        virtual void write();
+        virtual bool write();
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+} // End namespace functionObjects
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -79,6 +79,8 @@ int main(int argc, char *argv[])
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
+        time = runTime;
+
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
@@ -93,7 +95,7 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             //Kristjan: Elastic deviatoric stress equation
-            if (sldDictIO.headerOk())
+            if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER SE ESTÁ BEM
             {
                 fvSymmTensorMatrix elSigDevEqn(
                   fvm::ddt(elSigDev)

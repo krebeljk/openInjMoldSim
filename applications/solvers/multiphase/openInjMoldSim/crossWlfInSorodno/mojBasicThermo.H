@@ -138,6 +138,17 @@ public:
 
     // Selectors
 
+        //- Generic lookup for thermodynamics package thermoTypeName
+        template<class Thermo, class Table>
+        static typename Table::iterator lookupThermo
+        (
+            const dictionary& thermoTypeDict,
+            Table* tablePtr,
+            const int nCmpt,
+            const char* cmptNames[],
+            const word& thermoTypeName
+        );
+
         //- Generic lookup for each of the related thermodynamics packages
         template<class Thermo, class Table>
         static typename Table::iterator lookupThermo

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2012 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,7 +24,6 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "mojThermo.H"
-#include "IOstreams.H"
 
 /* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
 
@@ -36,15 +35,6 @@ const int Foam::species::mojThermo<Thermo, Type>::maxIter_ = 100;
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
-
-template<class Thermo, template<class> class Type>
-Foam::species::mojThermo<Thermo, Type>::mojThermo(Istream& is)
-:
-    Thermo(is)
-{
-    is.check("mojThermo<Thermo, Type>::mojThermo(Istream&)");
-}
-
 
 template<class Thermo, template<class> class Type>
 Foam::species::mojThermo<Thermo, Type>::mojThermo(const dictionary& dict)
@@ -70,9 +60,7 @@ Foam::Ostream& Foam::species::operator<<
     Ostream& os, const mojThermo<Thermo, Type>& st
 )
 {
-    os  << static_cast<const Thermo&>(st);
-
-    os.check("Ostream& operator<<(Ostream&, const mojThermo&)");
+    st.write(os);
     return os;
 }
 

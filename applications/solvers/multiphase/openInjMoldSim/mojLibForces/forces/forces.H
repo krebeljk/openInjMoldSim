@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -22,14 +22,14 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::forces
+    Foam::functionObjects::forces
 
 Group
     grpForcesFunctionObjects
 
 Description
-    This function object calculates the forces and moments by integrating the
-    pressure and skin-friction forces over a given list of patches.
+    Calculates the forces and moments by integrating the pressure and
+    skin-friction forces over a given list of patches.
 
     Member function forces::write() calculates the forces/moments and
     writes the forces/moments into the file \<timeDir\>/forces.dat and bin
@@ -40,7 +40,7 @@ Description
     forces1
     {
         type        forces;
-        functionObjectLibs ("libforces.so");
+        libs        ("libforces.so");
         ...
         log         yes;
         patches     (walls);
@@ -54,18 +54,18 @@ Description
     }
     \endverbatim
 
-    \heading Function object usage
+Usage
     \table
         Property     | Description             | Required    | Default value
-        type         | type name: forces       | yes         |
-        log          | write force data to standard output | no | no
-        patches      | patches included in the forces calculation | yes |
-        pName        | pressure field name     | no          | p
-        UName        | velocity field name     | no          | U
-        rhoName      | density field name (see below) | no   | rho
-        CofR         | centre of rotation (see below) | no   |
-        directForceDensity | force density supplied directly (see below)|no|no
-        fDName       | name of force density field (see below) | no | fD
+        type         | Type name: forces       | yes         |
+        log          | Write force data to standard output | no | no
+        patches      | Patches included in the forces calculation | yes |
+        p            | Pressure field name     | no          | p
+        U            | Velocity field name     | no          | U
+        rho          | Density field name (see below) | no   | rho
+        CofR         | Centre of rotation (see below) | no   |
+        directForceDensity | Force density supplied directly (see below)|no|no
+        fD           | Name of force density field (see below) | no | fD
     \endtable
 
     Bin data is optional, but if the dictionary is present, the entries must
@@ -77,7 +77,7 @@ Description
     \endtable
 
 Note
-  - For incompressible cases, set \c rhoName to \c rhoInf.  You will then be
+  - For incompressible cases, set \c rho to \c rhoInf.  You will then be
     required to provide a \c rhoInf value corresponding to the free-stream
     constant density.
   - If the force density is supplied directly, set the \c directForceDensity
@@ -99,41 +99,33 @@ Note
         }
     \endverbatim
 
-SeeAlso
+See also
     Foam::functionObject
-    Foam::OutputFilterFunctionObject
+    Foam::functionObjects::fvMeshFunctionObject
+    Foam::functionObjects::logFiles
+    Foam::functionObjects::timeControl
     Foam::forceCoeffs
 
 SourceFiles
     forces.C
-    IOforces.H
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef forces_H
-#define forces_H
+#ifndef functionObjects_forces_H
+#define functionObjects_forces_H
 
-#include "functionObjectFile.H"
+#include "fvMeshFunctionObject.H"
+#include "logFiles.H"
 #include "coordinateSystem.H"
-#include "coordinateSystems.H"
-#include "primitiveFieldsFwd.H"
 #include "volFieldsFwd.H"
 #include "HashSet.H"
-#include "Tuple2.H"
-#include "OFstream.H"
-#include "Switch.H"
-#include "writer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-
-// Forward declaration of classes
-class objectRegistry;
-class dictionary;
-class polyMesh;
-class mapPolyMesh;
+namespace functionObjects
+{
 
 /*---------------------------------------------------------------------------*\
                            Class forces Declaration
@@ -141,29 +133,26 @@ class mapPolyMesh;
 
 class forces
 :
-    public functionObjectFile
+    public fvMeshFunctionObject,
+    public logFiles
 {
+
 protected:
 
     // Protected data
 
-        //- Name of this set of forces,
-        //  Also used as the name of the probes directory.
-        word name_;
-
-        const objectRegistry& obr_;
-
-        //- On/off switch
-        bool active_;
-
-        //- Switch to send output to Info as well as to file
-        Switch log_;
+        //- Enumeration for ensuring the right file is accessed
+        enum fileID
+        {
+            MAIN_FILE = 0,
+            BINS_FILE = 1
+        };
 
         //- Pressure, viscous and porous force per bin
-        List<Field<vector> > force_;
+        List<Field<vector>> force_;
 
         //- Pressure, viscous and porous moment per bin
-        List<Field<vector> > moment_;
+        List<Field<vector>> moment_;
 
 
         // Read from dictionary
@@ -244,7 +233,7 @@ protected:
         //- Dynamic viscosity field
         tmp<volScalarField> mu() const;
 
-        //- Return rho if rhoName is specified otherwise rhoRef
+        //- Return rho if specified otherwise rhoRef
         tmp<volScalarField> rho() const;
 
         //- Return rhoRef if the pressure field is dynamic, i.e. p/rho
@@ -282,30 +271,20 @@ public:
 
     // Constructors
 
-        //- Construct for given objectRegistry and dictionary.
-        //  Allow the possibility to load fields from files
+        //- Construct from Time and dictionary
         forces
         (
             const word& name,
-            const objectRegistry&,
-            const dictionary&,
-            const bool loadFromFiles = false,
-            const bool readFields = true
+            const Time& runTime,
+            const dictionary& dict
         );
 
-
-        //- Construct from components
+        //- Construct from objectRegistry and dictionary
         forces
         (
             const word& name,
-            const objectRegistry&,
-            const labelHashSet& patchSet,
-            const word& pName,
-            const word& UName,
-            const word& rhoName,
-            const scalar rhoInf,
-            const scalar pRef,
-            const coordinateSystem& coordSys
+            const objectRegistry& obr,
+            const dictionary&
         );
 
 
@@ -315,26 +294,8 @@ public:
 
     // Member Functions
 
-        //- Return name of the set of forces
-        virtual const word& name() const
-        {
-            return name_;
-        }
-
         //- Read the forces data
-        virtual void read(const dictionary&);
-
-        //- Execute, currently does nothing
-        virtual void execute();
-
-        //- Execute at the final time-loop, currently does nothing
-        virtual void end();
-
-        //- Called when time was set at the end of the Time::operator++
-        virtual void timeSet();
-
-        //- Write the forces
-        virtual void write();
+        virtual bool read(const dictionary&);
 
         //- Calculate the forces and moments
         virtual void calcForcesMoment();
@@ -345,18 +306,17 @@ public:
         //- Return the total moment
         virtual vector momentEff() const;
 
-        //- Update for changes of mesh
-        virtual void updateMesh(const mapPolyMesh&)
-        {}
+        //- Execute, currently does nothing
+        virtual bool execute();
 
-        //- Update for changes of mesh
-        virtual void movePoints(const polyMesh&)
-        {}
+        //- Write the forces
+        virtual bool write();
 };
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+} // End namespace functionObjects
 } // End namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

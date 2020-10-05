@@ -30,15 +30,15 @@ License
 template<class BasicPsiThermo, class MixtureType>
 void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
 {
-    //const scalarField& hCells = this->he().internalField(); //Kristjan: governed by TEqn
-    const scalarField& pCells = this->p_.internalField();
-    const scalarField& strigCells = this->strig_.internalField();
+    //const scalarField& hCells = this->he(); //Kristjan: governed by TEqn
+    const scalarField& pCells = this->p_;
+    const scalarField& strigCells = this->strig_;
 
-    scalarField& TCells = this->T_.internalField();
-    scalarField& psiCells = this->psi_.internalField();
-    scalarField& rhoCells = this->rho_.internalField();
-    scalarField& muCells = this->mu_.internalField();
-    scalarField& alphaCells = this->alpha_.internalField();
+    scalarField& TCells = this->T_.primitiveFieldRef();
+    scalarField& psiCells = this->psi_.primitiveFieldRef();
+    scalarField& rhoCells = this->rho_.primitiveFieldRef();
+    scalarField& muCells = this->mu_.primitiveFieldRef();
+    scalarField& alphaCells = this->alpha_.primitiveFieldRef();
 
     forAll(TCells, celli)
     {
@@ -60,21 +60,42 @@ void Foam::mojHeRhoThermo<BasicPsiThermo, MixtureType>::calculate()
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
     }
 
+    volScalarField::Boundary& pBf =
+        this->p_.boundaryFieldRef();
+
+    volScalarField::Boundary& TBf =
+        this->T_.boundaryFieldRef();
+
+    volScalarField::Boundary& strigBf =
+        this->strig_.boundaryFieldRef();
+
+    volScalarField::Boundary& psiBf =
+        this->psi_.boundaryFieldRef();
+
+    volScalarField::Boundary& rhoBf =
+        this->rho_.boundaryFieldRef();
+
+    volScalarField::Boundary& muBf =
+        this->mu_.boundaryFieldRef();
+
+    volScalarField::Boundary& alphaBf =
+        this->alpha_.boundaryFieldRef();
+
     forAll(this->T_.boundaryField(), patchi)
     {
-        fvPatchScalarField& pp = this->p_.boundaryField()[patchi];
-        fvPatchScalarField& pT = this->T_.boundaryField()[patchi];
-	fvPatchScalarField& pstrig = this->strig_.boundaryField()[patchi];
+        fvPatchScalarField& pp = pBf[patchi];
+        fvPatchScalarField& pT = TBf[patchi];
+	fvPatchScalarField& pstrig = strigBf[patchi];
 	//fvPatchScalarField& pU = strig.boundaryField()[patchi]; // tukaj boundary
 
-        fvPatchScalarField& ppsi = this->psi_.boundaryField()[patchi];
-        fvPatchScalarField& prho = this->rho_.boundaryField()[patchi];
+        fvPatchScalarField& ppsi = psiBf[patchi];
+        fvPatchScalarField& prho = rhoBf[patchi];
 
         //fvPatchScalarField& ph = this->he().boundaryField()[patchi];//Kristjan: governed by TEqn
 
 
-        fvPatchScalarField& pmu = this->mu_.boundaryField()[patchi];
-        fvPatchScalarField& palpha = this->alpha_.boundaryField()[patchi];
+        fvPatchScalarField& pmu = muBf[patchi];
+        fvPatchScalarField& palpha = alphaBf[patchi];
 
         if (pT.fixesValue())
         {

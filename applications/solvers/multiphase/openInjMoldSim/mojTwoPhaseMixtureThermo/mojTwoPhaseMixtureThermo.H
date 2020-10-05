@@ -236,7 +236,7 @@ public:
                 const label patchi
             ) const;
 
-            //- Coeff. of therm. expan. for thermo1[1/K]
+	    //- Coeff. of therm. expan. for thermo1[1/K]
             virtual tmp<volScalarField> cTExp() const;
 
 
