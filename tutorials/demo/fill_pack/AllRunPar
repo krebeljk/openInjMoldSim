@@ -16,7 +16,7 @@ foamDictionary system/controlDict -entry maxDeltaT -set $3
 
 new_deltaT(){
 local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
-sed -i -e 's/^deltaT\s.*;/deltaT 1e-10;/g' $LATEST_TIME/uniform/time # change init deltaT
+foamDictionary $LATEST_TIME/uniform/time -entry deltaT -set 1e-10
 }
 
 close_outlet()
