@@ -19,20 +19,29 @@ local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
 foamDictionary $LATEST_TIME/uniform/time -entry deltaT -set 1e-10
 }
 
-close_outlet()
-{
-    local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
-
-    # pressure
-    foamDictionary ${LATEST_TIME}/p_rgh -entry boundaryField.outlet \
-        -set "{type fixedFluxPressure; value uniform 1e5;}" || exit 1
-    # velocity
-    foamDictionary ${LATEST_TIME}/U -entry boundaryField.outlet \
-        -set "{type fixedValue; value uniform (0 0 0);}" || exit 1
-    # temperature
-    foamDictionary ${LATEST_TIME}/T -entry boundaryField.outlet \
-        -set "{type fixedValue; value uniform 323.15;}" || exit 1
+copy_bcU(){
+    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
+    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
 }
+copy_bcP(){
+    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
+    local buffv=$(foamDictionary $1 -entry boundaryField.outlet.value -value)
+    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
+    foamDictionary $1 -entry boundaryField.outlet.value -set "$buffv"
+}
+copy_bcT(){
+    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
+    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
+    foamDictionary $1 -entry boundaryField.outlet.value -remove
+    foamDictionary $1 -entry boundaryField.outlet.valueFraction -remove
+}
+close_outlet()
+(
+    local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
+    copy_bcP $LATEST_TIME/p_rgh
+    copy_bcT $LATEST_TIME/T
+    copy_bcU $LATEST_TIME/U
+)
 
 # Echoes all commands before executing.
 set -o xtrace
