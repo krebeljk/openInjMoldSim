@@ -148,11 +148,11 @@ relaxationFactors
 {
     fields
     {
-        p_rgh         0.5;
+        p_rgh         1.0;
         p_rghFinal      1;
-        T             0.5;
+        T             1.0;
         TFinal          1;
-        elSigDev      0.5;
+        elSigDev      1.0;
         elSigDevFinal   1;
     }
     equations
