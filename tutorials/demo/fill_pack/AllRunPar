@@ -57,7 +57,7 @@ mv log.reconstructPar 'log.reconstructPar'$phase
 # pack1
 phase='_pack1'
 time_extend 0.475 0.1 1e-4
-new_detaT
+new_deltaT
 close_outlet
 rm -r processor*
 runApplication decomposePar

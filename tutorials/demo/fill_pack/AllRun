@@ -51,7 +51,7 @@ mv 'log.'$application 'log.'$application$phase
 # pack1
 phase='_pack1'
 time_extend 0.475 0.1 1e-4
-new_detaT
+new_deltaT
 close_outlet
 runApplication $application
 mv 'log.'$application 'log.'$application$phase
