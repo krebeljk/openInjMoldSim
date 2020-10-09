@@ -95,6 +95,13 @@ int main(int argc, char *argv[])
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
+            //update state
+            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
+            shrRate = strig;
+            mixture.correct();
+            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu();
+            mojKappaOut = mixture.kappa();
+
             //Kristjan: Elastic deviatoric stress equation
             if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER SE ESTÁ BEM
             {
@@ -114,19 +121,14 @@ int main(int argc, char *argv[])
             }
 
             #include "UEqn.H"
-            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-            shrRate = strig;
             #include "TEqn.H"
 
             // --- Pressure corrector loop
             while (pimple.correct())
             {
-                mojKappaOut = mixture.kappa();
                 #include "pEqn.H"
             }
 
-            // visc - kristjan
-            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu(); 
 
             if (pimple.turbCorr())
             {
