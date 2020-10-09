@@ -61,7 +61,7 @@ mv log.reconstructPar 'log.reconstructPar'$phase
 
 # pack1
 phase='_pack1'
-time_extend 0.475 0.1 1e-4
+time_extend 0.435 0.1 1e-4
 new_deltaT
 close_outlet
 rm -r processor*
@@ -69,15 +69,10 @@ runApplication decomposePar
 mv log.decomposePar 'log.decomposePar'$phase
 mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
 
 # pack2
 phase='_pack2'
 time_extend 6 0.5 1e-3
-rm -r processor*
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
 mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 mv 'log.'$application 'log.'$application$phase
 runApplication reconstructPar
