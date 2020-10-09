@@ -19,21 +19,17 @@ local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
 foamDictionary $LATEST_TIME/uniform/time -entry deltaT -set 1e-10
 }
 
+
 copy_bcU(){
-    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
-    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
+    foamDictionary $1 -entry boundaryField.outlet.value -set "uniform (0 0 0)"
+    foamDictionary $1 -entry boundaryField.outlet.type -set "fixedValue"
 }
 copy_bcP(){
-    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
-    local buffv=$(foamDictionary $1 -entry boundaryField.outlet.value -value)
-    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
-    foamDictionary $1 -entry boundaryField.outlet.value -set "$buffv"
+    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
 }
 copy_bcT(){
-    local buff=$(foamDictionary $1 -entry boundaryField.walls -value)
-    foamDictionary $1 -entry boundaryField.outlet -set "$buff"
-    foamDictionary $1 -entry boundaryField.outlet.value -remove
-    foamDictionary $1 -entry boundaryField.outlet.valueFraction -remove
+    local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
+    foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
 }
 close_outlet()
 (
