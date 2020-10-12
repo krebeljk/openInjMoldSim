@@ -50,10 +50,6 @@ close_outlet()
 # }
 
 # Initial files
-cp -r org0 0
-cp system/controlDict0 system/controlDict
-cp system/fvSolution0 system/fvSolution
-blockMesh
 setFields
 
 # Get application name
@@ -61,7 +57,6 @@ application=`getApplication`
 
 # fill
 phase='_fill'
-time_extend 0.135 0.0135 1e-3 # set times
 runApplication decomposePar # prepare parallel
 runParallel $application
 mv 'log.'$application 'log.'$application$phase # archive log
