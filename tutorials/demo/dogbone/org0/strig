@@ -21,10 +21,6 @@ internalField   uniform 0;
 
 boundaryField
 {
-    frontAndBack
-    {
-        type            empty;
-    }
     walls
     {
         type            calculated;

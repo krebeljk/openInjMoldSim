@@ -26,11 +26,6 @@ boundaryField
         value           uniform (0 0 0);
     }
 
-    frontAndBack
-    {
-        type            empty;
-    }
-
     outlet
     {
         type            zeroGradient;
