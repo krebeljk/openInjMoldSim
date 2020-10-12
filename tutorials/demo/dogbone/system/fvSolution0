@@ -112,7 +112,6 @@ solvers
         smoother        symGaussSeidel;
         tolerance       1e-11;
         relTol          0.01;
-        relTol          0;
     }
 }
 
@@ -148,17 +147,17 @@ relaxationFactors
 {
     fields
     {
-        p_rgh      0.5;
-        p_rghFinal   1;
-        T      0.5;
+        p_rgh         1.0;
+        p_rghFinal      1;
+        T             1.0;
         TFinal          1;
-        elSigDev      0.5;
+        elSigDev      1.0;
         elSigDevFinal   1;
     }
     equations
     {
-        "U|k|epsilon|T|elSigDev|zuFi2|zuFi1|zuFi0"     1.0;
-        "(U|k|epsilon|T|elSigDev|zuFi2|zuFi1|zuFi0)Final"   1;
+        "U|k|epsilon|T|elSigDev"     1.0;
+        "(U|k|epsilon|T|elSigDev)Final"   1;
     }
 }
 
