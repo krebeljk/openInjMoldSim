@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 cat `ls -tr postProcessing/probes/*/p` > postProcessing/probes/p
