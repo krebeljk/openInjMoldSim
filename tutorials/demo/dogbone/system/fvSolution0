@@ -20,7 +20,7 @@ solvers
     alpha.poly
     {
         nAlphaCorr      1;
-        nAlphaSubCycles 4;
+        nAlphaSubCycles 1;
         cAlpha          1;
     }
 
@@ -112,6 +112,7 @@ solvers
         smoother        symGaussSeidel;
         tolerance       1e-11;
         relTol          0.01;
+        relTol          0;
     }
 }
 
@@ -119,7 +120,7 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 80;
+    nOuterCorrectors 50;
     nCorrectors     3;
     nNonOrthogonalCorrectors 0;
 
