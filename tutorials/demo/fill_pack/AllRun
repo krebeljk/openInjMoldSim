@@ -1,13 +1,15 @@
 #!/bin/bash
 cd ${0%/*} || exit 1    # Run from this directory
 
-# Initial files
-cp -r org0 0
-cp system/controlDict0 system/controlDict
-cp system/fvSolution0 system/fvSolution
-blockMesh
-setFields
 
+# Echoes all commands before executing.
+set -o xtrace
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+
+# run funx
 time_extend(){
 foamDictionary system/controlDict -entry endTime -set $1
 foamDictionary system/controlDict -entry writeInterval -set $2
@@ -31,6 +33,7 @@ copy_bcT(){
     local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
     foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
 }
+
 close_outlet()
 (
     local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
@@ -39,42 +42,45 @@ close_outlet()
     copy_bcU $LATEST_TIME/U
 )
 
-# Echoes all commands before executing.
-set -o xtrace
+# cluster_run()
+# {
+# # cpus
+#     cpus=`getNumberOfProcessors`
+#     mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+# }
 
-# Source tutorial run functions
-. $WM_PROJECT_DIR/bin/tools/RunFunctions
+# Initial files
+cp -r org0 0
+cp system/controlDict0 system/controlDict
+cp system/fvSolution0 system/fvSolution
+blockMesh
+setFields
 
 # Get application name
 application=`getApplication`
-# cpus
-cpus=`getNumberOfProcessors`
 
 # fill
 phase='_fill'
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
-mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
+time_extend 0.135 0.0135 1e-3 # set times
+runApplication decomposePar # prepare parallel
+runParallel $application
+mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
 phase='_pack1'
 time_extend 0.435 0.1 1e-4
+reconstructPar
 new_deltaT
 close_outlet
 rm -r processor*
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+decomposePar
+runParallel $application
 mv 'log.'$application 'log.'$application$phase
 
 # pack2
 phase='_pack2'
 time_extend 6 0.5 1e-3
 foamDictionary system/controlDict -entry maxCo -set 0.01
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+runParallel $application
 mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
+reconstructPar
