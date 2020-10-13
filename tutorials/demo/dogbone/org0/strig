@@ -36,6 +36,10 @@ boundaryField
         type            calculated;
         value           uniform 0;
     }
+    defaultFaces
+    {
+        type            empty;
+    }
 }
 
 

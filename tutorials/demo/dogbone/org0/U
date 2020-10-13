@@ -37,6 +37,10 @@ boundaryField
         type            zeroGradient;
     }
 
+    defaultFaces
+    {
+        type            empty;
+    }
 
 }
 

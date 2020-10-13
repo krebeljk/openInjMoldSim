@@ -36,6 +36,11 @@ boundaryField
         value           uniform 1;
     }
 
+    defaultFaces
+    {
+        type            empty;
+    }
+
 
 }
 
