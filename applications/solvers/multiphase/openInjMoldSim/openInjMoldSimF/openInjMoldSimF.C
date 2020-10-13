@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 
     #include "createTimeControls.H"
     #include "createFields.H"
+    #include "createFieldsFiber.H" //NEW - Kerstin
     #include "CourantNo.H"
     #include "setInitialDeltaT.H"
 
@@ -79,12 +80,13 @@ int main(int argc, char *argv[])
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        time = runTime;
-
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
             #include "alphaEqnsSubCycle.H"
+
+            #include "FiberClosure.H" //NEW - Kerstin
+            #include "A2Eqn.H" //NEW - Kerstin
 
             // correct interface on first PIMPLE corrector
            // if (pimple.corr() == 1)
