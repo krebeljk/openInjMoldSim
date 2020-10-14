@@ -29,7 +29,7 @@ FiberSuspension off;
 
 CorrectA2 on;// correct A2 tensor after solution to force it symmetric
 
-FiberClosure	IBOF;//hybrid;//IBOF; //hybrid;
+FiberClosure	hybrid;//IBOF;
 
 mu1               2.0;//2.0;
 //Glass fibers
