@@ -19,6 +19,7 @@ else{
 
 	//make symmetric...prevent numerical roundoff errors
 	A2Tmp = symm(A2);
+    //Kristjan: get rid of A2Tmp? Can CorrectA2 be more elegant? Can we use a volSymmTensorField from the beginning?
 
 if(CorrectA2) //switch set in fiberProperties
 {
