@@ -12,23 +12,23 @@ set format y "1e{%L}"
 set title "p rgh"
 set ylabel 'Residual'
 set xlabel 'Iteration'
-plot "< grep 'GAMG:' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" title 'GAMG' with lines ls 1
+plot "< grep 'GAMG:' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" title 'GAMG' with lines ls 1
 
 set logscale y
 set format y "1e{%L}"
 set title "T"
 set ylabel 'Residual'
 set xlabel 'Iteration'
-plot "< grep 'smoothSolver:  Solving for T,' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" title 'smoothSolver T ' with lines ls 1
+plot "< grep 'smoothSolver:  Solving for T,' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" title 'smoothSolver T ' with lines ls 1
 
 set logscale y
 set format y "1e{%L}"
 set title "elSigDev"
 set ylabel 'Residual'
 set xlabel 'Iteration'
-plot "< grep 'smoothSolver:  Solving for elSigDevxx, Initial residual =' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevxx' with lines ls 1,\
-"< grep 'smoothSolver:  Solving for elSigDevyy, Initial residual =' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevyy' with lines ls 2,\
-"< grep 'smoothSolver:  Solving for elSigDevzz, Initial residual =' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevzz' with lines ls 3 ,\
-"< grep 'smoothSolver:  Solving for elSigDevxz, Initial residual =' log.openInjMoldSim | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevxz' with lines ls 4
+plot "< grep 'smoothSolver:  Solving for elSigDevxx, Initial residual =' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevxx' with lines ls 1,\
+"< grep 'smoothSolver:  Solving for elSigDevyy, Initial residual =' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevyy' with lines ls 2,\
+"< grep 'smoothSolver:  Solving for elSigDevzz, Initial residual =' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevzz' with lines ls 3 ,\
+"< grep 'smoothSolver:  Solving for elSigDevxz, Initial residual =' log.openInjMoldSimF | cut -d' ' -f9 | tr -d ','" using 0:(($1==0) ? 1.1 : $1) title 'elSigDevxz' with lines ls 4
 pause 5
 reread
