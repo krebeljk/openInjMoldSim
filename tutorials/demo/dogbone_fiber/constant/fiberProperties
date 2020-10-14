@@ -1,0 +1,44 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "constant";
+    local           "";
+
+    class           dictionary;
+    object          fiberProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// ************************************************************************* //
+
+FiberSuspension off;
+
+CorrectA2 on;// correct A2 tensor after solution to force it symmetric
+
+FiberClosure	IBOF;//hybrid;//IBOF; //hybrid;
+
+mu1               2.0;//2.0;
+//Glass fibers
+mu2              533.0;//r^2/(2*ln(r));
+r              67.0; //fiber Aspect ratio L/D
+FiberVolfrac   0.04; //Fiber Interaction model of Bay and Phan-Thien
+
+//Tracer Fibers (Vinyl)
+//mu2             172.0;//r^2/(2*ln(r));
+//r              35.0;
+//FiberVolfrac   0.00016;
+
