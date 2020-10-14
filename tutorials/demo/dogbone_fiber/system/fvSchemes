@@ -42,6 +42,9 @@ divSchemes
 
     div(phi,elSigDev) Gauss upwind; //kristjan
     div(elSigDev) Gauss linear; //kristjan
+    div(phi,A2) Gauss upwind; //kristjan
+    div(StressFiber) Gauss linear;//NES - Kerstin
+
 }
 
 laplacianSchemes
