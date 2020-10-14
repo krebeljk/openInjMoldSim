@@ -45,7 +45,7 @@ boundaryField
 	type zeroGradient;	
 	}
 
-    walls
+    "walls_.*"
     {
 //        type            fixedValue;
 //	value    uniform (0 0 0 0 0 0 0 0 0);

@@ -36,7 +36,7 @@ boundaryField
     {
         type            zeroGradient;
     }
-    walls
+    "walls_.*"
     {
         type            zeroGradient;
     }
