@@ -40,7 +40,7 @@ boundaryField
     {
         type            zeroGradient;
     }
-    frontandback
+    defaultFaces
     {
         type            empty;
     }
