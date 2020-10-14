@@ -25,7 +25,7 @@ fig, ax = plt.subplots()
 
 ax.set(xlabel='t [s]'
       ,ylabel='dt [s]'
-      ,title='Casovni korak')
+      ,title='Time step')
 ax.grid()
 
 ax.semilogy(cas, dcas, 'k', label='dt')
