@@ -47,7 +47,7 @@ runTimeModifiable yes;
 
 adjustTimeStep  yes;
 
-maxCo           2.0;//should be lower than 1.0 however <=2.0 seems correct to speed up simulation
+maxCo           1.0;
 
 maxDeltaT       1e-2;
 
