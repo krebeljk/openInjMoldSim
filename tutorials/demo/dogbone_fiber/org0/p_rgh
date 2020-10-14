@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p_rgh;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    "walls_.*"
+    {
+       type            fixedFluxPressure;
+       value           uniform 1e5; 
+/*fixedFluxPressure is used for pressure in situations where zeroGradient is generally used, but where body forces such 
+as gravity and surface tension are present in the solution equations.The condition adjusts the gradient accordingly. */
+    }
+
+    outlet
+    {
+        type            fixedValue;
+        value           uniform 1e5;
+    }
+
+    inlet
+    {
+       type            zeroGradient;
+
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //
