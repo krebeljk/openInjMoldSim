@@ -114,6 +114,14 @@ solvers
         tolerance       1e-6; //1e-11
         relTol          0.0; //0.01
     }
+    "A2.*"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-05;
+        relTol          0;
+    }
+
 }
 
 PIMPLE
@@ -127,7 +135,7 @@ PIMPLE
 // residualControl   
     outerCorrectorResidualControl    
     { //Andrea
-     "(T|elSigDev)" { relTol 0.0; tolerance 1e-5; } 
+     "(T|elSigDev|A2)" { relTol 0.0; tolerance 1e-5; }
      p_rgh { relTol 0.05; tolerance 5e-4; }
     } 
 
@@ -143,6 +151,8 @@ relaxationFactors
         TFinal          1;
         elSigDev      0.3;
         elSigDevFinal   1;
+        A2            0.3;
+        A2Final       1.0;
     }
     equations
     {
