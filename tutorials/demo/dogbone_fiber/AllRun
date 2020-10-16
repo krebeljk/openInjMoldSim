@@ -18,6 +18,8 @@ TimeEndHOLD=0.71
 dtWriteHOLD=0.02
 dtMaxHOLD=0.01
 
+walls_patch_name="walls_mold"
+
 # Initial files
 rm log.de* log.re* log.op*
 rm -rf 0 processor* postProcessing/residuals
@@ -52,11 +54,13 @@ change_bcU(){
     foamDictionary $1 -entry boundaryField.inlet.type -set "zeroGradient"
 }
 change_bcP(){
-    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
-    foamDictionary $1 -entry boundaryField.outlet.value -set "uniform constant $p_pack"
+    foamDictionary $1 -entry boundaryField.outlet.type -set "fixedFluxPressure"
+    foamDictionary $1 -entry boundaryField.inlet.type -set "uniformFixedValue"
+    foamDictionary $1 -entry boundaryField.inlet -add "uniformValue"
+    foamDictionary $1 -entry boundaryField.inlet.uniformValue -set "constant $p_pack"
 }
 change_bcT(){
-    local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
+    local buff=$(foamDictionary $1 -entry boundaryField.$walls_patch_name.h -value)
     foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
 }
 
