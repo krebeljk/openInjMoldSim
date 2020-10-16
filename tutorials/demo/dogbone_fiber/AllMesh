@@ -13,8 +13,7 @@ mkdir -p constant/triSurface
 
 surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_inlet.stl constant/triSurface/inlet.stl
 surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_outlet.stl constant/triSurface/outlet.stl
-surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_walls_mold.stl constant/triSurface/walls_mold.stl
-surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_walls_gate.stl constant/triSurface/walls_gate.stl
+surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_walls.stl constant/triSurface/walls.stl
 
 runApplication blockMesh
 

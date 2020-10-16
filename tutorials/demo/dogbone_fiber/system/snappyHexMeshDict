@@ -41,16 +41,10 @@ geometry
         file "outlet.stl";
     }
 
-    walls_mold
+    walls
     {
         type triSurfaceMesh;
-        file "walls_mold.stl";
-    }
-
-    walls_gate
-    {
-        type triSurfaceMesh;
-        file "walls_gate.stl";
+        file "walls.stl";
     }
 
 
@@ -137,17 +131,12 @@ castellatedMeshControls
 
     refinementSurfaces
     {
-        "(inlet|outlet|walls_mold)"
+        "(inlet|outlet|walls)"
         {
             // Surface-wise min and max refinement level
             level (1 2);        
         }
 
-        walls_gate
-        {
-            // Surface-wise min and max refinement level
-            level (2 3);
-        }
     }
 
     // Resolve sharp angles
@@ -244,11 +233,8 @@ addLayersControls
     // Per final patch (so not geometry!) the layer information
     layers
     {
-        walls_gate
-        {
-            nSurfaceLayers 2;
-        }
-        walls_mold
+        
+        walls
         {
             nSurfaceLayers 3;
         }
