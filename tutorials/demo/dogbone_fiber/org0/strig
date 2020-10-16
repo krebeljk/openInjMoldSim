@@ -25,7 +25,7 @@ boundaryField
     {
         type            empty;
     }
-    "walls_.*"
+    "walls.*"
     {
         type            calculated;
         value           uniform 0;

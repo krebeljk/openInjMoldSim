@@ -20,7 +20,7 @@ internalField   uniform 1e5;
 
 boundaryField
 {
-    "walls_.*"
+    "walls.*"
     {
         type            calculated;
         value           uniform 1e5;
