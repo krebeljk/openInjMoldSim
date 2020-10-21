@@ -1,0 +1,92 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     openInjMoldSimF;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         0.165;
+
+deltaT          1e-8;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.01;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  8;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   10;
+
+runTimeModifiable yes;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDeltaT       1e-2;
+
+maxAlphaCo      0.1; //0.05 
+
+functions {
+
+    injectionPressure   //Andrea : to monitor injection pressure
+    {
+        type surfaceFieldValue;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //writeControl timeStep;
+        writeInterval  5e-3;
+        writeFields no;
+        log true;
+        valueOutput true;
+        regionType patch;
+        surfaceFormat off;
+        verbose true;
+        name inlet; // replace this with your boundary patch name
+        operation areaAverage;
+
+        fields
+            (
+            p
+            );
+    }
+
+        //Andrea - monitoring residuals
+	residuals
+	{
+		type   residuals;
+		functionObjectLibs   ("libutilityFunctionObjects.so");
+		enabled   true;
+		writeControl   timeStep;
+		writeInterval   1;
+		fields   (p_rgh T elSigDev );
+	}
+
+}
+
+// ************************************************************************* //

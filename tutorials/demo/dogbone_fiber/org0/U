@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    "walls_.*"
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    defaultFaces
+    {
+        type            empty;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+
+    inlet     //0.000008 m^3 cavity volume
+    {
+
+        type            flowRateInletVelocity;
+        volumetricFlowRate    0.00002;  //0.165s filling time for 90% of cavity volume= 0.000048
+        value           $internalField;
+
+
+        //type            zeroGradient;
+    }
+
+
+}
+
+// ************************************************************************* //
