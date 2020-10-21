@@ -47,11 +47,11 @@ runTimeModifiable yes;
 
 adjustTimeStep  yes;
 
-maxCo           0.5;
+maxCo           0.15;
 
 maxDeltaT       1;
 
-maxAlphaCo      0.5;
+maxAlphaCo      0.15;
 functions {
 
     probes
