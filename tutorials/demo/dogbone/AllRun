@@ -1,11 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 cd ${0%/*} || exit 1    # Run from this directory
 
-# Initial files
-cp -r org0 0
-cp system/controlDict0 system/controlDict
-cp system/fvSolution0 system/fvSolution
-setFields
 
 # Echoes all commands before executing.
 set -o xtrace
@@ -13,40 +8,74 @@ set -o xtrace
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
+
+# run funx
+time_extend(){
+foamDictionary system/controlDict -entry endTime -set $1
+foamDictionary system/controlDict -entry writeInterval -set $2
+foamDictionary system/controlDict -entry maxDeltaT -set $3
+}
+
+new_deltaT(){
+local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
+foamDictionary $LATEST_TIME/uniform/time -entry deltaT -set 1e-10
+}
+
+
+copy_bcU(){
+    foamDictionary $1 -entry boundaryField.outlet.value -set "uniform (0 0 0)"
+    foamDictionary $1 -entry boundaryField.outlet.type -set "fixedValue"
+}
+copy_bcP(){
+    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
+}
+copy_bcT(){
+    local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
+    foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
+}
+
+close_outlet()
+(
+    local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
+    copy_bcP $LATEST_TIME/p_rgh
+    copy_bcT $LATEST_TIME/T
+    copy_bcU $LATEST_TIME/U
+)
+
+# cluster_run()
+# {
+# # cpus
+#     cpus=`getNumberOfProcessors`
+#     mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+# }
+
+# Initial files
+setFields
+
 # Get application name
 application=`getApplication`
-# cpus
-cpus=`getNumberOfProcessors`
 
 # fill
 phase='_fill'
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
-mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
+runApplication decomposePar # prepare parallel
+runParallel $application
+mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
 phase='_pack1'
-sed -i -e 's/^deltaT\s.*;/deltaT 1e-10;/g' 0.165/uniform/time # change init deltaT
-changeDictionary -latestTime -dict system/changeDictionaryDict.bcpack
-changeDictionary -instance system -dict system/changeDictionaryDict.ctrl1
+time_extend 0.2 0.005 1e-4
+reconstructPar
+new_deltaT
+close_outlet
 rm -r processor*
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+decomposePar
+runParallel $application
 mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
 
 # pack2
 phase='_pack2'
-changeDictionary -instance system -dict system/changeDictionaryDict.ctrl2
-rm -r processor*
-runApplication decomposePar
-mv log.decomposePar 'log.decomposePar'$phase
-mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
+time_extend 0.5 0.02 1e-4
+foamDictionary system/controlDict -entry maxCo -set 0.01
+runParallel $application
 mv 'log.'$application 'log.'$application$phase
-runApplication reconstructPar
-mv log.reconstructPar 'log.reconstructPar'$phase
+reconstructPar

@@ -20,7 +20,7 @@ solvers
     alpha.poly
     {
         nAlphaCorr      1;
-        nAlphaSubCycles 4;
+        nAlphaSubCycles 1;
         cAlpha          1;
     }
 
@@ -119,11 +119,11 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 80;
+    nOuterCorrectors 50;
     nCorrectors     3;
     nNonOrthogonalCorrectors 0;
 
-    residualControl
+    outerCorrectorResidualControl
     {
         p_rgh
         {
@@ -147,17 +147,17 @@ relaxationFactors
 {
     fields
     {
-        p_rgh      0.5;
-        p_rghFinal   1;
-        T      0.5;
+        p_rgh         1.0;
+        p_rghFinal      1;
+        T             1.0;
         TFinal          1;
-        elSigDev      0.5;
+        elSigDev      1.0;
         elSigDevFinal   1;
     }
     equations
     {
-        "U|k|epsilon|T|elSigDev|zuFi2|zuFi1|zuFi0"     1.0;
-        "(U|k|epsilon|T|elSigDev|zuFi2|zuFi1|zuFi0)Final"   1;
+        "U|k|epsilon|T|elSigDev"     1.0;
+        "(U|k|epsilon|T|elSigDev)Final"   1;
     }
 }
 

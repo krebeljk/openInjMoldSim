@@ -23,19 +23,29 @@ boundaryField
     walls
     {
         type            externalWallHeatFluxTemperature;
-        kappa           lookup;
+        kappaMethod     lookup;
+        mode            coefficient;
         //q               uniform 1000; //ali q, ali Ta in h
         Ta              uniform 323.15;
         h               uniform 5e3;
         value           uniform 493.15; //initial temperature [K]
-        kappaName       mojKappaOut;
+        kappa           mojKappaOut;
         Qr              none;
         relaxation      1;
     }
 
     outlet
     {
-        type            zeroGradient;
+        type            externalWallHeatFluxTemperature;
+        kappaMethod     lookup;
+        mode            coefficient;
+        //q               uniform 1000; //ali q, ali Ta in h
+        Ta              uniform 323.15;
+        h               uniform 1; // 1 means almost zeroGradient (thermal insulation), 0 is ill-posed
+        value           uniform 493.15; //initial temperature [K]
+        kappa           mojKappaOut;
+        Qr              none;
+        relaxation      1;
     }
 
     inlet
@@ -44,11 +54,13 @@ boundaryField
         value           uniform 493.15;
     }
 
-
     defaultFaces
     {
         type            empty;
     }
+
+
+
 }
 
 // ************************************************************************* //

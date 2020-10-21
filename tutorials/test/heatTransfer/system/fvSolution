@@ -124,7 +124,7 @@ PIMPLE
     nCorrectors     1;
     nNonOrthogonalCorrectors 0;
 
-    residualControl
+    outerCorrectorResidualControl
     {
         p_rgh
         {

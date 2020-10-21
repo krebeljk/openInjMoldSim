@@ -38,11 +38,11 @@ boundaryField
        uniformValue table 
 #      include "$FOAM_CASE/fim_01_01_G_00_03_01_08.txt"
     }
-
     defaultFaces
     {
         type            empty;
     }
+
 }
 
 // ************************************************************************* //
