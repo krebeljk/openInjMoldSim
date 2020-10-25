@@ -49,9 +49,6 @@ close_outlet()
 #     mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 # }
 
-# Initial files
-setFields
-
 # Get application name
 application=`getApplication`
 
