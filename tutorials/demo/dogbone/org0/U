@@ -26,6 +26,11 @@ boundaryField
         value           uniform (0 0 0);
     }
 
+    defaultFaces
+    {
+        type            empty;
+    }
+
     outlet
     {
         type            zeroGradient;
@@ -34,12 +39,10 @@ boundaryField
 
     inlet
     {
-        type            zeroGradient;
-    }
 
-    defaultFaces
-    {
-        type            empty;
+        type            flowRateInletVelocity;
+        volumetricFlowRate    0.00002;  //set by AllRun
+        value           $internalField;
     }
 
 }
