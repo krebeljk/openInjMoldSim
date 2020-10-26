@@ -93,7 +93,7 @@ functions {
         functionObjectLibs ("libfieldFunctionObjects.so");
         fields
         (
-             p p_rgh T Tc shrRate visc U
+             p p_rgh pAux T Tc shrRate visc U
         );
         write yes;
         log yes;
