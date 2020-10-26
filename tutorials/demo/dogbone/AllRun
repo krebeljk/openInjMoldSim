@@ -52,8 +52,10 @@ change_bcU(){
     foamDictionary $1 -entry boundaryField.inlet.type -set "zeroGradient"
 }
 change_bcP(){
-    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
-    foamDictionary $1 -entry boundaryField.outlet.value -set "uniform constant $p_pack"
+    foamDictionary $1 -entry boundaryField.outlet.type -set "zeroGradient"
+    foamDictionary $1 -entry boundaryField.inlet.type -set "uniformFixedValue"
+    foamDictionary $1 -entry boundaryField.inlet -add "uniformValue"
+    foamDictionary $1 -entry boundaryField.inlet.uniformValue -set "table ((0 $p_pack)(1000.0 $p_pack))"
 }
 change_bcT(){
     local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
