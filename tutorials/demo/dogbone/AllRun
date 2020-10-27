@@ -92,6 +92,7 @@ mv 'log.'$application 'log.'$application$phase # archive log
 # pack1
 phase='_pack'
 ctrl_time_set $TimeEndPACK $dtWritePACK $dtMaxPACK
+foamDictionary system/controlDict -entry maxCo -set 0.01
 reconstructPar
 new_deltaT
 change_bc
