@@ -69,7 +69,7 @@ mixture
         //lambda     0.22;//W/(mK) toplotna prevodnost PS - glej Dawson pressure, temperature dependence
         etaMin     5;//Pas
         etaMax     500e3;//Pas
-        TnoFlow    333.15;//K
+        TnoFlow    383.15;//K
         deltaTempInterp 10.0;//K
     }
 }
