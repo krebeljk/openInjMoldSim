@@ -100,7 +100,7 @@ functions {
         mode magnitude;
         location        yes;
         writeControl    timeStep;
-        writeInterval   1;
+        writeInterval   10;
     }
 
     Co1
