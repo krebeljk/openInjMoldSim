@@ -32,10 +32,6 @@ your machine. Run `./AllMesh` and then `./AllRun` in the [`dogbone`](/tutorials/
 - [Numerical tests](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb).
 - For general info about OpenFOMA see the unofficial wiki [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page), the community forum [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/) or [wiki.openfoam.com](https://wiki.openfoam.com/Main_Page) (note the `.com`, this solver needs `.org`).
 
-## Contact
-
-krebeljk()gmail.com
-
 ## Special thanks to
 
 * **Janez Turk** - Provided the initial modifications to the original OpenFOAM library.
@@ -49,5 +45,9 @@ This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md
 
 * The work was supported by the [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/).
 
-## Not part of OpenFOAM
+## Disclaimer
 This solver is built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). 
+
+## Contact
+
+krebeljk()gmail.com
