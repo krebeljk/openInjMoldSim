@@ -52,3 +52,78 @@ maxCo           0.15;
 maxDeltaT       1e-3;
 
 maxAlphaCo      0.05;
+
+functions {
+
+    injectionPressure   //Andrea : to monitor injection pressure
+    {
+        type surfaceFieldValue;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //writeControl timeStep;
+        writeInterval  5e-3;
+        writeFields no;
+        log true;
+        valueOutput true;
+        regionType patch;
+        surfaceFormat off;
+        verbose true;
+        name inlet; // replace this with your boundary patch name
+        operation areaAverage;
+
+        fields
+            (
+            p
+            );
+    }
+
+        //Andrea - monitoring residuals
+	residuals
+	{
+		type   residuals;
+		functionObjectLibs   ("libutilityFunctionObjects.so");
+		enabled   true;
+		writeControl   timeStep;
+		writeInterval   1;
+		fields   (p_rgh T elSigDev );
+	}
+
+    minMaxp
+    {
+        type        fieldMinMax;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        fields
+        (
+             p p_rgh pAux T Tc shrRate visc U
+        );
+        write yes;
+        log yes;
+        mode magnitude;
+        location        yes;
+        writeControl    timeStep;
+        writeInterval   10;
+    }
+
+    Co1
+    {
+        // Mandatory entries (unmodifiable)
+        type            CourantNo;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+
+        // Optional entries (runtime modifiable)
+        //rho             rho;
+
+        // Optional (inherited) entries
+        //field           <phi>;
+        //result          <fieldResult>;
+        //region          region0;
+        //enabled         true;
+        //log             true;
+        //timeStart       0;
+        //timeEnd         1000;
+          executeControl  writeTime;
+        //executeInterval 1;
+          writeControl    writeTime;
+    }
+}
+
+// ************************************************************************* //

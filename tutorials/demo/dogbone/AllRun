@@ -1,6 +1,30 @@
 #!/bin/bash
 cd ${0%/*} || exit 1    # Run from this directory
 
+#--- SIMULATION PARAMETERS 
+
+fill_rate=20e-6 # 1e-6 = 1 ccm/s
+p_pack=27e6
+
+TimeEndFILL=0.41
+dtWriteFILL=0.01
+dtMaxFILL=0.01
+
+TimeEndPACK=0.55
+dtWritePACK=0.01
+dtMaxPACK=0.01
+
+TimeEndHOLD=15
+dtWriteHOLD=0.5
+dtMaxHOLD=0.1
+
+# Initial files
+rm log.de* log.re* log.op*
+rm -rf 0 processor* postProcessing/residuals
+cp -r org0 0
+cp system/controlDict0 system/controlDict
+cp system/fvSolution0 system/fvSolution
+
 
 # Echoes all commands before executing.
 set -o xtrace
@@ -9,8 +33,8 @@ set -o xtrace
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 
-# run funx
-time_extend(){
+# run funcs
+ctrl_time_set(){
 foamDictionary system/controlDict -entry endTime -set $1
 foamDictionary system/controlDict -entry writeInterval -set $2
 foamDictionary system/controlDict -entry maxDeltaT -set $3
@@ -22,24 +46,28 @@ foamDictionary $LATEST_TIME/uniform/time -entry deltaT -set 1e-10
 }
 
 
-copy_bcU(){
+change_bcU(){
     foamDictionary $1 -entry boundaryField.outlet.value -set "uniform (0 0 0)"
     foamDictionary $1 -entry boundaryField.outlet.type -set "fixedValue"
+    foamDictionary $1 -entry boundaryField.inlet.type -set "zeroGradient"
 }
-copy_bcP(){
-    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
+change_bcP(){
+    foamDictionary $1 -entry boundaryField.outlet.type -set "zeroGradient"
+    foamDictionary $1 -entry boundaryField.inlet.type -set "uniformFixedValue"
+    foamDictionary $1 -entry boundaryField.inlet -add "uniformValue"
+    foamDictionary $1 -entry boundaryField.inlet.uniformValue -set "table ((0 $p_pack)(1000.0 $p_pack))"
 }
-copy_bcT(){
+change_bcT(){
     local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
     foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
 }
 
-close_outlet()
+change_bc()
 (
     local LATEST_TIME=$(foamListTimes -withZero -latestTime | tail -n 1)
-    copy_bcP $LATEST_TIME/p_rgh
-    copy_bcT $LATEST_TIME/T
-    copy_bcU $LATEST_TIME/U
+    change_bcP $LATEST_TIME/p_rgh
+    change_bcT $LATEST_TIME/T
+    change_bcU $LATEST_TIME/U
 )
 
 # cluster_run()
@@ -49,33 +77,37 @@ close_outlet()
 #     mpirun -np $cpus -hostfile machines $application -parallel > 'log.'$application 2>&1
 # }
 
-# Initial files
-setFields
 
 # Get application name
 application=`getApplication`
 
 # fill
 phase='_fill'
+ctrl_time_set $TimeEndFILL $dtWriteFILL $dtMaxFILL
+foamDictionary 0/U -entry boundaryField.inlet.volumetricFlowRate -set $fill_rate
 runApplication decomposePar # prepare parallel
 runParallel $application
 mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
-phase='_pack1'
-time_extend 0.2 0.005 1e-4
+phase='_pack'
+ctrl_time_set $TimeEndPACK $dtWritePACK $dtMaxPACK
+foamDictionary system/controlDict -entry maxCo -set 0.01
 reconstructPar
 new_deltaT
-close_outlet
+change_bc
 rm -r processor*
 decomposePar
 runParallel $application
 mv 'log.'$application 'log.'$application$phase
 
 # pack2
-phase='_pack2'
-time_extend 0.5 0.02 1e-4
-foamDictionary system/controlDict -entry maxCo -set 0.01
+phase='_hold'
+ctrl_time_set $TimeEndHOLD $dtWriteHOLD $dtMaxHOLD
+foamDictionary system/controlDict -entry maxCo -set 0.005
 runParallel $application
 mv 'log.'$application 'log.'$application$phase
 reconstructPar
+
+# Cleaning
+rm -r processor*
