@@ -67,9 +67,6 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
-
-    strig.write();
-
     while (runTime.run())
     {
         #include "createTimeControls.H"
