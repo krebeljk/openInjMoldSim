@@ -1,8 +1,5 @@
 forces/mojForces.C
-forces/forcesFunctionObject.C
-
 forceCoeffs/forceCoeffs.C
-forceCoeffs/forceCoeffsFunctionObject.C
 
 ../crossWlfInSorodno/mojBasicThermo.C
 ../crossWlfInSorodno/mojFluidThermo.C

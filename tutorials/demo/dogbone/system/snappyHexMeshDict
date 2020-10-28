@@ -123,18 +123,18 @@ castellatedMeshControls
     // This is a featureEdgeMesh, read from constant/triSurface for now.
     features
     (
-        //{
-        //    file "inlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "outlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "walls.eMesh";
-        //    level 1;
-        //}
+        {
+           file "inlet.eMesh";
+            level 1;
+        }
+        {
+            file "outlet.eMesh";
+            level 1;
+        }
+        {
+            file "walls.eMesh";
+            level 1;
+        }
     );
 
 

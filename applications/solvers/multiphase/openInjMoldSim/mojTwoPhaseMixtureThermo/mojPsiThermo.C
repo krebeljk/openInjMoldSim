@@ -110,6 +110,7 @@ const Foam::volScalarField& Foam::mojPsiThermo::psi() const
 
 Foam::tmp<Foam::volScalarField> Foam::mojPsiThermo::mu() const
 {
+    //Info << "rho  " << rho() << endl;
     return mu_;
 }
 

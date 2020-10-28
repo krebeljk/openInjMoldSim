@@ -50,7 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v1.1.3" << endl;
+    Info << "openInjMoldSim v7" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -65,9 +65,6 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
-
-
-    strig.write();
 
     while (runTime.run())
     {
@@ -85,15 +82,23 @@ int main(int argc, char *argv[])
             #include "alphaEqnsSubCycle.H"
 
             // correct interface on first PIMPLE corrector
-            if (pimple.corr() == 1)
+           // if (pimple.corr() == 1)
+            if (pimple.firstPimpleIter())  //cbpf on 24/09/2019 compatibility to of6
             {
                 interface.correct();
             }
 
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
+            //update state
+            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
+            shrRate = strig;
+            mixture.correct();
+            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu();
+            mojKappaOut = mixture.kappa();
+
             //Kristjan: Elastic deviatoric stress equation
-            if (sldDictIO.headerOk())
+            if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER SE ESTÁ BEM
             {
                 fvSymmTensorMatrix elSigDevEqn(
                   fvm::ddt(elSigDev)
@@ -111,19 +116,14 @@ int main(int argc, char *argv[])
             }
 
             #include "UEqn.H"
-            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-            shrRate = strig;
             #include "TEqn.H"
 
             // --- Pressure corrector loop
             while (pimple.correct())
             {
-                mojKappaOut = mixture.kappa();
                 #include "pEqn.H"
             }
 
-            // visc - kristjan
-            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu(); 
 
             if (pimple.turbCorr())
             {

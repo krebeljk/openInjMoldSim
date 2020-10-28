@@ -63,7 +63,7 @@ solvers
     {
         solver          GAMG;
         tolerance       1e-11;
-        relTol          0;
+        relTol          0.01;
         smoother        DIC;
         nPreSweeps      0;
         nPostSweeps     2;
@@ -102,7 +102,7 @@ solvers
         solver          smoothSolver;
         smoother        GaussSeidel;
         tolerance       1e-11;
-        relTol          0;
+        relTol          0.01;
         nSweeps         1;
     }
 
@@ -111,7 +111,7 @@ solvers
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-11;
-        relTol          0;
+        relTol          0.01;
     }
 }
 
@@ -119,20 +119,20 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 300;
-    nCorrectors     1;
+    nOuterCorrectors 50;
+    nCorrectors     3;
     nNonOrthogonalCorrectors 0;
 
-    residualControl
+    outerCorrectorResidualControl
     {
         p_rgh
         {
-                tolerance   1e-6;
+                tolerance   1e-5;
                 relTol      0.0;
         }
         T
         {
-                tolerance   1e-6;
+                tolerance   1e-5;
                 relTol      0.0;
         }
         elSigDev
@@ -147,16 +147,16 @@ relaxationFactors
 {
     fields
     {
-        p_rgh         0.3;
+        p_rgh         1.0;
         p_rghFinal      1;
-        T             0.3;
+        T             1.0;
         TFinal          1;
-        elSigDev      0.3;
+        elSigDev      1.0;
         elSigDevFinal   1;
     }
     equations
     {
-        "U|k|epsilon|T|elSigDev"     0.3;
+        "U|k|epsilon|T|elSigDev"     1.0;
         "(U|k|epsilon|T|elSigDev)Final"   1;
     }
 }

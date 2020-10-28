@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,93 +24,98 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "forceCoeffs.H"
-#include "dictionary.H"
-#include "Time.H"
-#include "Pstream.H"
-#include "IOmanip.H"
+#include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
 namespace Foam
 {
+namespace functionObjects
+{
     defineTypeNameAndDebug(forceCoeffs, 0);
+    addToRunTimeSelectionTable(functionObject, forceCoeffs, dictionary);
+}
 }
 
 
 // * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
 
-void Foam::forceCoeffs::writeFileHeader(const label i)
+void Foam::functionObjects::forceCoeffs::writeFileHeader(const label i)
 {
-    if (i == 0)
+    switch (fileID(i))
     {
-        // force coeff data
-
-        writeHeader(file(i), "Force coefficients");
-        writeHeaderValue(file(i), "liftDir", liftDir_);
-        writeHeaderValue(file(i), "dragDir", dragDir_);
-        writeHeaderValue(file(i), "pitchAxis", pitchAxis_);
-        writeHeaderValue(file(i), "magUInf", magUInf_);
-        writeHeaderValue(file(i), "lRef", lRef_);
-        writeHeaderValue(file(i), "Aref", Aref_);
-        writeHeaderValue(file(i), "CofR", coordSys_.origin());
-        writeCommented(file(i), "Time");
-        writeTabbed(file(i), "Cm");
-        writeTabbed(file(i), "Cd");
-        writeTabbed(file(i), "Cl");
-        writeTabbed(file(i), "Cl(f)");
-        writeTabbed(file(i), "Cl(r)");
-        file(i)
-            << tab << "Cm" << tab << "Cd" << tab << "Cl" << tab << "Cl(f)"
-            << tab << "Cl(r)";
-    }
-    else if (i == 1)
-    {
-        // bin coeff data
-
-        writeHeader(file(i), "Force coefficient bins");
-        writeHeaderValue(file(i), "bins", nBin_);
-        writeHeaderValue(file(i), "start", binMin_);
-        writeHeaderValue(file(i), "delta", binDx_);
-        writeHeaderValue(file(i), "direction", binDir_);
-
-        vectorField binPoints(nBin_);
-        writeCommented(file(i), "x co-ords  :");
-        forAll(binPoints, pointI)
+        case MAIN_FILE:
         {
-            binPoints[pointI] = (binMin_ + (pointI + 1)*binDx_)*binDir_;
-            file(i) << tab << binPoints[pointI].x();
-        }
-        file(i) << nl;
+            // force coeff data
 
-        writeCommented(file(i), "y co-ords  :");
-        forAll(binPoints, pointI)
+            writeHeader(file(i), "Force coefficients");
+            writeHeaderValue(file(i), "liftDir", liftDir_);
+            writeHeaderValue(file(i), "dragDir", dragDir_);
+            writeHeaderValue(file(i), "pitchAxis", pitchAxis_);
+            writeHeaderValue(file(i), "magUInf", magUInf_);
+            writeHeaderValue(file(i), "lRef", lRef_);
+            writeHeaderValue(file(i), "Aref", Aref_);
+            writeHeaderValue(file(i), "CofR", coordSys_.origin());
+            writeCommented(file(i), "Time");
+            writeTabbed(file(i), "Cm");
+            writeTabbed(file(i), "Cd");
+            writeTabbed(file(i), "Cl");
+            writeTabbed(file(i), "Cl(f)");
+            writeTabbed(file(i), "Cl(r)");
+
+            break;
+        }
+        case BINS_FILE:
         {
-            file(i) << tab << binPoints[pointI].y();
-        }
-        file(i) << nl;
+            // bin coeff data
 
-        writeCommented(file(i), "z co-ords  :");
-        forAll(binPoints, pointI)
+            writeHeader(file(i), "Force coefficient bins");
+            writeHeaderValue(file(i), "bins", nBin_);
+            writeHeaderValue(file(i), "start", binMin_);
+            writeHeaderValue(file(i), "delta", binDx_);
+            writeHeaderValue(file(i), "direction", binDir_);
+
+            vectorField binPoints(nBin_);
+            writeCommented(file(i), "x co-ords  :");
+            forAll(binPoints, pointi)
+            {
+                binPoints[pointi] = (binMin_ + (pointi + 1)*binDx_)*binDir_;
+                file(i) << tab << binPoints[pointi].x();
+            }
+            file(i) << nl;
+
+            writeCommented(file(i), "y co-ords  :");
+            forAll(binPoints, pointi)
+            {
+                file(i) << tab << binPoints[pointi].y();
+            }
+            file(i) << nl;
+
+            writeCommented(file(i), "z co-ords  :");
+            forAll(binPoints, pointi)
+            {
+                file(i) << tab << binPoints[pointi].z();
+            }
+            file(i) << nl;
+
+            writeCommented(file(i), "Time");
+
+            for (label j = 0; j < nBin_; j++)
+            {
+                const word jn('(' + Foam::name(j) + ')');
+                writeTabbed(file(i), "Cm" + jn);
+                writeTabbed(file(i), "Cd" + jn);
+                writeTabbed(file(i), "Cl" + jn);
+            }
+
+            break;
+        }
+        default:
         {
-            file(i) << tab << binPoints[pointI].z();
+            FatalErrorInFunction
+                << "Unhandled file index: " << i
+                << abort(FatalError);
         }
-        file(i) << nl;
-
-        writeCommented(file(i), "Time");
-
-        for (label j = 0; j < nBin_; j++)
-        {
-            const word jn('(' + Foam::name(j) + ')');
-            writeTabbed(file(i), "Cm" + jn);
-            writeTabbed(file(i), "Cd" + jn);
-            writeTabbed(file(i), "Cl" + jn);
-        }
-    }
-    else
-    {
-        FatalErrorIn("void Foam::forces::writeFileHeader(const label)")
-            << "Unhandled file index: " << i
-            << abort(FatalError);
     }
 
     file(i)<< endl;
@@ -119,94 +124,76 @@ void Foam::forceCoeffs::writeFileHeader(const label i)
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::forceCoeffs::forceCoeffs
+Foam::functionObjects::forceCoeffs::forceCoeffs
 (
     const word& name,
-    const objectRegistry& obr,
-    const dictionary& dict,
-    const bool loadFromFiles
+    const Time& runTime,
+    const dictionary& dict
 )
 :
-    forces(name, obr, dict, loadFromFiles, false),
-    liftDir_(vector::zero),
-    dragDir_(vector::zero),
-    pitchAxis_(vector::zero),
+    forces(name, runTime, dict),
+    liftDir_(Zero),
+    dragDir_(Zero),
+    pitchAxis_(Zero),
     magUInf_(0.0),
     lRef_(0.0),
     Aref_(0.0)
 {
     read(dict);
-
-    Info<< endl;
 }
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::forceCoeffs::~forceCoeffs()
+Foam::functionObjects::forceCoeffs::~forceCoeffs()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::forceCoeffs::read(const dictionary& dict)
+bool Foam::functionObjects::forceCoeffs::read(const dictionary& dict)
 {
-    if (active_)
-    {
-        forces::read(dict);
+    forces::read(dict);
 
-        // Directions for lift and drag forces, and pitch moment
-        dict.lookup("liftDir") >> liftDir_;
-        dict.lookup("dragDir") >> dragDir_;
-        dict.lookup("pitchAxis") >> pitchAxis_;
+    // Directions for lift and drag forces, and pitch moment
+    dict.lookup("liftDir") >> liftDir_;
+    dict.lookup("dragDir") >> dragDir_;
+    dict.lookup("pitchAxis") >> pitchAxis_;
 
-        // Free stream velocity magnitude
-        dict.lookup("magUInf") >> magUInf_;
+    // Free stream velocity magnitude
+    dict.lookup("magUInf") >> magUInf_;
 
-        // Reference length and area scales
-        dict.lookup("lRef") >> lRef_;
-        dict.lookup("Aref") >> Aref_;
-    }
+    // Reference (free stream) density
+    dict.lookup("rhoInf") >> rhoRef_;
+
+    // Reference length and area scales
+    dict.lookup("lRef") >> lRef_;
+    dict.lookup("Aref") >> Aref_;
+
+    return true;
 }
 
 
-void Foam::forceCoeffs::execute()
+bool Foam::functionObjects::forceCoeffs::execute()
 {
-    // Do nothing - only valid on write
+    return true;
 }
 
 
-void Foam::forceCoeffs::end()
-{
-    // Do nothing - only valid on write
-}
-
-
-void Foam::forceCoeffs::timeSet()
-{
-    // Do nothing - only valid on write
-}
-
-
-void Foam::forceCoeffs::write()
+bool Foam::functionObjects::forceCoeffs::write()
 {
     forces::calcForcesMoment();
 
-    if (!active_)
-    {
-        return;
-    }
-
     if (Pstream::master())
     {
-        functionObjectFile::write();
+        logFiles::write();
 
         scalar pDyn = 0.5*rhoRef_*magUInf_*magUInf_;
 
         Field<vector> totForce(force_[0] + force_[1] + force_[2]);
         Field<vector> totMoment(moment_[0] + moment_[1] + moment_[2]);
 
-        List<Field<scalar> > coeffs(3);
+        List<Field<scalar>> coeffs(3);
         coeffs[0].setSize(nBin_);
         coeffs[1].setSize(nBin_);
         coeffs[2].setSize(nBin_);
@@ -223,11 +210,12 @@ void Foam::forceCoeffs::write()
         scalar Clf = Cl/2.0 + Cm;
         scalar Clr = Cl/2.0 - Cm;
 
-        file(0)
-            << obr_.time().value() << tab << Cm << tab  << Cd
+        writeTime(file(MAIN_FILE));
+        file(MAIN_FILE)
+            << tab << Cm << tab  << Cd
             << tab << Cl << tab << Clf << tab << Clr << endl;
 
-        if (log_) Info<< type() << " " << name_ << " output:" << nl
+        Log << type() << " " << name() << " write:" << nl
             << "    Cm    = " << Cm << nl
             << "    Cd    = " << Cd << nl
             << "    Cl    = " << Cl << nl
@@ -246,21 +234,23 @@ void Foam::forceCoeffs::write()
                 }
             }
 
-            file(1)<< obr_.time().value();
+            writeTime(file(BINS_FILE));
 
             forAll(coeffs[0], i)
             {
-                file(1)
+                file(BINS_FILE)
                     << tab << coeffs[2][i]
                     << tab << coeffs[1][i]
                     << tab << coeffs[0][i];
             }
 
-            file(1) << endl;
+            file(BINS_FILE) << endl;
         }
 
-        if (log_) Info<< endl;
+        Log << endl;
     }
+
+    return true;
 }
 
 

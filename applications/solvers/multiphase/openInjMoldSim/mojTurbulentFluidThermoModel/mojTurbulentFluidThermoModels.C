@@ -32,7 +32,7 @@ License
 #include "ThermalDiffusivity.H"
 #include "EddyDiffusivity.H"
 
-#include "laminar.H"
+#include "laminarModel.H"
 #include "RASModel.H"
 #include "LESModel.H"
 
@@ -48,6 +48,10 @@ mojMakeBaseTurbulenceModel
     mojFluidThermo
 );
 
+#define makeLaminarModel(Type)                                                 \
+    mojMakeTemplatedLaminarModel                                               \
+    (mojFluidThermoCompressibleTurbulenceModel, laminar, Type)
+
 #define makeRASModel(Type)                                                     \
     mojMakeTemplatedTurbulenceModel                                               \
     (mojFluidThermoCompressibleTurbulenceModel, RAS, Type)
@@ -56,6 +60,16 @@ mojMakeBaseTurbulenceModel
     mojMakeTemplatedTurbulenceModel                                               \
     (mojFluidThermoCompressibleTurbulenceModel, LES, Type)
 
+
+// -------------------------------------------------------------------------- //
+// Laminar models
+// -------------------------------------------------------------------------- //
+
+#include "Stokes.H"
+makeLaminarModel(Stokes);
+
+#include "Maxwell.H"
+makeLaminarModel(Maxwell);
 
 // -------------------------------------------------------------------------- //
 // RAS models

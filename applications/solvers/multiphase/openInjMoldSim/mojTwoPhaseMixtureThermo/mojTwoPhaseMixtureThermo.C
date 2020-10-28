@@ -303,6 +303,24 @@ Foam::tmp<Foam::scalarField> Foam::mojTwoPhaseMixtureThermo::kappa
       + alpha2().boundaryField()[patchi]*thermo2_->kappa(patchi);
 }
 
+Foam::tmp<Foam::volScalarField> Foam::mojTwoPhaseMixtureThermo::alphahe() const
+{
+    return
+        alpha1()*thermo1_->alphahe()
+      + alpha2()*thermo2_->alphahe();
+}
+
+
+Foam::tmp<Foam::scalarField> Foam::mojTwoPhaseMixtureThermo::alphahe
+(
+    const label patchi
+) const
+{
+    return
+        alpha1().boundaryField()[patchi]*thermo1_->alphahe(patchi)
+      + alpha2().boundaryField()[patchi]*thermo2_->alphahe(patchi);
+}
+
 
 Foam::tmp<Foam::volScalarField> Foam::mojTwoPhaseMixtureThermo::kappaEff
 (
@@ -356,5 +374,6 @@ Foam::tmp<Foam::volScalarField> Foam::mojTwoPhaseMixtureThermo::cTExp() const
     return
         alpha1()*thermo1_->cTExp(); // coef. of therm. expan. for thermo1
 }
+
 
 // ************************************************************************* //

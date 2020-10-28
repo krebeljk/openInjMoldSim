@@ -1,3 +1,4 @@
+
 Info<< "Reading field p_rgh\n" << endl;
 volScalarField p_rgh
 (
@@ -110,22 +111,6 @@ volScalarField visc
     alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu()
 );
 
-//kristjan - residuals p_rgh
-
-volScalarField p_rgh_resid
-(
-    IOobject
-    (
-        "p_rgh_resid",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh,
-    dimensionedScalar("initOne", dimensionSet(0,0,-1,0,0,0,0), 1.0)
-);
-
 //kristjan - Calc Celsius
 volScalarField Tc
 (
@@ -196,7 +181,7 @@ Info<< "Reading solidification properties\n" << endl;
     );
 
     // Check the if the dictionary is present and follows the OF format
-    if (!sldDictIO.headerOk())
+    if (!sldDictIO.typeHeaderOk<IOdictionary>()) //VER MELHOR
     {
         Info << "No constant/solidificationProperties dictionary found." << endl;
         Info << "Flow cessation modeled as visc(TnoFlow)=etaMax." << nl << nl << endl;
@@ -219,7 +204,7 @@ Info<< "Reading solidification properties\n" << endl;
         sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
     );
 
-    if (sldDictIO.headerOk())
+    if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER MELHOR
     {
         // Summarise what's been read and print in the console
         Info << nl << "Solidification properties: " << nl

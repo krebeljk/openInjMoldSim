@@ -1,0 +1,71 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 343.15; //493.15
+
+boundaryField
+{
+    "walls.*"
+    {
+        type            externalWallHeatFluxTemperature;
+
+        mode            coefficient;
+
+        kappaMethod     lookup;  // find out defining kappa
+        kappa           mojKappaOut; //before was kappaName       mojKappaOut;
+        Ta              uniform 333.15;
+        h               uniform 3.5e3;
+        value           uniform 343.15; //initial temperature [K]
+               
+        Qr              none;
+        relaxation      1;
+       
+
+    }
+
+    outlet
+    {
+        type            externalWallHeatFluxTemperature;//works as zeroGradient (small HTC) - simpler to change when packing starts
+
+        mode            coefficient;
+
+        kappaMethod     lookup;  // find out defining kappa
+        kappa           mojKappaOut; //before was kappaName       mojKappaOut;
+        Ta              uniform 333.15;
+        h               uniform 1;
+        value           uniform 343.15; //initial temperature [K]
+               
+        Qr              none;
+        relaxation      1;
+
+    }
+
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 493.15;
+    }
+
+
+    defaultFaces
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

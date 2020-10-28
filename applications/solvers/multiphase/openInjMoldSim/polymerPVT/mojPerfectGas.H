@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -55,13 +55,6 @@ inline mojPerfectGas<Specie> operator+
 );
 
 template<class Specie>
-inline mojPerfectGas<Specie> operator-
-(
-    const mojPerfectGas<Specie>&,
-    const mojPerfectGas<Specie>&
-);
-
-template<class Specie>
 inline mojPerfectGas<Specie> operator*
 (
     const scalar,
@@ -100,9 +93,6 @@ public:
         //- Construct from components
         inline mojPerfectGas(const Specie& sp);
 
-        //- Construct from Istream
-        mojPerfectGas(Istream&);
-
         //- Construct from dictionary
         mojPerfectGas(const dictionary& dict);
 
@@ -111,9 +101,6 @@ public:
 
         //- Construct and return a clone
         inline autoPtr<mojPerfectGas> clone() const;
-
-        // Selector from Istream
-        inline static autoPtr<mojPerfectGas> New(Istream& is);
 
         // Selector from dictionary
         inline static autoPtr<mojPerfectGas> New(const dictionary& dict);
@@ -142,8 +129,14 @@ public:
             //- Return thermal expansion [1/K]
             inline scalar cTExp(scalar p, scalar T) const;
 
-            //- Return entropy [J/(kmol K)]
-            inline scalar s(const scalar p, const scalar T) const;
+            //- Return enthalpy departure [J/kg]
+            inline scalar H(const scalar p, const scalar T) const;
+
+            //- Return Cp departure [J/(kg K]
+            inline scalar Cp(scalar p, scalar T) const;
+
+            //- Return entropy [J/(kg K)]
+            inline scalar S(const scalar p, const scalar T) const;
 
             //- Return compressibility rho/p [s^2/m^2]
             inline scalar psi(scalar p, scalar T) const;
@@ -151,8 +144,8 @@ public:
             //- Return compression factor []
             inline scalar Z(scalar p, scalar T) const;
 
-            //- Return (cp - cv) [J/(kmol K]
-            inline scalar cpMcv(scalar p, scalar T) const;
+            //- Return (Cp - Cv) [J/(kg K]
+            inline scalar CpMCv(scalar p, scalar T) const;
 
 
         // IO
@@ -164,20 +157,12 @@ public:
     // Member operators
 
         inline void operator+=(const mojPerfectGas&);
-        inline void operator-=(const mojPerfectGas&);
-
         inline void operator*=(const scalar);
 
 
     // Friend operators
 
         friend mojPerfectGas operator+ <Specie>
-        (
-            const mojPerfectGas&,
-            const mojPerfectGas&
-        );
-
-        friend mojPerfectGas operator- <Specie>
         (
             const mojPerfectGas&,
             const mojPerfectGas&
@@ -215,7 +200,7 @@ public:
 #include "mojPerfectGasI.H"
 
 #ifdef NoRepository
-#   include "mojPerfectGas.C"
+    #include "mojPerfectGas.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

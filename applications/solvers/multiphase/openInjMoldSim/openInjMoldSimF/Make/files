@@ -1,0 +1,10 @@
+../mojThermos.C
+../mojTwoPhaseMixtureThermo/mojTwoPhaseMixtureThermo.C
+../crossWlfInSorodno/mojRhoThermo.C
+../crossWlfInSorodno/mojFluidThermo.C
+../crossWlfInSorodno/mojBasicThermo.C
+../mojTwoPhaseMixtureThermo/mojPsiThermo.C
+../mojTurbulentFluidThermoModel/mojTurbulentFluidThermoModels.C
+openInjMoldSimF.C
+
+EXE = $(FOAM_USER_APPBIN)/openInjMoldSimF

@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -49,7 +49,7 @@ const Foam::word Foam::mojBasicThermo::dictName("thermophysicalProperties");
 
 Foam::wordList Foam::mojBasicThermo::heBoundaryBaseTypes()
 {
-    const volScalarField::GeometricBoundaryField& tbf =
+    const volScalarField::Boundary& tbf =
         this->T_.boundaryField();
 
     wordList hbt(tbf.size(), word::null);
@@ -81,7 +81,7 @@ Foam::wordList Foam::mojBasicThermo::heBoundaryBaseTypes()
 
 Foam::wordList Foam::mojBasicThermo::heBoundaryTypes()
 {
-    const volScalarField::GeometricBoundaryField& tbf =
+    const volScalarField::Boundary& tbf =
         this->T_.boundaryField();
 
     wordList hbt = tbf.types();
@@ -152,10 +152,7 @@ Foam::volScalarField& Foam::mojBasicThermo::lookupOrConstruct
         fPtr->store(fPtr);
     }
 
-    return const_cast<volScalarField&>
-    (
-        mesh.objectRegistry::lookupObject<volScalarField>(name)
-    );
+    return mesh.objectRegistry::lookupObjectRef<volScalarField>(name);
 }
 
 
@@ -210,10 +207,7 @@ Foam::mojBasicThermo::mojBasicThermo
         dimensionSet(1, -1, -1, 0, 0)
     ),
 
-
     dpdt_(lookupOrDefault<Switch>("dpdt", true))
-
-
 {}
 
 
@@ -315,8 +309,8 @@ const Foam::mojBasicThermo& Foam::mojBasicThermo::lookupThermo
         {
             if
             (
-                &(iter()->he().dimensionedInternalField())
-              == &(pf.dimensionedInternalField())
+                &(iter()->he().internalField())
+              == &(pf.internalField())
             )
             {
                 return *iter();
@@ -336,7 +330,7 @@ void Foam::mojBasicThermo::validate
 {
     if (!(he().name() == phasePropertyName(a)))
     {
-        FatalErrorIn(app)
+        FatalErrorInFunction
             << "Supported energy type is " << phasePropertyName(a)
             << ", thermodynamics package provides " << he().name()
             << exit(FatalError);
@@ -358,7 +352,7 @@ void Foam::mojBasicThermo::validate
         )
     )
     {
-        FatalErrorIn(app)
+        FatalErrorInFunction
             << "Supported energy types are " << phasePropertyName(a)
             << " and " << phasePropertyName(b)
             << ", thermodynamics package provides " << he().name()
@@ -383,7 +377,7 @@ void Foam::mojBasicThermo::validate
         )
     )
     {
-        FatalErrorIn(app)
+        FatalErrorInFunction
             << "Supported energy types are " << phasePropertyName(a)
             << ", " << phasePropertyName(b)
             << " and " << phasePropertyName(c)
@@ -411,7 +405,7 @@ void Foam::mojBasicThermo::validate
         )
     )
     {
-        FatalErrorIn(app)
+        FatalErrorInFunction
             << "Supported energy types are " << phasePropertyName(a)
             << ", " << phasePropertyName(b)
             << ", " << phasePropertyName(c)
@@ -456,14 +450,28 @@ Foam::wordList Foam::mojBasicThermo::splitThermoName
         {
             cmpts[i] = thermoName.substr(beg, end-beg);
             cmpts[i++].replaceAll(">","");
+
+            // If the number of number of components in the name
+            // is greater than nCmpt return an empty list
+            if (i == nCmpt)
+            {
+                return wordList::null();
+            }
         }
         beg = end + 1;
+    }
+
+    // If the number of number of components in the name is not equal to nCmpt
+    // return an empty list
+    if (i + 1 != nCmpt)
+    {
+        return wordList::null();
     }
 
     if (beg < thermoName.size())
     {
         cmpts[i] = thermoName.substr(beg, string::npos);
-        cmpts[i++].replaceAll(">","");
+        cmpts[i].replaceAll(">","");
     }
 
     return cmpts;

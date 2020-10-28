@@ -81,6 +81,8 @@ inline Foam::hTabularThermo<EquationOfState>::hTabularThermo
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
+//ver hPolynomialThermoI.H. Será que o termo this->W() deveria ser alterado ou não? VER
+
 template<class EquationOfState>
 inline Foam::scalar Foam::hTabularThermo<EquationOfState>::limit
 (
@@ -92,13 +94,13 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::limit
 
 
 template<class EquationOfState>
-inline Foam::scalar Foam::hTabularThermo<EquationOfState>::cp
+inline Foam::scalar Foam::hTabularThermo<EquationOfState>::Cp
 (
     const scalar p, const scalar T
 ) const
 {
     //Info << "cp for T= " << T << ", p= " << p  << ": " << cpTable(T, p) * this->W() << endl;
-    return cpTable(T, p) * this->W();
+    return cpTable(T, p); // + EquationOfState::Cp tal como em hPolynomialThermoI.H? VER
 }
 
 
@@ -110,11 +112,11 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::ha
 {
     //Info << "ha for T= " << T << ": " << ((hTable(T, p) + hc()) * this->W()) << endl;
     //return (hTable(T, p) + hc()) * this->W();
-    return hc() * this->W();
+    return Hc() * this->W(); // + EquationOfState::H tal como em hPolynomialThermoI.H? VER
 }
 
 
-template<class EquationOfState>
+/*template<class EquationOfState>
 inline Foam::scalar Foam::hTabularThermo<EquationOfState>::hs
 (
     const scalar p, const scalar T
@@ -124,14 +126,32 @@ inline Foam::scalar Foam::hTabularThermo<EquationOfState>::hs
     //abort(FatalError);
     //return (hTable(T, p)) * this->W();
     return hc()* this->W();
-}
-
+}*/
 
 template<class EquationOfState>
+inline Foam::scalar Foam::hTabularThermo<EquationOfState>::Hs
+(
+    const scalar p, const scalar T
+) const
+{
+    //Info << "hs for T= " << T << ", p= " << p << ": " << (hTable(T, p) * this->W()) << endl;
+    //abort(FatalError);
+    //return (hTable(T, p)) * this->W();
+    return Hc() *  this->W();
+}
+
+/*template<class EquationOfState>
 inline Foam::scalar Foam::hTabularThermo<EquationOfState>::hc()
 const
 {
     return Hf_;
+}*/
+
+template<class EquationOfState>
+inline Foam::scalar Foam::hTabularThermo<EquationOfState>::Hc()
+const
+{
+    return Hf_ / this->W(); // VER SE ESTÁ CERTO
 }
 
 template<class EquationOfState>

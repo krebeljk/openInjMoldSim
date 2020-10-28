@@ -1,0 +1,83 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFH Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshHict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+a1  -0.5;//box dim
+a2 150.5;
+b1  -0.5;
+b2   4.5;
+c1 -10.5;
+c2  10.5;
+na   302;//refinement
+nb    10;
+nc    42;
+
+
+convertToMeters 1e-3;
+
+vertices
+(
+    ($a1  $b1 $c1)
+    ($a2  $b1 $c1)
+    ($a2  $b2 $c1)
+    ($a1  $b2 $c1)
+
+    ($a1  $b1 $c2)
+    ($a2  $b1 $c2)
+    ($a2  $b2 $c2)
+    ($a1  $b2 $c2)
+
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($na $nb $nc) simpleGrading (1 1 1)
+);
+
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (2 6 5 1)
+        );
+    }
+
+    walls
+    {
+        type patch;
+        faces
+        (
+            (0 3 2 1)
+            (4 5 6 7)
+            (0 1 5 4)
+            (7 6 2 3)
+        );
+    }
+
+);
+
+// ************************************************************************* //

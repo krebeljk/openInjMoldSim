@@ -1,4 +1,4 @@
-{
+{   
     fvScalarMatrix TEqn
     (
         fvm::ddt(rho, T)

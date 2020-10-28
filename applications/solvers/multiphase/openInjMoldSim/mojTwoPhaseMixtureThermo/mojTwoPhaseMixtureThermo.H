@@ -236,7 +236,7 @@ public:
                 const label patchi
             ) const;
 
-            //- Coeff. of therm. expan. for thermo1[1/K]
+	    //- Coeff. of therm. expan. for thermo1[1/K]
             virtual tmp<volScalarField> cTExp() const;
 
 
@@ -256,6 +256,12 @@ public:
             (
                 const label patchi
             ) const;
+
+            //- Thermal diffusivity for energy of mixture [kg/m/s]
+            virtual tmp<volScalarField> alphahe() const;
+
+            //- Thermal diffusivity for energy of mixture for patch [kg/m/s]
+            virtual tmp<scalarField> alphahe(const label patchi) const;
 
             //- Effective thermal diffusivity of mixture [J/m/s/K]
             virtual tmp<volScalarField> kappaEff

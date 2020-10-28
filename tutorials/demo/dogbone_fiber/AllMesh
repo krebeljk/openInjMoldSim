@@ -1,0 +1,25 @@
+#!/bin/bash
+cd ${0%/*} || exit 1    # run from this directory
+
+rm log.*
+rm -rf 0
+cp -r org0 0
+cp system/controlDict0 system/controlDict
+cp system/fvSolution0 system/fvSolution
+mkdir -p constant/triSurface
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_inlet.stl constant/triSurface/inlet.stl
+surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_outlet.stl constant/triSurface/outlet.stl
+surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_walls.stl constant/triSurface/walls.stl
+runApplication blockMesh
+runApplication surfaceFeatures
+#                decomposePar -copyZero
+runApplication     snappyHexMesh -overwrite
+# runApplication reconstructParMesh -constant -noZero
+# runApplication splitMeshRegions -cellZones -defaultRegionName sol -overwrite
+# # runApplication transformPoints -scale "(1e-3 1e-3 1e-3)"
+
+setFields

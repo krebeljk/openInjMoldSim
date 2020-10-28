@@ -147,18 +147,25 @@ public:
 
 
         // Fundamental properties
+        //ha -> Ha, s -> S tal como em hPolynomialThermo.H? VER
 
-            //- Heat capacity at constant pressure [J/(kmol K)]
-            inline scalar cp(const scalar p, const scalar T) const;
+            //- Heat capacity at constant pressure [J/(kg K)]
+            inline scalar Cp(const scalar p, const scalar T) const;
 
             //- Absolute Enthalpy [J/kmol]
             inline scalar ha(const scalar p, const scalar T) const;
 
             //- Sensible enthalpy [J/kmol]
-            inline scalar hs(const scalar p, const scalar T) const;
+            //inline scalar hs(const scalar p, const scalar T) const;
+
+            //- Sensible enthalpy [J/kg]
+            inline scalar Hs(const scalar p, const scalar T) const;
 
             //- Chemical enthalpy [J/kmol]
-            inline scalar hc() const;
+            //inline scalar hc() const;
+
+            //- Chemical enthalpy [J/kg]
+            inline scalar Hc() const;
 	    
             inline scalar s(const scalar p, const scalar T) const;
 

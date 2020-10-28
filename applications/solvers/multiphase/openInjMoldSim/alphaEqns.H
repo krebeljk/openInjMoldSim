@@ -6,7 +6,7 @@
 
     for (int gCorr=0; gCorr<nAlphaCorr; gCorr++)
     {
-        volScalarField::DimensionedInternalField Sp
+        volScalarField::Internal Sp
         (
             IOobject
             (
@@ -18,7 +18,7 @@
             dimensionedScalar("Sp", dgdt.dimensions(), 0.0)
         );
 
-        volScalarField::DimensionedInternalField Su
+        volScalarField::Internal Su
         (
             IOobject
             (
@@ -69,8 +69,10 @@
             alphaPhi1,
             Sp,
             Su,
-            1,
-            0
+            oneField(),
+            zeroField() //cbpf on 24/09/2019 for compatibility with of6
+            //1,
+            //0
         );
 
         surfaceScalarField rho1f(fvc::interpolate(rho1));

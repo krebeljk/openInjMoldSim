@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2012 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2017 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -29,15 +29,6 @@ License
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class Specie>
-Foam::mojPerfectGas<Specie>::mojPerfectGas(Istream& is)
-:
-    Specie(is)
-{
-    is.check("mojPerfectGas<Specie>::mojPerfectGas(Istream& is)");
-}
-
-
-template<class Specie>
 Foam::mojPerfectGas<Specie>::mojPerfectGas(const dictionary& dict)
 :
     Specie(dict)
@@ -58,9 +49,7 @@ void Foam::mojPerfectGas<Specie>::write(Ostream& os) const
 template<class Specie>
 Foam::Ostream& Foam::operator<<(Ostream& os, const mojPerfectGas<Specie>& pg)
 {
-    os  << static_cast<const Specie&>(pg);
-
-    os.check("Ostream& operator<<(Ostream& os, const mojPerfectGas<Specie>& st)");
+    pg.write(os);
     return os;
 }
 

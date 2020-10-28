@@ -37,3 +37,17 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 - Bug fix. Proper material derivatives for pressure and elSigDev.
 - Bug fix. Convegence possible at p = pMin (when cooling) due to new pAux field.
 - Tutorials. Added the dogbone specimen case.
+
+## Version v5
+- OpenFOAM 5
+
+## Version v6
+
+- OpenFOAM 6
+
+## Version v7
+- OpenFOAM 7
+- Fiber orientation.
+- `pAux` auxiliary pressure field to balance the negative pressure during packing.
+- Calculation reordering to improve the restart behavior - work in progress.
+- Remove debug fields `p_rgh_resid` and `time`.

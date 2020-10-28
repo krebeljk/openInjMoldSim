@@ -23,12 +23,12 @@ boundaryField
     wallIn
     {
         type            externalWallHeatFluxTemperature;
-        kappa           lookup;
-        //q               uniform 1000; //ali q, ali Ta in h
+        kappaMethod     lookup;
+        mode            coefficient;
         Ta              uniform 493.15;
         h               uniform 1.25e3;
         value           uniform 393.15; //initial temperature [K]
-        kappaName       mojKappaOut;
+        kappa           mojKappaOut;
         Qr              none;
         relaxation      1;
     }
@@ -36,12 +36,12 @@ boundaryField
     wallOut
     {
         type            externalWallHeatFluxTemperature;
-        kappa           lookup;
-        //q               uniform 1000; //ali q, ali Ta in h
+        kappaMethod     lookup;
+        mode            coefficient;
         Ta              uniform 493.15;
         h               uniform 1.25e3;
         value           uniform 393.15; //initial temperature [K]
-        kappaName       mojKappaOut;
+        kappa           mojKappaOut;
         Qr              none;
         relaxation      1;
     }

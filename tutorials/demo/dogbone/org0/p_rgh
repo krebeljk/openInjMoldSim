@@ -22,8 +22,10 @@ boundaryField
 {
     walls
     {
-        type            fixedFluxPressure;
-        value           uniform 1e5;
+       type            fixedFluxPressure;
+       value           uniform 1e5; 
+/*fixedFluxPressure is used for pressure in situations where zeroGradient is generally used, but where body forces such 
+as gravity and surface tension are present in the solution equations.The condition adjusts the gradient accordingly. */
     }
 
     outlet
@@ -34,9 +36,8 @@ boundaryField
 
     inlet
     {
-       type uniformFixedValue;
-       uniformValue table 
-#      include "$FOAM_CASE/fim_01_01_G_00_03_01_08.txt"
+       type            zeroGradient;
+
     }
 
     defaultFaces

@@ -175,6 +175,7 @@ Foam::volScalarField& Foam::mojRhoThermo::rho()
 
 const Foam::volScalarField& Foam::mojRhoThermo::psi() const
 {
+    //Info << "psi internal " << psi_ << endl;
     return psi_;
 }
 

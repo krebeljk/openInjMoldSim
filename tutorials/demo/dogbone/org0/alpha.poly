@@ -16,7 +16,7 @@ FoamFile
 
 dimensions      [0 0 0 0 0 0 0];
 
-internalField   uniform 1;
+internalField   uniform 0;
 
 boundaryField
 {
@@ -36,11 +36,12 @@ boundaryField
         value           uniform 1;
     }
 
-
-    frontAndBack
+    defaultFaces
     {
         type            empty;
     }
+
+
 }
 
 // ************************************************************************* //
