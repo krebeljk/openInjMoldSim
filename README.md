@@ -43,7 +43,9 @@ This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* The work was supported by the [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/).
+The work was supported by
+- [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/)
+- [Computational Rheology @ Institute for Polymers and Composites](https://crheo.org/)
 
 ## Disclaimer
 This solver is built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). 
