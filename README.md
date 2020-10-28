@@ -32,20 +32,19 @@ your machine. Run `./AllMesh` and then `./AllRun` in the [`dogbone`](/tutorials/
 - [Numerical tests](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb).
 - For general info about OpenFOAM see the unofficial wiki [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page), the community forum [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/) or [wiki.openfoam.com](https://wiki.openfoam.com/Main_Page) (note the `.com`, this solver needs `.org`).
 
-## Special thanks to
+## Acknowledgments
 
+The work was supported by
+- [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/)
+- [Computational Rheology @ Institute for Polymers and Composites](https://crheo.org/)
+
+Special thanks to
 * **Janez Turk** - Provided the initial modifications to the original OpenFOAM library.
 * **Kerstin Heinen** - [Publicly shared](https://www.cfd-online.com/Forums/openfoam-solving/58034-fiber-suspension-solver-laminar-advanifolgartucker-model.html) the OpenFOAM implementation of the AdvaniFolgarTucker which was included in this solver.
 
 ## License
 
 This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## Acknowledgments
-
-The work was supported by
-- [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/)
-- [Computational Rheology @ Institute for Polymers and Composites](https://crheo.org/)
 
 ## Disclaimer
 This solver is built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). 
