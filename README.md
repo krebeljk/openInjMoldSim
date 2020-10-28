@@ -8,7 +8,7 @@ Currently, the simulation is prohibitively inconvenient for typical industrial u
 
 ## Getting Started
 
-An [OpenFOAM installation](https://openfoam.org/download/archive/) is required to run the code.
+An [OpenFOAM 7 installation](https://openfoam.org/download/archive/) is required to run the code.
 
 Run `./Allwmake` in the solver directory to compile the code.
 
