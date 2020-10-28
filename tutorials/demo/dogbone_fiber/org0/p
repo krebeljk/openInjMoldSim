@@ -35,15 +35,14 @@ boundaryField
 
     inlet
     {
-       type            calculated;
-       value           uniform 1e5;
-       
+        type            calculated;
+        value           uniform 1e5;
     }
-
     defaultFaces
     {
         type            empty;
     }
+
 }
 
 // ************************************************************************* //

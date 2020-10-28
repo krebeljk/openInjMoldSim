@@ -37,15 +37,12 @@ boundaryField
     }
 
 
-    inlet     //0.000008 m^3 cavity volume
+    inlet
     {
 
         type            flowRateInletVelocity;
-        volumetricFlowRate    0.00002;  //0.165s filling time for 90% of cavity volume= 0.000048
+        volumetricFlowRate    0.00002;  //set by AllRun
         value           $internalField;
-
-
-        //type            zeroGradient;
     }
 
 

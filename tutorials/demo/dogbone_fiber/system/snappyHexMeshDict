@@ -17,7 +17,7 @@ FoamFile
 // Which of the steps to run
 castellatedMesh true;
 snap            true;
-addLayers       true;
+addLayers       false;
 
 //singleRegionName true;//use only names from inside STL?
 
@@ -104,18 +104,18 @@ castellatedMeshControls
     // This is a featureEdgeMesh, read from constant/triSurface for now.
     features
     (
-        //{
-        //    file "inlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "outlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "walls.eMesh";
-        //    level 1;
-        //}
+        {
+           file "inlet.eMesh";
+            level 1;
+        }
+        {
+            file "outlet.eMesh";
+            level 1;
+        }
+        {
+            file "walls.eMesh";
+            level 1;
+        }
     );
 
 
@@ -134,13 +134,28 @@ castellatedMeshControls
         "(inlet|outlet|walls)"
         {
             // Surface-wise min and max refinement level
-            level (1 2);        
-        }
+            level (1 2);
 
+            regions
+            {
+                "(inlet|outlet|walls)"
+                {
+                    level (1 2);
+
+                    // Optional specification of patch type (default is wall). No
+                    // constraint types (cyclic, symmetry) etc. are allowed.
+                    patchInfo
+                    {
+                        type patch;
+                        inGroups (myGroup);
+                    }
+                }
+            }
+        }
     }
 
     // Resolve sharp angles
-    resolveFeatureAngle 20;
+    resolveFeatureAngle 30;
 
 
     // Region-wise refinement

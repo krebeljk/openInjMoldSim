@@ -22,13 +22,13 @@ ddtSchemes
 
 gradSchemes
 {
-    default         cellMDLimited Gauss linear 0.5; //Gauss linear
+    default         Gauss linear;
 }
 
 divSchemes
 {
-    div(phi,alpha)  Gauss upwind;//Gauss vanLeer
-    div(phirb,alpha) Gauss upwind;//Gauss linear
+    div(phi,alpha)  Gauss vanLeer;
+    div(phirb,alpha) Gauss linear;
 
     div(rhoPhi,U)  Gauss upwind;
     div(phi,thermo:rho.poly) Gauss upwind;
@@ -49,7 +49,7 @@ divSchemes
 
 laplacianSchemes
 {
-    default         Gauss linear limited 0.777; //Gauss linear uncorrected
+    default         Gauss linear uncorrected;
 }
 
 interpolationSchemes
@@ -59,7 +59,7 @@ interpolationSchemes
 
 snGradSchemes
 {
-    default         limited 0.777;
+    default         uncorrected;
 }
 
 // ************************************************************************* //

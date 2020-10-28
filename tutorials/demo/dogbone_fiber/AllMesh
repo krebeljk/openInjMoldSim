@@ -14,9 +14,12 @@ mkdir -p constant/triSurface
 surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_inlet.stl constant/triSurface/inlet.stl
 surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_outlet.stl constant/triSurface/outlet.stl
 surfaceTransformPoints -scale "(1e-3 1e-3 1e-3)" epr_walls.stl constant/triSurface/walls.stl
-
 runApplication blockMesh
-
+runApplication surfaceFeatures
+#                decomposePar -copyZero
 runApplication     snappyHexMesh -overwrite
+# runApplication reconstructParMesh -constant -noZero
+# runApplication splitMeshRegions -cellZones -defaultRegionName sol -overwrite
+# # runApplication transformPoints -scale "(1e-3 1e-3 1e-3)"
 
 setFields
