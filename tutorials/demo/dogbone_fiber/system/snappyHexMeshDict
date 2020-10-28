@@ -17,7 +17,7 @@ FoamFile
 // Which of the steps to run
 castellatedMesh true;
 snap            true;
-addLayers       true;
+addLayers       false;
 
 //singleRegionName true;//use only names from inside STL?
 
@@ -41,16 +41,10 @@ geometry
         file "outlet.stl";
     }
 
-    walls_mold
+    walls
     {
         type triSurfaceMesh;
-        file "walls_mold.stl";
-    }
-
-    walls_gate
-    {
-        type triSurfaceMesh;
-        file "walls_gate.stl";
+        file "walls.stl";
     }
 
 
@@ -110,18 +104,18 @@ castellatedMeshControls
     // This is a featureEdgeMesh, read from constant/triSurface for now.
     features
     (
-        //{
-        //    file "inlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "outlet.eMesh";
-        //    level 1;
-        //}
-        //{
-        //    file "walls.eMesh";
-        //    level 1;
-        //}
+        {
+           file "inlet.eMesh";
+            level 1;
+        }
+        {
+            file "outlet.eMesh";
+            level 1;
+        }
+        {
+            file "walls.eMesh";
+            level 1;
+        }
     );
 
 
@@ -137,21 +131,31 @@ castellatedMeshControls
 
     refinementSurfaces
     {
-        "(inlet|outlet|walls_mold)"
+        "(inlet|outlet|walls)"
         {
             // Surface-wise min and max refinement level
-            level (1 2);        
-        }
+            level (1 2);
 
-        walls_gate
-        {
-            // Surface-wise min and max refinement level
-            level (2 3);
+            regions
+            {
+                "(inlet|outlet|walls)"
+                {
+                    level (1 2);
+
+                    // Optional specification of patch type (default is wall). No
+                    // constraint types (cyclic, symmetry) etc. are allowed.
+                    patchInfo
+                    {
+                        type patch;
+                        inGroups (myGroup);
+                    }
+                }
+            }
         }
     }
 
     // Resolve sharp angles
-    resolveFeatureAngle 20;
+    resolveFeatureAngle 30;
 
 
     // Region-wise refinement
@@ -244,11 +248,8 @@ addLayersControls
     // Per final patch (so not geometry!) the layer information
     layers
     {
-        walls_gate
-        {
-            nSurfaceLayers 2;
-        }
-        walls_mold
+        
+        walls
         {
             nSurfaceLayers 3;
         }

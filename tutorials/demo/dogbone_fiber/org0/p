@@ -20,7 +20,7 @@ internalField   uniform 1e5;
 
 boundaryField
 {
-    "walls_.*"
+    "walls.*"
     {
         type            calculated;
         value           uniform 1e5;
@@ -29,21 +29,20 @@ boundaryField
 
     outlet
     {
-        type            fixedValue;
+        type            calculated;
         value           uniform 1e5;
     }
 
     inlet
     {
-       type            calculated;
-       value           uniform 1e5;
-       
+        type            calculated;
+        value           uniform 1e5;
     }
-
     defaultFaces
     {
         type            empty;
     }
+
 }
 
 // ************************************************************************* //

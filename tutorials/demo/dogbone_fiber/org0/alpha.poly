@@ -20,7 +20,7 @@ internalField   uniform 0;
 
 boundaryField
 {
-    "walls_.*"
+    "walls.*"
     {
         type            zeroGradient;
     }

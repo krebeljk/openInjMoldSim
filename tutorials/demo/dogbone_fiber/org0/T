@@ -20,7 +20,7 @@ internalField   uniform 343.15; //493.15
 
 boundaryField
 {
-    "walls_.*"
+    "walls.*"
     {
         type            externalWallHeatFluxTemperature;
 

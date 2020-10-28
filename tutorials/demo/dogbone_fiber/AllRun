@@ -14,9 +14,10 @@ TimeEndPACK=0.55
 dtWritePACK=0.01
 dtMaxPACK=0.01
 
-TimeEndHOLD=0.71
-dtWriteHOLD=0.02
-dtMaxHOLD=0.01
+walls_patch_name="walls"
+TimeEndHOLD=15
+dtWriteHOLD=0.5
+dtMaxHOLD=0.1
 
 # Initial files
 rm log.de* log.re* log.op*
@@ -52,11 +53,13 @@ change_bcU(){
     foamDictionary $1 -entry boundaryField.inlet.type -set "zeroGradient"
 }
 change_bcP(){
-    foamDictionary $1 -entry boundaryField.outlet.type -set fixedFluxPressure
-    foamDictionary $1 -entry boundaryField.outlet.value -set "uniform constant $p_pack"
+    foamDictionary $1 -entry boundaryField.outlet.type -set "zeroGradient"
+    foamDictionary $1 -entry boundaryField.inlet.type -set "uniformFixedValue"
+    foamDictionary $1 -entry boundaryField.inlet -add "uniformValue"
+    foamDictionary $1 -entry boundaryField.inlet.uniformValue -set "table ((0 $p_pack)(1000.0 $p_pack))"
 }
 change_bcT(){
-    local buff=$(foamDictionary $1 -entry boundaryField.walls.h -value)
+    local buff=$(foamDictionary $1 -entry boundaryField.$walls_patch_name.h -value)
     foamDictionary $1 -entry boundaryField.outlet.h -set "$buff"
 }
 
@@ -90,6 +93,7 @@ mv 'log.'$application 'log.'$application$phase # archive log
 # pack1
 phase='_pack'
 ctrl_time_set $TimeEndPACK $dtWritePACK $dtMaxPACK
+foamDictionary system/controlDict -entry maxCo -set 0.01
 reconstructPar
 new_deltaT
 change_bc
@@ -101,7 +105,7 @@ mv 'log.'$application 'log.'$application$phase
 # pack2
 phase='_hold'
 ctrl_time_set $TimeEndHOLD $dtWriteHOLD $dtMaxHOLD
-foamDictionary system/controlDict -entry maxCo -set 0.01
+foamDictionary system/controlDict -entry maxCo -set 0.005
 runParallel $application
 mv 'log.'$application 'log.'$application$phase
 reconstructPar
