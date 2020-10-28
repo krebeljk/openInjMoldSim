@@ -1,25 +1,19 @@
 # openInjMoldSim [`v7`](VERSION.md)
 
-This is an [OpenFOAM](http://openfoamwiki.net/index.php/Installation) solver for simulation of injection molding filling, packing and cooling stages.
+This is an [OpenFOAM](https://en.wikipedia.org/wiki/OpenFOAM) solver for simulation of injection molding filling, packing and cooling stages.
 It is a modification of the compressibleInterFoam solver distributed with OpenFOAM.
-The solver has so far been validated on the [2D demo](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) case for amorphous polystyrene.
-Currently, the simulation is prohibitively inconvenient for typical industrial use.
-
-See the [tutorials](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb) for more info.
-
-This solver built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). See also the unofficial wiki
-[openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page) and the community forum
-[cfd-online.com](https://www.cfd-online.com/Forums/openfoam/).
+Currently, the simulation is prohibitively inconvenient for typical industrial use but it can be helpful in research because it can be customized.  
 
 ![oimsDogbone](oimsDogbone.gif)
 
 ## Getting Started
 
-An [OpenFOAM installation](http://openfoamwiki.net/index.php/Installation) is required to run the code.
+An [OpenFOAM installation](https://openfoam.org/download/archive/) is required to run the code.
 
-Run `Allwmake` in the solver directory to compile the solver.
+Run `./Allwmake` in the solver directory to compile the code.
 
-Run `AllRun` in the [`fill_pack`](/tutorials/demo/fill_pack) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
+To run the dogbone case, set the `numberOfSubdomains` in the [`decomposeParDict`](/tutorials/demo/dogbone/system/decomposeParDict) according to
+your machine. Run `./AllMesh` and then `./AllRun` in the [`dogbone`](/tutorials/demo/dogbone) directory to run the example simulation. Then run `paraFoam` in the case directory to view the results.
 
 ## Functionality
 
@@ -28,15 +22,24 @@ Run `AllRun` in the [`fill_pack`](/tutorials/demo/fill_pack) directory to run th
 * Cross-WLF viscosity model.
 * Specific heat and thermal conductivity may depend on temperature and pressure (tabular form).
 * Elastic stress in the solid phase.
+* Fiber orientation (openInjMoldSimF).
 
-## Feedback
+## Resources
 
-Any feedback is apreciated - krebeljk()gmail.com.
+- Please cite [Krebelj et al. - The cooling rate dependence of the specific volume in amorphous plastic injection molding](https://rdcu.be/but3t) - see the [fork](https://github.com/krebeljk/openInjMoldDyMSimAmClr) of this code.
+- [Pedro et al. - Verification and Validation of openInjMoldSim, an Open-Source Solver to Model the Filling Stage of Thermoplastic Injection Molding](https://www.researchgate.net/publication/341807768_Verification_and_Validation_of_openInjMoldSim_an_Open-Source_Solver_to_Model_the_Filling_Stage_of_Thermoplastic_Injection_Molding).
+- [Youtube presentation: Verification and assessment of an open source solver for the filling stage of the injection moulding process](https://www.youtube.com/watch?v=IFEQwgOA7l8).
+- [Numerical tests](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb).
+- For general info about OpenFOMA see the unofficial wiki [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page), the community forum [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/) or [wiki.openfoam.com](https://wiki.openfoam.com/Main_Page) (note the `.com`, this solver needs `.org`).
 
-## Authors
+## Contact
 
-* **Kristjan Krebelj** - Assembled and tested the code. Maintainer of the repository.
-* **Janez Turk** - Introduced the key modifications to the original OpenFOAM library.
+krebeljk()gmail.com
+
+## Special thanks to
+
+* **Janez Turk** - Provided the initial modifications to the original OpenFOAM library.
+* **Kerstin Heinen** - [Publicly shared](https://www.cfd-online.com/Forums/openfoam-solving/58034-fiber-suspension-solver-laminar-advanifolgartucker-model.html) the OpenFOAM implementation of the AdvaniFolgarTucker which was included in this solver.
 
 ## License
 
@@ -46,6 +49,5 @@ This project is licensed under the GPU License - see the [LICENSE.md](LICENSE.md
 
 * The work was supported by the [Laboratory for Numerical Modelling and Simulation - LNMS](http://lab.fs.uni-lj.si/lnms/).
 
-## Demo case
-![Demo geometry](/tutorials/demo/demo_geom.png)
-![Pressure evolution](/tutorials/demo/plot.png)
+## Not part of OpenFOAM
+This solver is built for OpenFOAM but is not part of OpenFOAM [openfoam.org](https://openfoam.org/). 
