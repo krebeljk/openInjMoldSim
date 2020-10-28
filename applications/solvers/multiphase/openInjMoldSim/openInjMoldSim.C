@@ -66,9 +66,6 @@ int main(int argc, char *argv[])
 
     Info<< "\nStarting time loop\n" << endl;
 
-
-    strig.write();
-
     while (runTime.run())
     {
         #include "createTimeControls.H"
@@ -78,8 +75,6 @@ int main(int argc, char *argv[])
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
-
-        time = runTime;
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
