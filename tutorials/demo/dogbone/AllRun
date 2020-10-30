@@ -14,9 +14,9 @@ TimeEndPACK=0.55
 dtWritePACK=0.01
 dtMaxPACK=0.01
 
-TimeEndHOLD=15
+TimeEndHOLD=15.05
 dtWriteHOLD=0.5
-dtMaxHOLD=0.1
+dtMaxHOLD=5e-4
 
 # Initial files
 rm log.de* log.re* log.op*
