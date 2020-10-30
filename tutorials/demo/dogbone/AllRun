@@ -20,8 +20,7 @@ dtMaxHOLD=0.1
 
 # Initial files
 rm log.de* log.re* log.op*
-rm -rf 0 processor* postProcessing/residuals
-cp -r org0 0
+rm -rf processor* postProcessing/residuals
 cp system/controlDict0 system/controlDict
 cp system/fvSolution0 system/fvSolution
 
