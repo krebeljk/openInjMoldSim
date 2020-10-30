@@ -136,4 +136,4 @@ ClosureA4_exp = beta1/3.0*( trD*UnitTensor + 2.0*D)+
 SourceInteract_exp = 2.0*CI*magnitudeD*UnitTensor;
 
 SourceA2 = - WA2 - A2W  + lambda*DA2 + lambda*A2D - 2.0*lambda * ClosureA4_exp + SourceInteract_exp; //Vorzeichen von W andersrum als Advani definiert!!
-}	  
+}
