@@ -106,11 +106,18 @@ solvers
         nSweeps         1;
     }
 
-    "(T|k|B|nuTilda|A2).*"
+    "(T|k|B|nuTilda).*"
     {
         solver          smoothSolver;
-        smoother        symGaussSeidel;
-        tolerance       1e-11;
+        smoother        DILUGaussSeidel; //symGaussSeidel
+        tolerance       1e-9; //1e-11
+        relTol          0.0; //0.01
+    }
+    "A2.*"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-9;
         relTol          0;
     }
 }
@@ -119,17 +126,33 @@ PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 50; // always set the nOuterCorrectors to a very high number (~ 50 to 1000) and control your pimple loop with the residual control
-    nCorrectors     1; //Set nCorrectors to a small number (1 to 3) 
-    nNonOrthogonalCorrectors 3; //nNonOrthogonalCorr means that you correct the pressure field more often with the new calculated one. This is needed for high non-orthogonal meshes (4 for tet)
+    nOuterCorrectors 50;
+    nCorrectors     3;
+    nNonOrthogonalCorrectors 0;
 
-// residualControl   
-    outerCorrectorResidualControl    
-    { //Andrea
-     "(T|elSigDev|A2)" { relTol 0.0; tolerance 1e-5; }
-     p_rgh { relTol 0.01; tolerance 1e-5; }
-    } 
-
+    outerCorrectorResidualControl
+    {
+        p_rgh
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        T
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        elSigDev
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        A2
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+     }
 }
 
 relaxationFactors

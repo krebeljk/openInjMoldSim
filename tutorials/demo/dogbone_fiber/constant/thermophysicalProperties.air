@@ -35,13 +35,13 @@ mixture
     }
     thermodynamics
     {
-        Cp          1007;//1007
+        Cp          1007;
         Hf          0;
     }
     transport
     {
         mu          0.1;//1.84e-05;
-        Pr          1e5;// Pr = spec_heat_p * dyn_visc / therm_cond  -  1e5, real 0.71
+        Pr          1e5;// Pr = spec_heat_p * dyn_visc / therm_cond
     }
 }
 
