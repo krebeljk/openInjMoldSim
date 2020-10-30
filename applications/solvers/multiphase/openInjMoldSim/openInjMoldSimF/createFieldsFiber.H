@@ -158,7 +158,7 @@ volTensorField StressFiber
 	    IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
-		eigenVectors(A2)
+		eigenVectors(A2forEig)
     	);
 
 	volVectorField eigenValuesA2 
@@ -257,8 +257,8 @@ volTensorField StressFiber
 //Fiber Closure Equations IBOF
 //Chung and Kwon 2002, Journal of Rheology
 
-	eigenValuesA2 = eigenValues(A2);
-	eigenVectorsA2 = eigenVectors(A2);
+	eigenValuesA2 = eigenValues(A2forEig);
+	eigenVectorsA2 = eigenVectors(A2forEig);
 	volScalarField eigenval1 = eigenValuesA2.component(vector::X);
 	volScalarField eigenval2 = eigenValuesA2.component(vector::Y);
 	volScalarField eigenval3 = eigenValuesA2.component(vector::Z);

@@ -29,8 +29,8 @@
     A2forEig.component(tensor::ZY) = A2.component(tensor::YZ);
     A2forEig.component(tensor::ZZ) = A2.component(tensor::ZZ);
 
-	eigenValuesA2 = eigenValues(A2);
-	eigenVectorsA2 = eigenVectors(A2);
+	eigenValuesA2 = eigenValues(A2forEig);
+	eigenVectorsA2 = eigenVectors(A2forEig);
 	lambdamax = eigenValuesA2.component(vector::Z);
 
 	
