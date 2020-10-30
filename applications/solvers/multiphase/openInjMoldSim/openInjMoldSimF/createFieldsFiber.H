@@ -114,10 +114,11 @@ volTensorField StressFiber
 		"StressFiber",
 		runTime.timeName(),
 		mesh,
-		IOobject::MUST_READ,
+		IOobject::NO_READ,
 		IOobject::AUTO_WRITE
 		),
-		mesh
+        mesh,
+        dimensionedTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
 	);
 
 	volSymmTensorField A2 
@@ -152,7 +153,7 @@ volTensorField StressFiber
             runTime.timeName(),
             mesh,
 	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
+            IOobject::NO_WRITE
         ),
 		eigenVectors(A2forEig)
     	);
@@ -165,7 +166,7 @@ volTensorField StressFiber
             runTime.timeName(),
             mesh,
 	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
+            IOobject::NO_WRITE
         ),
 		eigenValues(A2)
     	);
@@ -178,7 +179,7 @@ volTensorField StressFiber
             runTime.timeName(),
             mesh,
 	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
+            IOobject::NO_WRITE
         ),
 		eigenValuesA2.component(vector::Z)
     	);
@@ -191,7 +192,7 @@ volTensorField StressFiber
             runTime.timeName(),
             mesh,
 	    IOobject::NO_READ,
-	    IOobject::AUTO_WRITE
+	    IOobject::NO_WRITE
 	),
 		1.0-27.0*det(A2)
     	);
