@@ -124,7 +124,7 @@ volTensorField StressFiber
 		mesh
 	);
 
-	volTensorField A2 
+	volSymmTensorField A2 
     	(
         IOobject
         (
