@@ -134,56 +134,6 @@ volSymmTensorField StressFiber
 		mesh
     	);
 
-    volTensorField A2forEig = UnitTensor;
-    A2forEig.component(tensor::XX) = A2.component(tensor::XX);
-    A2forEig.component(tensor::XY) = A2.component(tensor::XY);
-    A2forEig.component(tensor::XZ) = A2.component(tensor::XZ);
-    A2forEig.component(tensor::YX) = A2.component(tensor::XY);
-    A2forEig.component(tensor::YY) = A2.component(tensor::YY);
-    A2forEig.component(tensor::YZ) = A2.component(tensor::YZ);
-    A2forEig.component(tensor::ZX) = A2.component(tensor::XZ);
-    A2forEig.component(tensor::ZY) = A2.component(tensor::YZ);
-    A2forEig.component(tensor::ZZ) = A2.component(tensor::ZZ);
-
-	volTensorField eigenVectorsA2 
-	(
-        IOobject
-        (
-            "eigenVectorsA2",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-		eigenVectors(A2forEig)
-    	);
-
-	volVectorField eigenValuesA2 
-	(
-        IOobject
-        (
-            "eigenValuesA2",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-		eigenValues(A2)
-    	);
-
-	volScalarField lambdamax
-	( //largest Eigenvalue as scalar Orientation Parameter
-        IOobject
-        (
-            "lambdamax",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-		eigenValuesA2.component(vector::Z)
-    	);
-
 	volScalarField fHybrid
 	( 
         IOobject
@@ -253,12 +203,6 @@ volSymmTensorField StressFiber
 */
 //Fiber Closure Equations IBOF
 //Chung and Kwon 2002, Journal of Rheology
-
-	eigenValuesA2 = eigenValues(A2);
-	eigenVectorsA2 = eigenVectors(A2forEig);
-	volScalarField eigenval1 = eigenValuesA2.component(vector::X);
-	volScalarField eigenval2 = eigenValuesA2.component(vector::Y);
-	volScalarField eigenval3 = eigenValuesA2.component(vector::Z);
 
 //Calculate A2 Invariants 
 	
