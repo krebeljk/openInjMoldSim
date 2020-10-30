@@ -16,15 +16,3 @@ else{
 	solve(A2Eqn == symm(SourceA2) * pos(alpha1-0.9));
 
 }
-
-	//make symmetric...prevent numerical roundoff errors
-	A2Tmp = symm(A2);
-    //Kristjan: get rid of A2Tmp? Can CorrectA2 be more elegant? Can we use a volSymmTensorField from the beginning?
-
-if(CorrectA2) //switch set in fiberProperties
-{
-      for(label celli=0; celli<U.size(); celli++)
-      {
-	  A2[celli] = A2Tmp[celli];
-      }
-}

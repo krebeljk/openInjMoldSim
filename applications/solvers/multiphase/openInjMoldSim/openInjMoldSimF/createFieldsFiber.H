@@ -15,10 +15,6 @@
 	  fiberProperties.lookup("FiberSuspension")
     );
     
-    Switch CorrectA2(
-      fiberProperties.lookup("CorrectA2")
-    );
-      
     if(FiberSuspension)
     {
       Info << "Fiber suspension model on " << endl;
@@ -404,6 +400,3 @@ volTensorField SourceInteract_exp = 2.0*CI*magnitudeD*UnitTensor;
 SourceA2 = - WA2 - A2W  + lambda*DA2 + lambda*A2D - 2.0*lambda * ClosureA4_exp + SourceInteract_exp; //Vorzeichen von W andersrum als Advani definiert!!
 	  
 volScalarField Sp_imp1 = 6.0*CI*(pow(0.5*(D && D.T()),0.5));
-
-//symmetric part of the configuration tensor A2
-volSymmTensorField A2Tmp = symm(A2);
