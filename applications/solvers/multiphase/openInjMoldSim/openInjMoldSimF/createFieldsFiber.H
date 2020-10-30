@@ -254,7 +254,7 @@ volSymmTensorField StressFiber
 //Fiber Closure Equations IBOF
 //Chung and Kwon 2002, Journal of Rheology
 
-	eigenValuesA2 = eigenValues(A2forEig);
+	eigenValuesA2 = eigenValues(A2);
 	eigenVectorsA2 = eigenVectors(A2forEig);
 	volScalarField eigenval1 = eigenValuesA2.component(vector::X);
 	volScalarField eigenval2 = eigenValuesA2.component(vector::Y);
