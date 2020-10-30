@@ -137,6 +137,8 @@ volTensorField StressFiber
 		mesh
     	);
 
+    volTensorField A2forEig = UnitTensor;
+
 	volTensorField eigenVectorsA2 
 	(
         IOobject
