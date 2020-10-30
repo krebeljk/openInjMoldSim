@@ -20,11 +20,10 @@ internalField   uniform 1e5;
 
 boundaryField
 {
-    "walls.*"
+    walls
     {
         type            calculated;
         value           uniform 1e5;
-      
     }
 
     outlet

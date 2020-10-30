@@ -29,22 +29,41 @@ addLayers       false;
 // - to 'snap' the mesh boundary to the surface
 geometry
 {
-    inlet
+    inlet.stl
     {
         type triSurfaceMesh;
-        file "inlet.stl";
+        name inlet;
+        regions
+        {
+            inlet //name in STL
+            {
+                name inlet; //final patch name
+            }
+        }
     }
-
-    outlet
+    outlet.stl
     {
         type triSurfaceMesh;
-        file "outlet.stl";
+        name outlet;
+        regions
+        {
+            outlet //name in STL
+            {
+                name outlet; //final patch name
+            }
+        }
     }
-
-    walls
+    walls.stl
     {
         type triSurfaceMesh;
-        file "walls.stl";
+        name walls;
+        regions
+        {
+            walls //name in STL
+            {
+                name walls; //final patch name
+            }
+        }
     }
 
 
@@ -248,15 +267,14 @@ addLayersControls
     // Per final patch (so not geometry!) the layer information
     layers
     {
-        
         walls
         {
-            nSurfaceLayers 3;
+            nSurfaceLayers 2;
         }
     }
 
     // Expansion factor for layer mesh
-    expansionRatio 1.1;
+    expansionRatio 1.2;
 
     // Wanted thickness of final added cell layer. If multiple layers
     // is the thickness of the layer furthest away from the wall.

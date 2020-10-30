@@ -21,11 +21,7 @@ internalField   uniform 0;
 
 boundaryField
 {
-    defaultFaces
-    {
-        type            empty;
-    }
-    "walls.*"
+    walls
     {
         type            calculated;
         value           uniform 0;
@@ -39,6 +35,10 @@ boundaryField
     {
         type            calculated;
         value           uniform 0;
+    }
+    defaultFaces
+    {
+        type            empty;
     }
 }
 

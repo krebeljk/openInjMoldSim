@@ -20,7 +20,7 @@ internalField   uniform 1e5;
 
 boundaryField
 {
-    "walls.*"
+    walls
     {
        type            fixedFluxPressure;
        value           uniform 1e5; 
