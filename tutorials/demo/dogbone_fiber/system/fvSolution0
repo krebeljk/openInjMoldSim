@@ -127,8 +127,8 @@ PIMPLE
     momentumPredictor no;
     transonic       no;
     nOuterCorrectors 50;
-    nCorrectors     3;
-    nNonOrthogonalCorrectors 0;
+    nCorrectors     1;
+    nNonOrthogonalCorrectors 3;
 
     outerCorrectorResidualControl
     {
