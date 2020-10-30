@@ -15,10 +15,6 @@
 	  fiberProperties.lookup("FiberSuspension")
     );
     
-    Switch CorrectA2(
-      fiberProperties.lookup("CorrectA2")
-    );
-      
     if(FiberSuspension)
     {
       Info << "Fiber suspension model on " << endl;
@@ -111,20 +107,21 @@
 	1.0/2.0*( L.T() - L) //ACHTUNG: DEFINITION OF L andersrum
     );
 
-volTensorField StressFiber
+volSymmTensorField StressFiber
 	(
 		IOobject
 		(
 		"StressFiber",
 		runTime.timeName(),
 		mesh,
-		IOobject::MUST_READ,
+		IOobject::NO_READ,
 		IOobject::AUTO_WRITE
 		),
-		mesh
+        mesh,
+        dimensionedSymmTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
 	);
 
-	volTensorField A2 
+	volSymmTensorField A2 
     	(
         IOobject
         (
@@ -137,45 +134,6 @@ volTensorField StressFiber
 		mesh
     	);
 
-	volTensorField eigenVectorsA2 
-	(
-        IOobject
-        (
-            "eigenVectorsA2",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
-        ),
-		eigenVectors(A2)
-    	);
-
-	volVectorField eigenValuesA2 
-	(
-        IOobject
-        (
-            "eigenValuesA2",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
-        ),
-		eigenValues(A2)
-    	);
-
-	volScalarField lambdamax
-	( //largest Eigenvalue as scalar Orientation Parameter
-        IOobject
-        (
-            "lambdamax",
-            runTime.timeName(),
-            mesh,
-	    IOobject::NO_READ,
-            IOobject::AUTO_WRITE
-        ),
-		eigenValuesA2.component(vector::Z)
-    	);
-
 	volScalarField fHybrid
 	( 
         IOobject
@@ -184,7 +142,7 @@ volTensorField StressFiber
             runTime.timeName(),
             mesh,
 	    IOobject::NO_READ,
-	    IOobject::AUTO_WRITE
+	    IOobject::NO_WRITE
 	),
 		1.0-27.0*det(A2)
     	);
@@ -207,7 +165,7 @@ volTensorField StressFiber
 	volTensorField BD = B & D;
 //------------------------------------------------------------------------------------
 //define additional field variables for hybrid closure model
- 	volTensorField ClosureQuadrat = dyadA2D  * A2;
+ 	volSymmTensorField ClosureQuadrat = dyadA2D  * A2;
 	
 	volTensorField ClosureLinear = 	 -1.0/35.0*( dyadUnitTensorD * UnitTensor + 2.0*D  ) 
 					+ 1.0/7.0*( dyadUnitTensorD * A2 + 2.0*(A2 & D) 
@@ -245,12 +203,6 @@ volTensorField StressFiber
 */
 //Fiber Closure Equations IBOF
 //Chung and Kwon 2002, Journal of Rheology
-
-	eigenValuesA2 = eigenValues(A2);
-	eigenVectorsA2 = eigenVectors(A2);
-	volScalarField eigenval1 = eigenValuesA2.component(vector::X);
-	volScalarField eigenval2 = eigenValuesA2.component(vector::Y);
-	volScalarField eigenval3 = eigenValuesA2.component(vector::Z);
 
 //Calculate A2 Invariants 
 	
@@ -393,6 +345,3 @@ volTensorField SourceInteract_exp = 2.0*CI*magnitudeD*UnitTensor;
 SourceA2 = - WA2 - A2W  + lambda*DA2 + lambda*A2D - 2.0*lambda * ClosureA4_exp + SourceInteract_exp; //Vorzeichen von W andersrum als Advani definiert!!
 	  
 volScalarField Sp_imp1 = 6.0*CI*(pow(0.5*(D && D.T()),0.5));
-
-//symmetric part of the configuration tensor A2
-volSymmTensorField A2Tmp = symm(A2);

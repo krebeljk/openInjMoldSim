@@ -1,10 +1,6 @@
     if(FiberSuspension) //NEW - Kerstin
     {
-        StressFiber = 2.0*visc*FiberVolfrac*(mu1*D + mu2*ClosureA4);
-    }
-    else
-    {
-        StressFiber = dimensionedTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero);
+        StressFiber = 2.0*visc*FiberVolfrac*symm(mu1*D + mu2*ClosureA4);
     }
     fvVectorMatrix UEqn
     (
