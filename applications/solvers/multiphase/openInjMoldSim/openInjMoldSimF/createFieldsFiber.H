@@ -107,7 +107,7 @@
 	1.0/2.0*( L.T() - L) //ACHTUNG: DEFINITION OF L andersrum
     );
 
-volTensorField StressFiber
+volSymmTensorField StressFiber
 	(
 		IOobject
 		(
@@ -118,7 +118,7 @@ volTensorField StressFiber
 		IOobject::AUTO_WRITE
 		),
         mesh,
-        dimensionedTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
+        dimensionedSymmTensor("zero", dimensionSet(1,-1,-2,0,0,0,0), symmTensor::zero)
 	);
 
 	volSymmTensorField A2 
