@@ -218,7 +218,7 @@ volTensorField StressFiber
 	volTensorField BD = B & D;
 //------------------------------------------------------------------------------------
 //define additional field variables for hybrid closure model
- 	volTensorField ClosureQuadrat = dyadA2D  * A2;
+ 	volSymmTensorField ClosureQuadrat = dyadA2D  * A2;
 	
 	volTensorField ClosureLinear = 	 -1.0/35.0*( dyadUnitTensorD * UnitTensor + 2.0*D  ) 
 					+ 1.0/7.0*( dyadUnitTensorD * A2 + 2.0*(A2 & D) 
