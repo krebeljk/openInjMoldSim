@@ -19,6 +19,16 @@
 	DB = D & B;
 	BD = B & D;
 
+    A2forEig.component(tensor::XX) = A2.component(tensor::XX);
+    A2forEig.component(tensor::XY) = A2.component(tensor::XY);
+    A2forEig.component(tensor::XZ) = A2.component(tensor::XZ);
+    A2forEig.component(tensor::YX) = A2.component(tensor::XY);
+    A2forEig.component(tensor::YY) = A2.component(tensor::YY);
+    A2forEig.component(tensor::YZ) = A2.component(tensor::YZ);
+    A2forEig.component(tensor::ZX) = A2.component(tensor::XZ);
+    A2forEig.component(tensor::ZY) = A2.component(tensor::YZ);
+    A2forEig.component(tensor::ZZ) = A2.component(tensor::ZZ);
+
 	eigenValuesA2 = eigenValues(A2);
 	eigenVectorsA2 = eigenVectors(A2);
 	lambdamax = eigenValuesA2.component(vector::Z);

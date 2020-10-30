@@ -138,6 +138,15 @@ volTensorField StressFiber
     	);
 
     volTensorField A2forEig = UnitTensor;
+    A2forEig.component(tensor::XX) = A2.component(tensor::XX);
+    A2forEig.component(tensor::XY) = A2.component(tensor::XY);
+    A2forEig.component(tensor::XZ) = A2.component(tensor::XZ);
+    A2forEig.component(tensor::YX) = A2.component(tensor::XY);
+    A2forEig.component(tensor::YY) = A2.component(tensor::YY);
+    A2forEig.component(tensor::YZ) = A2.component(tensor::YZ);
+    A2forEig.component(tensor::ZX) = A2.component(tensor::XZ);
+    A2forEig.component(tensor::ZY) = A2.component(tensor::YZ);
+    A2forEig.component(tensor::ZZ) = A2.component(tensor::ZZ);
 
 	volTensorField eigenVectorsA2 
 	(
