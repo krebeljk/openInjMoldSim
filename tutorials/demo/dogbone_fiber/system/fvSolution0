@@ -62,7 +62,7 @@ solvers
     p_rgh
     {
         solver          GAMG;
-        tolerance       1e-11;
+        tolerance       1e-8;
         relTol          0.01;
         smoother        DIC;
         nPreSweeps      0;
