@@ -159,7 +159,7 @@ relaxationFactors
 {
     fields
     {
-        p_rgh         0.6;
+        p_rgh         0.4;
         p_rghFinal      1;
         T             1.0;
         TFinal          1;
