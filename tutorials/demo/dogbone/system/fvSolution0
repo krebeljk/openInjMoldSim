@@ -151,7 +151,7 @@ relaxationFactors
         p_rghFinal      1;
         T             1.0;
         TFinal          1;
-        elSigDev      1.0;
+        elSigDev      0.6;
         elSigDevFinal   1;
     }
     equations
