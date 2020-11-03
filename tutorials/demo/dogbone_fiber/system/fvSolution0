@@ -111,7 +111,7 @@ solvers
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-11;
-        relTol          0.01;
+        relTol          0;
     }
     "A2.*"
     {
