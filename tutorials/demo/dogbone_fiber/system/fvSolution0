@@ -161,11 +161,11 @@ relaxationFactors
     {
         p_rgh         0.4;
         p_rghFinal      1;
-        T             1.0;
+        T             0.4;
         TFinal          1;
-        elSigDev      1.0;
+        elSigDev      0.4;
         elSigDevFinal   1;
-        A2            1.0;
+        A2            0.4;
         A2Final       1.0;
     }
     equations
