@@ -69,10 +69,10 @@ protected:
             volScalarField& p_;
 
             //- Temperature [K]
-            volScalarField T_;
+            volScalarField& T_;
 
             //- Temperature [1/s]
-            volScalarField shrRate_;
+            volScalarField& shrRate_;
 
             //- Laminar thermal diffusuvity [kg/m/s]
             volScalarField alpha_;
