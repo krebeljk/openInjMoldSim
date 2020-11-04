@@ -27,19 +27,6 @@ volVectorField U
     mesh
 );
 
-volScalarField shrRate
-(
-    IOobject
-    (
-        "shrRate",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::AUTO_WRITE
-    ),
-    sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)))
-);
-
 #include "createPhi.H"
 
 Info<< "Constructing mojTwoPhaseMixtureThermo\n" << endl;
@@ -52,7 +39,7 @@ Info<< "Reading thermophysical properties\n" << endl;
 
 volScalarField& p = mixture.p();
 volScalarField& T = mixture.T();
-volScalarField& strig = mixture.strig();
+volScalarField& shrRate = mixture.shrRate();
 volScalarField& rho1 = mixture.thermo1().rho();
 const volScalarField& psi1 = mixture.thermo1().psi();
 volScalarField& rho2 = mixture.thermo2().rho();

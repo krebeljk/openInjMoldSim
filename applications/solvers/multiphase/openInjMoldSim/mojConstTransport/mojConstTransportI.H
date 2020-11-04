@@ -98,7 +98,7 @@ inline Foam::scalar Foam::mojConstTransport<Thermo>::mu
 (
     const scalar p,
     const scalar T,
-    const scalar strig
+    const scalar shrRate
 ) const
 {
     return mu_;

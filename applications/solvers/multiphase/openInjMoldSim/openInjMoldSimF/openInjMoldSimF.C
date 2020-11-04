@@ -95,8 +95,7 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             //update state
-            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-            shrRate = strig;
+            shrRate = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             mixture.correct();
             visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu();
             mojKappaOut = mixture.kappa();

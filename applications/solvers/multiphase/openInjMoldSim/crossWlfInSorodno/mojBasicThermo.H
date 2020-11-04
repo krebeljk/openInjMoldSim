@@ -72,7 +72,7 @@ protected:
             volScalarField T_;
 
             //- Temperature [1/s]
-            volScalarField strig_;
+            volScalarField shrRate_;
 
             //- Laminar thermal diffusuvity [kg/m/s]
             volScalarField alpha_;
@@ -279,10 +279,10 @@ public:
             virtual const volScalarField& p() const;
 	    
 	    //- Shear rate [1/s]
-	    virtual volScalarField& strig();
+	    virtual volScalarField& shrRate();
 
 	    //- Shear rate [1/s]
-	    virtual const volScalarField& strig() const;
+	    virtual const volScalarField& shrRate() const;
 
 
             //- Density [kg/m^3]
