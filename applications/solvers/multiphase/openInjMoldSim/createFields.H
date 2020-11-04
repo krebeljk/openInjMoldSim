@@ -52,7 +52,7 @@ Info<< "Reading thermophysical properties\n" << endl;
 
 volScalarField& p = mixture.p();
 volScalarField& T = mixture.T();
-volScalarField& strig = mixture.thermo1().strig();
+volScalarField& strig = mixture.strig();
 volScalarField& rho1 = mixture.thermo1().rho();
 const volScalarField& psi1 = mixture.thermo1().psi();
 volScalarField& rho2 = mixture.thermo2().rho();
