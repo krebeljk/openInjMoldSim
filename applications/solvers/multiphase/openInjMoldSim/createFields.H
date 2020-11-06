@@ -99,6 +99,7 @@ volScalarField visc
 );
 
 //kristjan - Calc Celsius
+dimensionedScalar twoSevenThree("twoSevenThree", dimensionSet(0,0,0,1,0,0,0), 273.15);
 volScalarField Tc
 (
     IOobject
@@ -109,11 +110,8 @@ volScalarField Tc
         IOobject::READ_IF_PRESENT,
         IOobject::AUTO_WRITE
     ),
-    mesh,
-    dimensionedScalar("initTc", dimensionSet(0,0,0,1,0,0,0), 0.0)
+    T - twoSevenThree
 );
-dimensionedScalar twoSevenThree("twoSevenThree", dimensionSet(0,0,0,1,0,0,0), 273.15);
-Tc = T - twoSevenThree;
 
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"
