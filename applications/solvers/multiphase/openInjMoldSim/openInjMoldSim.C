@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
             //update state
             shrRate = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             mixture.correct();
-            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu();
+            visc = mixture.mu();
             mojKappaOut = mixture.kappa();
 
             //Kristjan: Elastic deviatoric stress equation
