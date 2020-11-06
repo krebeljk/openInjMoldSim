@@ -31,6 +31,7 @@ volVectorField U
 
 Info<< "Constructing mojTwoPhaseMixtureThermo\n" << endl;
 mojTwoPhaseMixtureThermo mixture(mesh);
+mixture.correct();
 
 volScalarField& alpha1(mixture.alpha1());
 volScalarField& alpha2(mixture.alpha2());
@@ -95,7 +96,7 @@ volScalarField visc
         IOobject::READ_IF_PRESENT,
         IOobject::AUTO_WRITE
     ),
-    alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu()
+    mixture.mu()
 );
 
 //kristjan - Calc Celsius
