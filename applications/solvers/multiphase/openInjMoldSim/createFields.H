@@ -92,7 +92,7 @@ volScalarField visc
         "visc",
         runTime.timeName(),
         mesh,
-        IOobject::NO_READ,
+        IOobject::READ_IF_PRESENT,
         IOobject::AUTO_WRITE
     ),
     alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu()
@@ -106,7 +106,7 @@ volScalarField Tc
         "Tc",
         runTime.timeName(),
         mesh,
-        IOobject::NO_READ,
+        IOobject::READ_IF_PRESENT,
         IOobject::AUTO_WRITE
     ),
     mesh,
