@@ -4,7 +4,7 @@
         fvm::ddt(rho, T)
       + fvm::div(rhoPhi, T)
       - 1.0/mixture.Cp()*fvm::laplacian(mixture.kappa(), T)
-      - mixture.mu() * pow(strig,2)/mixture.Cp()//viscous heating
+      - mixture.mu() * pow(shrRate,2)/mixture.Cp()//viscous heating
       - T * mixture.cTExp()
         * (
             fvc::ddt(p)

@@ -178,20 +178,9 @@ Foam::mojBasicThermo::mojBasicThermo
 
     p_(lookupOrConstruct(mesh, "p")),
 
-    T_
-    (
-        IOobject
-        (
-            phasePropertyName("T"),
-            mesh.time().timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    ),
+    T_(lookupOrConstruct(mesh, "T")),
 
-    strig_(lookupOrConstruct(mesh, "strig")),
+    shrRate_(lookupOrConstruct(mesh, "shrRate")),
 
     alpha_
     (
@@ -235,20 +224,10 @@ Foam::mojBasicThermo::mojBasicThermo
 
     p_(lookupOrConstruct(mesh, "p")),
 
-    T_
-    (
-        IOobject
-        (
-            phasePropertyName("T"),
-            mesh.time().timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    ),
 
-    strig_(lookupOrConstruct(mesh, "strig")),
+    T_(lookupOrConstruct(mesh, "T")),
+
+    shrRate_(lookupOrConstruct(mesh, "shrRate")),
 
     alpha_
     (
@@ -490,14 +469,14 @@ const Foam::volScalarField& Foam::mojBasicThermo::p() const
 }
 
 
-Foam::volScalarField& Foam::mojBasicThermo::strig()
+Foam::volScalarField& Foam::mojBasicThermo::shrRate()
 {
-    return strig_;
+    return shrRate_;
 }
 
-const Foam::volScalarField& Foam::mojBasicThermo::strig() const
+const Foam::volScalarField& Foam::mojBasicThermo::shrRate() const
 {
-    return strig_;
+    return shrRate_;
 }
 
 const Foam::volScalarField& Foam::mojBasicThermo::T() const
