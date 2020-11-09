@@ -16,7 +16,7 @@ FoamFile
     instance "";
     local "";
 
-    class volTensorField;
+    class volSymmTensorField;
     object A2;
 }
 
@@ -24,13 +24,13 @@ FoamFile
 
 dimensions      [0 0 0 0 0 0 0];
 
-internalField    uniform (1.0 0 0 0 0 0 0 0 0);
+internalField    uniform (1.0 0 0 0 0 0);
 boundaryField
 {
     inlet
     {
         type            fixedValue;
-        value           uniform (0.33333333 0 0 0 0.33333333 0 0 0 0.33333333);
+        value           uniform (0.33333333 0 0 0.33333333 0 0.33333333);
     }
     outlet
     {

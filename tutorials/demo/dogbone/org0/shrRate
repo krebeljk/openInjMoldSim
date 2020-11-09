@@ -11,7 +11,7 @@ FoamFile
     format      ascii;
     class       volScalarField;
     location    "0";
-    object      strig;
+    object      shrRate;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -21,10 +21,6 @@ internalField   uniform 0;
 
 boundaryField
 {
-    frontAndBack
-    {
-        type            empty;
-    }
     walls
     {
         type            calculated;
@@ -39,6 +35,10 @@ boundaryField
     {
         type            calculated;
         value           uniform 0;
+    }
+    defaultFaces
+    {
+        type            empty;
     }
 }
 

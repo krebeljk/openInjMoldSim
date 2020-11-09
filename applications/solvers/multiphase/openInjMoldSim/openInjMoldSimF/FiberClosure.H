@@ -19,10 +19,6 @@
 	DB = D & B;
 	BD = B & D;
 
-	eigenValuesA2 = eigenValues(A2);
-	eigenVectorsA2 = eigenVectors(A2);
-	lambdamax = eigenValuesA2.component(vector::Z);
-
 	
 //Fiber Interaction coefficient
 //Bay
@@ -56,10 +52,6 @@ if(FiberClosure=="hybrid"){
 //-------------------------------------------------------
 //IBOF-5 closure of Chung and Kwon
 if(FiberClosure=="IBOF"){
-	eigenval1 = eigenValuesA2.component(vector::X);
-	eigenval2 = eigenValuesA2.component(vector::Y);
-	eigenval3 = eigenValuesA2.component(vector::Z);
-  
 //Calculate A2 Invariants 
 A2II = 0.5 - 0.5*(A2.component(tensor::XX)*A2.component(tensor::XX) + 2.0*A2.component(tensor::XY)*A2.component(tensor::XY) + 2.0*A2.component(tensor::XZ)*A2.component(tensor::XZ)+
 2.0*A2.component(tensor::YZ)*A2.component(tensor::YZ) + A2.component(tensor::YY)*A2.component(tensor::YY) 
@@ -126,4 +118,4 @@ ClosureA4_exp = beta1/3.0*( trD*UnitTensor + 2.0*D)+
 SourceInteract_exp = 2.0*CI*magnitudeD*UnitTensor;
 
 SourceA2 = - WA2 - A2W  + lambda*DA2 + lambda*A2D - 2.0*lambda * ClosureA4_exp + SourceInteract_exp; //Vorzeichen von W andersrum als Advani definiert!!
-}	  
+}

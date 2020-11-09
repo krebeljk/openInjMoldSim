@@ -48,16 +48,6 @@ Foam::mojTwoPhaseMixtureThermo::mojTwoPhaseMixtureThermo
     thermo1_(NULL),
     thermo2_(NULL)
 {
-    {
-        volScalarField T1(IOobject::groupName("T", phase1Name()), T_);
-        T1.write();
-    }
-
-    {
-        volScalarField T2(IOobject::groupName("T", phase2Name()), T_);
-        T2.write();
-    }
-
     thermo1_ = mojRhoThermo::New(mesh, phase1Name());
     thermo2_ = mojRhoThermo::New(mesh, phase2Name());
 
@@ -78,10 +68,8 @@ Foam::mojTwoPhaseMixtureThermo::~mojTwoPhaseMixtureThermo()
 
 void Foam::mojTwoPhaseMixtureThermo::correct()
 {
-    thermo1_->T() = T_;
     thermo1_->correct();
 
-    thermo2_->T() = T_;
     thermo2_->correct();
 
     psi_ = alpha1()*thermo1_->psi() + alpha2()*thermo2_->psi();

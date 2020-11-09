@@ -16,43 +16,36 @@ FoamFile
 
 dimensions      [0 0 0 1 0 0 0];
 
-internalField   uniform 343.15; //493.15
+internalField   uniform 493.15;
 
 boundaryField
 {
-    "walls.*"
+    walls
     {
         type            externalWallHeatFluxTemperature;
-
+        kappaMethod     lookup;
         mode            coefficient;
-
-        kappaMethod     lookup;  // find out defining kappa
-        kappa           mojKappaOut; //before was kappaName       mojKappaOut;
-        Ta              uniform 333.15;
-        h               uniform 3.5e3;
-        value           uniform 343.15; //initial temperature [K]
-               
+        //q               uniform 1000; //ali q, ali Ta in h
+        Ta              uniform 323.15;
+        h               uniform 5e3;
+        value           uniform 493.15; //initial temperature [K]
+        kappa           mojKappaOut;
         Qr              none;
         relaxation      1;
-       
-
     }
 
     outlet
     {
-        type            externalWallHeatFluxTemperature;//works as zeroGradient (small HTC) - simpler to change when packing starts
-
+        type            externalWallHeatFluxTemperature;
+        kappaMethod     lookup;
         mode            coefficient;
-
-        kappaMethod     lookup;  // find out defining kappa
-        kappa           mojKappaOut; //before was kappaName       mojKappaOut;
-        Ta              uniform 333.15;
-        h               uniform 1;
-        value           uniform 343.15; //initial temperature [K]
-               
+        //q               uniform 1000; //ali q, ali Ta in h
+        Ta              uniform 323.15;
+        h               uniform 1; // 1 means almost zeroGradient (thermal insulation), 0 is ill-posed
+        value           uniform 493.15; //initial temperature [K]
+        kappa           mojKappaOut;
         Qr              none;
         relaxation      1;
-
     }
 
     inlet
@@ -61,11 +54,13 @@ boundaryField
         value           uniform 493.15;
     }
 
-
     defaultFaces
     {
         type            empty;
     }
+
+
+
 }
 
 // ************************************************************************* //

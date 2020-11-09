@@ -50,7 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v7" << endl;
+    Info << "openInjMoldSim v7.1" << endl;
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -91,10 +91,9 @@ int main(int argc, char *argv[])
             solve(fvm::ddt(rho) + fvc::div(rhoPhi));
 
             //update state
-            strig = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
-            shrRate = strig;
+            shrRate = sqrt(2.0*symm(fvc::grad(U))&&symm(fvc::grad(U)));
             mixture.correct();
-            visc = alpha1*mixture.thermo1().mu() + alpha2*mixture.thermo2().mu();
+            visc = mixture.mu();
             mojKappaOut = mixture.kappa();
 
             //Kristjan: Elastic deviatoric stress equation
