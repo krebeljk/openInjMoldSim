@@ -42,7 +42,6 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 - OpenFOAM 5
 
 ## Version v6
-
 - OpenFOAM 6
 
 ## Version v7
@@ -51,3 +50,10 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
 - `pAux` auxiliary pressure field to balance the negative pressure during packing.
 - Calculation reordering to improve the restart behavior - work in progress.
 - Remove debug fields `p_rgh_resid` and `time`.
+
+## Version v7.1 (9. 11. 2020)
+- Resolve the boundary value viscosity issue that caused restart problems:
+  - Remove T.poly, T.air.
+  - Rename strig to shrRate.
+- Simplify the fiber code.
+- Improve demo case stability.
