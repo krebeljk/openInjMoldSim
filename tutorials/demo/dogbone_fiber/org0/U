@@ -20,7 +20,7 @@ internalField   uniform (0 0 0);
 
 boundaryField
 {
-    "walls.*"
+    walls
     {
         type            fixedValue;
         value           uniform (0 0 0);
@@ -44,7 +44,6 @@ boundaryField
         volumetricFlowRate    0.00002;  //set by AllRun
         value           $internalField;
     }
-
 
 }
 

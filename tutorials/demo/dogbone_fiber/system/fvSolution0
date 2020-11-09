@@ -19,10 +19,9 @@ solvers
 {
     alpha.poly
     {
-        nAlphaCorr      3;
-        nAlphaSubCycles 4;
+        nAlphaCorr      1;
+        nAlphaSubCycles 1;
         cAlpha          1;
-
     }
 
     ".*(rho|rhoFinal)"
@@ -102,7 +101,7 @@ solvers
     {
         solver          smoothSolver;
         smoother        GaussSeidel;
-        tolerance       1e-8;
+        tolerance       1e-11;
         relTol          0.01;
         nSweeps         1;
     }
@@ -110,48 +109,63 @@ solvers
     "(T|k|B|nuTilda).*"
     {
         solver          smoothSolver;
-        smoother        DILUGaussSeidel; //symGaussSeidel
-        tolerance       1e-6; //1e-11
-        relTol          0.0; //0.01
+        smoother        symGaussSeidel;
+        tolerance       1e-11;
+        relTol          0;
     }
     "A2.*"
     {
         solver          PBiCG;
         preconditioner  DILU;
-        tolerance       1e-05;
+        tolerance       1e-9;
         relTol          0;
     }
-
 }
 
 PIMPLE
 {
     momentumPredictor no;
     transonic       no;
-    nOuterCorrectors 50; // always set the nOuterCorrectors to a very high number (~ 50 to 1000) and control your pimple loop with the residual control
-    nCorrectors     1; //Set nCorrectors to a small number (1 to 3) 
-    nNonOrthogonalCorrectors 3; //nNonOrthogonalCorr means that you correct the pressure field more often with the new calculated one. This is needed for high non-orthogonal meshes (4 for tet)
+    nOuterCorrectors 50;
+    nCorrectors     1;
+    nNonOrthogonalCorrectors 2;
 
-// residualControl   
-    outerCorrectorResidualControl    
-    { //Andrea
-     "(T|elSigDev|A2)" { relTol 0.0; tolerance 1e-5; }
-     p_rgh { relTol 0.05; tolerance 5e-4; }
-    } 
-
+    outerCorrectorResidualControl
+    {
+        p_rgh
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        T
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        elSigDev
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+        A2
+        {
+                tolerance   1e-5;
+                relTol      0.0;
+        }
+     }
 }
 
 relaxationFactors
 {
     fields
     {
-        p_rgh      0.3;
-        p_rghFinal   1;
-        T      0.3;
+        p_rgh         0.4;
+        p_rghFinal      1;
+        T             0.4;
         TFinal          1;
-        elSigDev      0.3;
+        elSigDev      0.4;
         elSigDevFinal   1;
-        A2            0.3;
+        A2            0.4;
         A2Final       1.0;
     }
     equations

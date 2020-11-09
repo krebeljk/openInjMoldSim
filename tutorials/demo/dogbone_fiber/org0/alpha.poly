@@ -20,7 +20,7 @@ internalField   uniform 0;
 
 boundaryField
 {
-    "walls.*"
+    walls
     {
         type            zeroGradient;
     }
@@ -36,11 +36,12 @@ boundaryField
         value           uniform 1;
     }
 
-
     defaultFaces
     {
         type            empty;
     }
+
+
 }
 
 // ************************************************************************* //
