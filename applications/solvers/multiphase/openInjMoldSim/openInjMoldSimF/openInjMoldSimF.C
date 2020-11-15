@@ -57,11 +57,11 @@ int main(int argc, char *argv[])
 
     pimpleControl pimple(mesh);
 
-    #include "createTimeControls.H"
+    #include "mojCreateTimeControls.H"
     #include "createFields.H"
     #include "createFieldsFiber.H" //NEW - Kerstin
-    #include "CourantNo.H"
-    #include "setInitialDeltaT.H"
+    #include "mojCourantNo.H"
+    #include "mojSetInitialDeltaT.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-        #include "createTimeControls.H"
-        #include "CourantNo.H"
-        #include "setDeltaT.H"
+        #include "mojCreateTimeControls.H"
+        #include "mojCourantNo.H"
+        #include "mojSetDeltaT.H"
 
         runTime++;
 
@@ -110,7 +110,6 @@ int main(int argc, char *argv[])
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
                 + shrMod * dev(twoSymm(fvc::grad(U)))
-                  * pos(shrRateLimEl-shrRate)
                   * pos(visc-viscLimEl)
                 );
                 elSigDevEqn.relax();
