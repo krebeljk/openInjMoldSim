@@ -53,6 +53,8 @@ maxDeltaT       1e-3;
 
 maxAlphaCo      0.05;
 
+maxSolidCo      0.005;
+
 functions {
 
     injectionPressure   //Andrea : to monitor injection pressure

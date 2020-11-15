@@ -52,6 +52,9 @@ maxCo           0.15;
 maxDeltaT       1;
 
 maxAlphaCo      0.15;
+
+maxSolidCo      0.005;
+
 functions {
 
     probes
