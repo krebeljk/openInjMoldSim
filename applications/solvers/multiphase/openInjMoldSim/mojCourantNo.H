@@ -31,6 +31,7 @@ Description
 
 scalar CoNum = 0.0;
 scalar meanCoNum = 0.0;
+scalar solidCoNum = 0.0;//Kristjan
 
 {
     scalarField sumPhi
@@ -38,13 +39,18 @@ scalar meanCoNum = 0.0;
         fvc::surfaceSum(mag(phi))().primitiveField()
     );
 
+    scalarField sumPhiSol = sumPhi * pos(mag(elSigDev) - 1e-12 * shrMod);//Kristjan
+
     CoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
+
+    solidCoNum = 0.5*gMax(sumPhiSol/mesh.V().field())*runTime.deltaTValue();//Kristjan
 
     meanCoNum =
         0.5*(gSum(sumPhi)/gSum(mesh.V().field()))*runTime.deltaTValue();
 }
 
 Info<< "Courant Number mean: " << meanCoNum
-    << " max: " << CoNum << endl;
+    << " max: " << CoNum
+    << " solid: " << solidCoNum << endl;
 
 // ************************************************************************* //

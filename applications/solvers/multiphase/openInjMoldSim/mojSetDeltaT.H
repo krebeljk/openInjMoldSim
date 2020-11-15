@@ -33,7 +33,7 @@ Description
 
 if (adjustTimeStep)
 {
-    scalar maxDeltaTFact = maxCo/(CoNum + small);
+    scalar maxDeltaTFact = min(maxCo/(CoNum + small), maxSolidCo/(solidCoNum + small));
     scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
 
     runTime.setDeltaT

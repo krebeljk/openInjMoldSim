@@ -38,7 +38,11 @@ if (adjustTimeStep)
         (
             min
             (
-                maxCo*runTime.deltaTValue()/CoNum,
+                min
+                (
+                    maxCo*runTime.deltaTValue()/CoNum,
+                    maxSolidCo*runTime.deltaTValue()/solidCoNum
+                ),
                 min(runTime.deltaTValue(), maxDeltaT)
             )
         );
