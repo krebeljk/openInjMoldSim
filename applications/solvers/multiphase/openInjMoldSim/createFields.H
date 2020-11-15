@@ -191,9 +191,6 @@ Info<< "Reading solidification properties\n" << endl;
     dimensionedScalar shrMod("shearModulus", dimensionSet(1,-1,-2,0,0,0,0),
         sldDict.lookupOrDefault<scalar>("shearModulus", 900e6)
     );
-    dimensionedScalar shrRateLimEl("shrRateLimEl", dimensionSet(0,0,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 1.0)
-    );
     dimensionedScalar viscLimEl("viscLimEl", dimensionSet(1,-1,-1,0,0,0,0),
         sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
     );
@@ -203,7 +200,6 @@ Info<< "Reading solidification properties\n" << endl;
         // Summarise what's been read and print in the console
         Info << nl << "Solidification properties: " << nl
              << "Shear modulus: " << shrMod << nl
-             << "Highest shear rate with elasticity: " << shrRateLimEl << nl
              << "Lowest viscosity with elasticity: " << viscLimEl << nl
              << nl << endl;
     }
