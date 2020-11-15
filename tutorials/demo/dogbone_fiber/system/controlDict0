@@ -55,6 +55,8 @@ maxAlphaCo      0.05;
 
 maxSolidCo      0.005;
 
+pAuxRlx         0.1;//active when p = pMin
+
 functions {
 
     injectionPressure   //Andrea : to monitor injection pressure
