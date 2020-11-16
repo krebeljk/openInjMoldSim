@@ -6,7 +6,7 @@ Currently, the simulation is prohibitively inconvenient for typical industrial u
 
 ![oimsDogbone](oimsDogbone.gif)
 
-## Getting Started
+## Getting Started: [watch video](https://www.youtube.com/watch?v=aNC0CqfDyT0)
 
 An [OpenFOAM 7 installation](https://openfoam.org/download/archive/) is required to run the code.
 
