@@ -1,0 +1,53 @@
+iters
+{
+    expr "PIMPLE:(?: not)* converged (?:with)*in (%f%) iterations";
+    name iters;
+    theTitle "Iters of pimple";
+    titles
+         (
+          iters
+         );
+    type regular;
+}
+
+
+co
+{
+    expr "Courant Number mean: (%f%) max: (%f%) solid: (%f%)";
+    name co;
+    theTitle "Co number";
+    titles
+         (
+          mean
+          max
+          solid
+         );
+    type regular;
+    logscale true;
+}
+
+deltaT
+{
+    expr "deltaT = (%f%)";
+    name deltaT ;
+    theTitle "deltaT";
+    titles
+         (
+          deltaT
+         );
+    type regular;
+    logscale true;
+}
+
+maxU
+{
+    expr "max\(U\) (%f%)";
+    name maxU ;
+    theTitle "max U";
+    titles
+         (
+         maxU
+         );
+    type regular;
+    logscale true;
+}
