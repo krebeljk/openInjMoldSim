@@ -80,7 +80,6 @@ mv 'log.'$application 'log.'$application$phase
 # pack2
 phase='_pack2'
 time_extend 6 0.5 1e-3
-foamDictionary system/controlDict -entry maxCo -set 0.01
 runParallel $application
 mv 'log.'$application 'log.'$application$phase
 reconstructPar
