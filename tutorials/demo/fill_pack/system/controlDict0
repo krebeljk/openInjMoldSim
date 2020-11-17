@@ -55,7 +55,7 @@ maxAlphaCo      0.15;
 
 maxSolidCo      0.005;
 
-pAuxRlx         0.1;//active when p = pMin
+pAuxRlx         0.05;//active when p = pMin
 
 functions {
 
