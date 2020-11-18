@@ -10,6 +10,17 @@ iters
     type regular;
 }
 
+fill
+{
+    expr "Liquid phase volume fraction = (%f%)";
+    name fill;
+    theTitle "Fill";
+    titles
+         (
+         fill
+         );
+    type regular;
+}
 
 co
 {
