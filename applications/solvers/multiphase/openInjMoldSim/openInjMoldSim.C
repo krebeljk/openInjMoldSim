@@ -137,6 +137,8 @@ int main(int argc, char *argv[])
             << " s\n\n" << endl;
     }
 
+    runTime.writeNow();
+
     Info<< "End\n" << endl;
 
     return 0;
