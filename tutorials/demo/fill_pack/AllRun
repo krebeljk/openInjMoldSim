@@ -68,7 +68,6 @@ mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
 phase='_pack1'
-time_extend 0.5 0.1 1e-4
 reconstructPar
 new_deltaT
 close_outlet
@@ -79,7 +78,14 @@ mv 'log.'$application 'log.'$application$phase
 
 # pack2
 phase='_pack2'
+time_extend 0.5 0.1 1e-4
+runParallel $application || exit 1
+mv 'log.'$application 'log.'$application$phase
+
+# pack3
+phase='_pack3'
 time_extend 6 0.5 1e-3
 runParallel $application || exit 1
 mv 'log.'$application 'log.'$application$phase
+
 reconstructPar
