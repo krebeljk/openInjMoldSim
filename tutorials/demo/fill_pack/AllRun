@@ -63,7 +63,7 @@ application=`getApplication`
 phase='_fill'
 time_extend 0.14 0.014 1e-3 # set times
 runApplication decomposePar # prepare parallel
-runParallel $application
+runParallel $application -fill 0.98 || exit 1
 mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
@@ -74,12 +74,12 @@ new_deltaT
 close_outlet
 rm -r processor*
 decomposePar
-runParallel $application
+runParallel $application || exit 1
 mv 'log.'$application 'log.'$application$phase
 
 # pack2
 phase='_pack2'
 time_extend 5.94 0.5 1e-3
-runParallel $application
+runParallel $application || exit 1
 mv 'log.'$application 'log.'$application$phase
 reconstructPar
