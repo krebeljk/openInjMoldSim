@@ -45,6 +45,7 @@ volScalarField& rho1 = mixture.thermo1().rho();
 const volScalarField& psi1 = mixture.thermo1().psi();
 volScalarField& rho2 = mixture.thermo2().rho();
 const volScalarField& psi2 = mixture.thermo2().psi();
+scalar fillFrac = 0;
 
 volScalarField rho
 (

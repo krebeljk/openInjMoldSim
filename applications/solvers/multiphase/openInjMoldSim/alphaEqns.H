@@ -82,8 +82,9 @@
         alpha2 = scalar(1) - alpha1;
     }
 
+    fillFrac = alpha1.weightedAverage(mesh.V()).value();
     Info<< "Liquid phase volume fraction = "
-        << alpha1.weightedAverage(mesh.V()).value()
+        << fillFrac
         << "  Min(" << alpha1.name() << ") = " << min(alpha1).value()
         << "  Min(" << alpha2.name() << ") = " << min(alpha2).value()
         << endl;
