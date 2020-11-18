@@ -1,6 +1,6 @@
 iters
 {
-    expr "PIMPLE:(?: not)* converged (?:with)*in (%f%) iterations";
+    expr "PIMPLE:(?: Not)* [C|c]onverged (?:with)*in (%f%) iterations";
     name iters;
     theTitle "Iters of pimple";
     titles
