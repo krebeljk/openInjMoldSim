@@ -85,7 +85,7 @@ phase='_fill'
 ctrl_time_set $TimeEndFILL $dtWriteFILL $dtMaxFILL
 foamDictionary 0/U -entry boundaryField.inlet.volumetricFlowRate -set $fill_rate
 runApplication decomposePar || exit 1 # prepare parallel
-runParallel $application -fill 0.998 || exit 1
+runParallel $application -fill 0.98 || exit 1
 mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
