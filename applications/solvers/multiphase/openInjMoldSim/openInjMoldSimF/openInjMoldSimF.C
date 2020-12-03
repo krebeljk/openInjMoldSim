@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
         {
             Info << "Filled to "
                  << fillFrac
-                 << " and terminating (commandline option -fill)."
+                 << " and terminating (commandline option -fillEnd)."
                  << endl;
             break;
         }
