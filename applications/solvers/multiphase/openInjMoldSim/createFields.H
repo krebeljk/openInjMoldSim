@@ -193,7 +193,7 @@ Info<< "Reading solidification properties\n" << endl;
         sldDict.lookupOrDefault<scalar>("shearModulus", 900e6)
     );
     dimensionedScalar viscLimEl("viscLimEl", dimensionSet(1,-1,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
+        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e9)
     );
 
     if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER MELHOR
