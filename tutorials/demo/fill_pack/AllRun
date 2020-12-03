@@ -63,7 +63,7 @@ application=`getApplication`
 phase='_fill'
 time_extend 0.2 0.01 1e-3 # set times
 runApplication decomposePar # prepare parallel
-runParallel $application -fill 0.98 || exit 1
+runParallel $application -fillEnd 0.98 || exit 1
 mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
