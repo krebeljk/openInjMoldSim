@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
     argList::addOption
     (
-        "fill",
+        "fillEnd",
         "scalar",
         "Terminate simulation when the cavity is filled to the fraction specified."
     );
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
 
     scalar fillEnd;
-    if(!args.optionReadIfPresent("fill", fillEnd))
+    if(!args.optionReadIfPresent("fillEnd", fillEnd))
         fillEnd = 1.1;
 
     pimpleControl pimple(mesh);

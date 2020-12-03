@@ -63,4 +63,4 @@ The naming of constant thermal conductivity as lambda was changed to kappa.
   Courant number in the solid to stabilize the solution.
 - Write and read dgdt field to improve restart stability.
 - Add pAuxRlx parameter to system/ControlDict to control stability when p=pMin. Default is 0.1 (before 0.5).
-- Command line option -fill <scalar> to terminate at given fraction of filled cavity.
+- Command line option -fillEnd <scalar> to terminate at given fraction of filled cavity.
