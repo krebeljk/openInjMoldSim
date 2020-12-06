@@ -1,5 +1,7 @@
 # openInjMoldSim [`v7.1`](VERSION.md)
 
+[![DOI](https://zenodo.org/badge/92510370.svg)](https://zenodo.org/badge/latestdoi/92510370)
+
 This is an [OpenFOAM](https://en.wikipedia.org/wiki/OpenFOAM) solver for simulation of injection molding filling, packing and cooling stages.
 It is a modification of the compressibleInterFoam solver distributed with OpenFOAM.
 Currently, the simulation is prohibitively inconvenient for typical industrial use but it can be helpful in research because it can be customized.  
