@@ -27,3 +27,6 @@ etaMax $thermPropDict.mixture.transport.etaMax;
 // There will be no elastic behavior at viscosities below viscLimEl.
 // viscLimEl should be less than etaMax of crossWLF to allow elastic behavior.
 viscLimEl #calc "$etaMax*0.9";//Pas
+
+// Cells with viscosity above viscLimSolidCo return maxSolidCo.
+viscLimSolidCo #calc "$viscLimEl*0.9";//Pas
