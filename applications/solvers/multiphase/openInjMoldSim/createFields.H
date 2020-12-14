@@ -196,7 +196,7 @@ Info<< "Reading solidification properties\n" << endl;
         sldDict.lookupOrDefault<scalar>("viscLimEl", 1e9)
     );
     dimensionedScalar viscLimSolidCo("viscLimSolidCo", dimensionSet(1,-1,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("viscLimSolidCo", 0.5*viscLimEl.value())
+        sldDict.lookupOrDefault<scalar>("viscLimSolidCo", viscLimEl.value())
     );
 
     if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER MELHOR
