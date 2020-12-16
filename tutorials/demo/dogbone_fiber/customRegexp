@@ -37,14 +37,14 @@ co
     logscale true;
 }
 
-deltaT
+dt
 {
     expr "deltaT = (%f%)";
-    name deltaT ;
+    name dt;
     theTitle "deltaT";
     titles
          (
-          deltaT
+          dt
          );
     type regular;
     logscale true;
