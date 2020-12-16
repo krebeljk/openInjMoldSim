@@ -8,15 +8,12 @@ p_pack=27e6
 
 TimeEndFILL=0.45
 dtWriteFILL=0.01
-dtMaxFILL=0.01
 
 TimeEndPACK=0.55
 dtWritePACK=0.01
-dtMaxPACK=0.01
 
 TimeEndHOLD=15.05
 dtWriteHOLD=0.5
-dtMaxHOLD=5e-4
 
 # Initial files
 rm log.de* log.re* log.op*
@@ -82,17 +79,17 @@ application=`getApplication`
 
 # fill
 phase='_fill'
-ctrl_time_set $TimeEndFILL $dtWriteFILL $dtMaxFILL
+ctrl_time_set $TimeEndFILL $dtWriteFILL 0.01
 foamDictionary 0/U -entry boundaryField.inlet.volumetricFlowRate -set $fill_rate
 runApplication decomposePar || exit 1 # prepare parallel
-runParallel $application -fill 0.98 || exit 1
+runParallel $application -fillEnd 0.98 || exit 1
 mv 'log.'$application 'log.'$application$phase # archive log
 
 # pack1
 phase='_pack'
-ctrl_time_set $TimeEndPACK $dtWritePACK $dtMaxPACK
-foamDictionary system/controlDict -entry maxSolidCo -set 0.005
-reconstructPar
+ctrl_time_set $TimeEndPACK $dtWritePACK 0.01
+foamDictionary system/controlDict -entry maxSolidCo -set 3e-4
+reconstructPar || exit 1
 new_deltaT
 change_bc
 rm -r processor*
@@ -102,7 +99,7 @@ mv 'log.'$application 'log.'$application$phase
 
 # pack2
 phase='_hold'
-ctrl_time_set $TimeEndHOLD $dtWriteHOLD $dtMaxHOLD
+ctrl_time_set $TimeEndHOLD $dtWriteHOLD 5e-4
 runParallel $application || exit 1
 mv 'log.'$application 'log.'$application$phase
 reconstructPar || exit 1
