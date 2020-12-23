@@ -24,3 +24,4 @@ system/fvSolution
 nohup.out
 # end-of-file
 hide_*
+dynamicCode/*

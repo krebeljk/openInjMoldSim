@@ -1,0 +1,64 @@
+iters
+{
+    expr "PIMPLE:(?: Not)* [C|c]onverged (?:with)*in (%f%) iterations";
+    name iters;
+    theTitle "Iters of pimple";
+    titles
+         (
+          iters
+         );
+    type regular;
+}
+
+fill
+{
+    expr "Liquid phase volume fraction = (%f%)";
+    name fill;
+    theTitle "Fill";
+    titles
+         (
+         fill
+         );
+    type regular;
+}
+
+co
+{
+    expr "Courant Number mean: (%f%) max: (%f%) solid: (%f%)";
+    name co;
+    theTitle "Co number";
+    titles
+         (
+          mean
+          max
+          solid
+         );
+    type regular;
+    logscale true;
+}
+
+dt
+{
+    expr "deltaT = (%f%)";
+    name dt;
+    theTitle "deltaT";
+    titles
+         (
+          dt
+         );
+    type regular;
+    logscale true;
+}
+
+maxU
+{
+    expr "max\(U\) (%f%)";
+    name maxU ;
+    theTitle "max U";
+    titles
+         (
+         maxU
+         );
+    type regular;
+    logscale true;
+}
