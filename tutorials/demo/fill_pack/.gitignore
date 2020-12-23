@@ -20,4 +20,5 @@ system/controlDict
 system/fvSolution
 *.png
 nohup.out
+dynamicCode
 # end-of-file
