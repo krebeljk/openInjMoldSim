@@ -53,7 +53,7 @@ maxDeltaT       1e-3;
 
 maxAlphaCo      0.05;
 
-maxSolidCo      0.005;
+maxSolidCo      1;
 
 pAuxRlx         0.1;//active when p = pMin
 
