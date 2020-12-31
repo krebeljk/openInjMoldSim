@@ -95,7 +95,7 @@
         {
             volScalarField pCalc = p_rgh + (alpha1*rho1 + alpha2*rho2)*gh;
             p = max(pCalc + pAux, pMin); // pActual = pCalc + pAux, p is what PVT gets
-            pAux = 0.5*min(pCalc + pAux - pMin, 0.0*pMin) + 0.5*pAux;//Kristjan: transfer sub-pMin to pAux and use in UEqn
+            pAux = pAuxRlx*min(pCalc + pAux - pMin, 0.0*pMin) + (scalar(1)-pAuxRlx)*pAux;//Kristjan: transfer sub-pMin to pAux and use in UEqn
             p_rgh = p - (alpha1*rho1 + alpha2*rho2)*gh;
 
             dgdt =

@@ -45,6 +45,7 @@ volScalarField& rho1 = mixture.thermo1().rho();
 const volScalarField& psi1 = mixture.thermo1().psi();
 volScalarField& rho2 = mixture.thermo2().rho();
 const volScalarField& psi2 = mixture.thermo2().psi();
+scalar fillFrac = 0;
 
 volScalarField rho
 (
@@ -137,6 +138,14 @@ surfaceScalarField rhoPhi
 
 volScalarField dgdt
 (
+    IOobject
+    (
+        "dgdt",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
     pos(alpha2)*fvc::div(phi)/max(alpha2, scalar(0.0001))
 );
 
@@ -183,11 +192,11 @@ Info<< "Reading solidification properties\n" << endl;
     dimensionedScalar shrMod("shearModulus", dimensionSet(1,-1,-2,0,0,0,0),
         sldDict.lookupOrDefault<scalar>("shearModulus", 900e6)
     );
-    dimensionedScalar shrRateLimEl("shrRateLimEl", dimensionSet(0,0,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("shrRateLimEl", 1.0)
-    );
     dimensionedScalar viscLimEl("viscLimEl", dimensionSet(1,-1,-1,0,0,0,0),
-        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e6)
+        sldDict.lookupOrDefault<scalar>("viscLimEl", 1e9)
+    );
+    dimensionedScalar viscLimSolidCo("viscLimSolidCo", dimensionSet(1,-1,-1,0,0,0,0),
+        sldDict.lookupOrDefault<scalar>("viscLimSolidCo", viscLimEl.value())
     );
 
     if (sldDictIO.typeHeaderOk<IOdictionary>()) //VER MELHOR
@@ -195,8 +204,8 @@ Info<< "Reading solidification properties\n" << endl;
         // Summarise what's been read and print in the console
         Info << nl << "Solidification properties: " << nl
              << "Shear modulus: " << shrMod << nl
-             << "Highest shear rate with elasticity: " << shrRateLimEl << nl
              << "Lowest viscosity with elasticity: " << viscLimEl << nl
+             << "maxCoSolid check at viscosity above: " << viscLimSolidCo << nl
              << nl << endl;
     }
 

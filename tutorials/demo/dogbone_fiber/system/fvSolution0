@@ -111,7 +111,7 @@ solvers
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-11;
-        relTol          0;
+        relTol          0.01;
     }
     "A2.*"
     {
@@ -159,11 +159,11 @@ relaxationFactors
 {
     fields
     {
-        p_rgh         0.4;
+        p_rgh         0.6;
         p_rghFinal      1;
-        T             0.4;
+        T             1.0;
         TFinal          1;
-        elSigDev      0.4;
+        elSigDev      0.6;
         elSigDevFinal   1;
         A2            0.4;
         A2Final       1.0;

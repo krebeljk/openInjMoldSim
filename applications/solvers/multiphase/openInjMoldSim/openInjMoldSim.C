@@ -50,17 +50,29 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v7.1" << endl;
+    Info << "openInjMoldSim v7.2" << endl;
+
+    argList::addOption
+    (
+        "fillEnd",
+        "scalar",
+        "Terminate simulation when the cavity is filled to the fraction specified."
+    );
+
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
 
+    scalar fillEnd;
+    if(!args.optionReadIfPresent("fillEnd", fillEnd))
+        fillEnd = 1.1;
+
     pimpleControl pimple(mesh);
 
-    #include "createTimeControls.H"
+    #include "mojCreateTimeControls.H"
     #include "createFields.H"
-    #include "CourantNo.H"
-    #include "setInitialDeltaT.H"
+    #include "mojCourantNo.H"
+    #include "mojSetInitialDeltaT.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -68,9 +80,9 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-        #include "createTimeControls.H"
-        #include "CourantNo.H"
-        #include "setDeltaT.H"
+        #include "mojCreateTimeControls.H"
+        #include "mojCourantNo.H"
+        #include "mojSetDeltaT.H"
 
         runTime++;
 
@@ -106,7 +118,6 @@ int main(int argc, char *argv[])
                   ==
                   twoSymm(elSigDev & fvc::grad(U))
                 + shrMod * dev(twoSymm(fvc::grad(U)))
-                  * pos(shrRateLimEl-shrRate)
                   * pos(visc-viscLimEl)
                 );
                 elSigDevEqn.relax();
@@ -136,7 +147,18 @@ int main(int argc, char *argv[])
         Info<< "ExecutionTime = "
             << runTime.elapsedCpuTime()
             << " s\n\n" << endl;
+
+        if(fillFrac > fillEnd)
+        {
+            Info << "Filled to "
+                 << fillFrac
+                 << " and terminating (commandline option -fillEnd)."
+                 << endl;
+            break;
+        }
     }
+
+    runTime.writeNow();
 
     Info<< "End\n" << endl;
 

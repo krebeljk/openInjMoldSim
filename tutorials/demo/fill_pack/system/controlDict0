@@ -52,6 +52,11 @@ maxCo           0.15;
 maxDeltaT       1;
 
 maxAlphaCo      0.15;
+
+maxSolidCo      0.005;
+
+pAuxRlx         0.2;//active when p = pMin
+
 functions {
 
     probes

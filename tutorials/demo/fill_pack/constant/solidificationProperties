@@ -16,10 +16,14 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 shearModulus 907e6;//Pa
 
-// There will be no elastic behavior at shear rates above shrRateLimEl.
-shrRateLimEl 1.0;//1/s
+// fetch etaMax from the material properties
+thermPropDict
+{
+#include "$FOAM_CASE/constant/thermophysicalProperties.poly"
+}
+etaMax $thermPropDict.mixture.transport.etaMax;
 
 // There will be no elastic behavior at viscosities below viscLimEl.
 // viscLimEl should be less than etaMax of crossWLF to allow elastic behavior.
-viscLimEl 1e6;//Pas
+viscLimEl #calc "$etaMax*0.5";//Pas
 // ************************************************************************* //
