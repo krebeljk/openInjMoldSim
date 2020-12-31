@@ -28,9 +28,10 @@ your machine. Run `./AllMesh` and then `./AllRun` in the [`dogbone`](/tutorials/
 
 ## Resources
 
-- Please cite [Krebelj et al. - The cooling rate dependence of the specific volume in amorphous plastic injection molding](https://rdcu.be/but3t) - see the [fork](https://github.com/krebeljk/openInjMoldDyMSimAmClr) of this code.
+- Please cite [Krebelj et al. Modeling Injection Molding of High-Density Polyethylene with Crystallization in Open-Source Software](https://www.mdpi.com/2073-4360/13/1/138) - see the [fork](https://github.com/krebeljk/openInjMoldDyMSimCr).
 - [Pedro et al. - Verification and Validation of openInjMoldSim, an Open-Source Solver to Model the Filling Stage of Thermoplastic Injection Molding](https://www.researchgate.net/publication/341807768_Verification_and_Validation_of_openInjMoldSim_an_Open-Source_Solver_to_Model_the_Filling_Stage_of_Thermoplastic_Injection_Molding).
 - [Youtube presentation: Verification and assessment of an open source solver for the filling stage of the injection moulding process](https://www.youtube.com/watch?v=IFEQwgOA7l8).
+- [Krebelj et al. - The cooling rate dependence of the specific volume in amorphous plastic injection molding](https://rdcu.be/but3t) - see the [fork](https://github.com/krebeljk/openInjMoldDyMSimAmClr) of this code.
 - [Numerical tests](https://nbviewer.jupyter.org/github/krebeljk/openInjMoldSim/blob/master/tutorials/Tutorials.ipynb).
 - For general info about OpenFOAM see the unofficial wiki [openfoamwiki.net](https://openfoamwiki.net/index.php/Main_Page), the community forum [cfd-online.com](https://www.cfd-online.com/Forums/openfoam/) or [wiki.openfoam.com](https://wiki.openfoam.com/Main_Page) (note the `.com`, this solver needs `.org`).
 
