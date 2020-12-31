@@ -1,4 +1,4 @@
-# openInjMoldSim [`v7.1`](VERSION.md)
+# openInjMoldSim [`v7.2`](VERSION.md)
 
 [![DOI](https://zenodo.org/badge/92510370.svg)](https://zenodo.org/badge/latestdoi/92510370)
 
