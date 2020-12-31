@@ -50,7 +50,7 @@ Description
 
 int main(int argc, char *argv[])
 {
-    Info << "openInjMoldSim v7.1-dev (fiber)" << endl;
+    Info << "openInjMoldSim v7.2 (fiber)" << endl;
 
     argList::addOption
     (
