@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
     {
         #include "mojCreateTimeControls.H"
         #include "mojCourantNo.H"
+        #include "alphaCourantNo.H" //Andrea
         #include "mojSetDeltaT.H"
 
         runTime++;
