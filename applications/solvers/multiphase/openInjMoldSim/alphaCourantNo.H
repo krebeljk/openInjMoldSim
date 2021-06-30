@@ -22,30 +22,36 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Global
-    setDeltaT
+    alphaCourantNo
 
 Description
-    Reset the timestep to maintain a constant maximum courant Number.
-    Reduction of time-step is immediate, but increase is damped to avoid
-    unstable oscillations.
+    Calculates and outputs the mean and maximum Courant Numbers.
 
 \*---------------------------------------------------------------------------*/
 
-if (adjustTimeStep)
-{
-    scalar maxDeltaTFact = min(maxCo/(CoNum + small), min( maxSolidCo/(solidCoNum + small), maxAlphaCo/(alphaCoNum + small) ) );  //Andrea - add maxAlphaCo/(alphaCoNum + small)
-    scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
+scalar maxAlphaCo
+(
+    readScalar(runTime.controlDict().lookup("maxAlphaCo"))
+);
 
-    runTime.setDeltaT
+scalar alphaCoNum = 0.0;
+scalar meanAlphaCoNum = 0.0;
+
+if (mesh.nInternalFaces())
+{
+    scalarField sumPhi
     (
-        min
-        (
-            deltaTFact*runTime.deltaTValue(),
-            maxDeltaT
-        )
+        pos0(alpha1 - 0.01)*pos0(0.99 - alpha1)
+       *fvc::surfaceSum(mag(phi))().primitiveField()
     );
 
-    Info<< "deltaT = " <<  runTime.deltaTValue() << endl;
+    alphaCoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
+
+    meanAlphaCoNum =
+        0.5*(gSum(sumPhi)/gSum(mesh.V().field()))*runTime.deltaTValue();
 }
+
+Info<< "Interface Courant Number mean: " << meanAlphaCoNum
+    << " max: " << alphaCoNum << endl;
 
 // ************************************************************************* //
